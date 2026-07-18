@@ -346,8 +346,7 @@
   .thankyou h3{ font-size:19px; margin-bottom:8px; }
   .thankyou p{ color:var(--c-text-muted); font-size:14px; }
 
-  footer + .toast{ }
-
+  footer + .toast{ margin-bottom:20px; }
   /* ============ RESPONSIVE ============ */
   @media (max-width: 900px){
     .main-nav{ position:fixed; top:var(--header-h); left:0; right:0; background:var(--c-primary-dark);
