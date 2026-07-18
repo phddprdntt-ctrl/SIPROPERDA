@@ -1,0 +1,1016 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SIPROPERDA — Sistem Informasi Progres Pembentukan Peraturan Daerah</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --c-primary:#304C64;
+    --c-primary-dark:#22394B;
+    --c-primary-darker:#182A38;
+    --c-primary-light:#4A6B87;
+    --c-primary-tint:#E8EDF1;
+    --c-accent:#C89A4B;
+    --c-accent-dark:#A87F38;
+    --c-accent-tint:#F6ECD9;
+    --c-bg:#F5F7F9;
+    --c-surface:#FFFFFF;
+    --c-text:#1C2B36;
+    --c-text-muted:#5C7488;
+    --c-border:#DEE5EA;
+    --c-success:#2F7D5C;
+    --c-success-tint:#E4F2EC;
+    --c-warning:#B7791B;
+    --c-warning-tint:#FBF0DD;
+    --c-info:#3A5A75;
+    --c-info-tint:#E6ECF1;
+
+    --font-display:'Fraunces', serif;
+    --font-body:'Plus Jakarta Sans', sans-serif;
+
+    --radius-sm:8px;
+    --radius-md:14px;
+    --radius-lg:22px;
+    --shadow-sm: 0 1px 2px rgba(24,42,56,0.06), 0 1px 1px rgba(24,42,56,0.04);
+    --shadow-md: 0 8px 24px rgba(24,42,56,0.10);
+    --shadow-lg: 0 20px 48px rgba(24,42,56,0.16);
+    --header-h: 78px;
+  }
+
+  *,*::before,*::after{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+  body{
+    margin:0;
+    font-family:var(--font-body);
+    color:var(--c-text);
+    background:var(--c-bg);
+    -webkit-font-smoothing:antialiased;
+    line-height:1.55;
+  }
+  img,svg{ display:block; max-width:100%; }
+  a{ color:inherit; text-decoration:none; }
+  button{ font-family:inherit; cursor:pointer; }
+  ul{ margin:0; padding:0; list-style:none; }
+  h1,h2,h3,h4{ font-family:var(--font-display); margin:0; font-weight:600; }
+  p{ margin:0; }
+
+  :focus-visible{ outline:2.5px solid var(--c-accent); outline-offset:3px; border-radius:4px; }
+
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-size:12.5px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+    color:var(--c-accent-dark);
+  }
+  .eyebrow::before{ content:""; width:18px; height:2px; background:var(--c-accent); display:inline-block; }
+
+  .wrap{ max-width:1180px; margin:0 auto; padding:0 28px; }
+
+  /* ============ HEADER ============ */
+  .site-header{
+    position:sticky; top:0; z-index:100;
+    background:var(--c-primary);
+    color:#fff;
+    height:var(--header-h);
+    display:flex; align-items:center;
+    box-shadow:0 2px 12px rgba(8,18,26,0.18);
+  }
+  .site-header .wrap{ display:flex; align-items:center; justify-content:space-between; width:100%; gap:24px; }
+  .brand{ display:flex; align-items:center; gap:12px; }
+  .brand-mark{ width:42px; height:42px; flex-shrink:0; }
+  .brand-text{ display:flex; flex-direction:column; line-height:1.15; }
+  .brand-text .brand-name{ font-family:var(--font-display); font-weight:700; font-size:20px; letter-spacing:.02em; }
+  .brand-text .brand-sub{ font-size:10.5px; color:#C7D3DC; letter-spacing:.03em; max-width:230px; }
+
+  .main-nav{ display:flex; align-items:center; gap:6px; }
+  .main-nav a, .main-nav button.nav-link{
+    background:none; border:none; color:#DCE6ED; font-family:inherit;
+    font-size:13.5px; font-weight:600; letter-spacing:.03em;
+    padding:10px 16px; border-radius:999px; position:relative;
+    transition:background .18s ease, color .18s ease;
+  }
+  .main-nav a:hover, .main-nav button.nav-link:hover{ background:rgba(255,255,255,0.10); color:#fff; }
+  .main-nav a.active, .main-nav button.nav-link.active{ background:var(--c-accent); color:var(--c-primary-darker); }
+
+  .nav-more{ position:relative; }
+  .more-panel{
+    position:absolute; top:calc(100% + 10px); right:0;
+    background:#fff; color:var(--c-text); border-radius:var(--radius-sm);
+    box-shadow:var(--shadow-lg); padding:14px 16px; width:200px;
+    opacity:0; visibility:hidden; transform:translateY(-6px);
+    transition:opacity .16s ease, transform .16s ease, visibility .16s;
+    font-size:13px;
+  }
+  .nav-more.open .more-panel{ opacity:1; visibility:visible; transform:translateY(0); }
+  .more-panel strong{ display:block; font-family:var(--font-display); font-size:14px; margin-bottom:4px;}
+  .more-panel span{ color:var(--c-text-muted); }
+
+  .menu-toggle{ display:none; background:none; border:none; color:#fff; width:40px; height:40px; }
+
+  /* ============ PAGES ============ */
+  .page{ display:none; animation:fadeIn .35s ease; }
+  .page.active{ display:block; }
+  @keyframes fadeIn{ from{ opacity:0; transform:translateY(6px);} to{ opacity:1; transform:translateY(0);} }
+
+  .back-link{
+    display:inline-flex; align-items:center; gap:6px;
+    font-size:13px; font-weight:600; color:var(--c-primary-light);
+    margin:26px 0 0;
+  }
+  .back-link:hover{ color:var(--c-primary); }
+  .back-link svg{ width:15px; height:15px; }
+
+  .subpage-header{ padding:18px 0 34px; border-bottom:1px solid var(--c-border); margin-bottom:36px; }
+  .subpage-header h1{ font-size:clamp(28px,4vw,38px); margin-top:10px; }
+  .subpage-header p{ color:var(--c-text-muted); font-size:15.5px; margin-top:8px; max-width:640px; }
+
+  /* ============ HERO ============ */
+  .hero{ padding:64px 0 56px; }
+  .hero .wrap{ display:grid; grid-template-columns:1.1fr .9fr; gap:56px; align-items:center; }
+  .hero h1{
+    font-size:clamp(30px,4vw,44px); line-height:1.14; margin:14px 0 20px;
+    letter-spacing:-.01em;
+  }
+  .hero h1 em{ font-style:normal; color:var(--c-primary); border-bottom:4px solid var(--c-accent); }
+  .hero p.lead{ font-size:16px; color:var(--c-text-muted); max-width:560px; }
+  .hero .cta-row{ display:flex; gap:12px; margin-top:30px; flex-wrap:wrap; }
+
+  .btn{
+    display:inline-flex; align-items:center; gap:8px;
+    padding:12px 22px; border-radius:999px; font-size:14px; font-weight:700;
+    border:1.5px solid transparent; transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+  }
+  .btn svg{ width:16px; height:16px; }
+  .btn-primary{ background:var(--c-primary); color:#fff; }
+  .btn-primary:hover{ background:var(--c-primary-dark); box-shadow:var(--shadow-md); transform:translateY(-1px); }
+  .btn-accent{ background:var(--c-accent); color:var(--c-primary-darker); }
+  .btn-accent:hover{ background:var(--c-accent-dark); box-shadow:var(--shadow-md); transform:translateY(-1px); }
+  .btn-ghost{ background:transparent; border-color:var(--c-border); color:var(--c-text); }
+  .btn-ghost:hover{ border-color:var(--c-primary-light); color:var(--c-primary); }
+  .btn-block{ width:100%; justify-content:center; }
+  .btn[disabled]{ opacity:.55; cursor:not-allowed; }
+
+  /* hero preview card */
+  .preview-card{
+    background:var(--c-surface); border-radius:var(--radius-lg);
+    box-shadow:var(--shadow-lg); overflow:hidden; border:1px solid var(--c-border);
+  }
+  .preview-card__top{ background:var(--c-primary); padding:16px 22px; display:flex; align-items:center; justify-content:space-between; }
+  .preview-card__top span{ color:#CBD8E1; font-size:11px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; }
+  .preview-card__top strong{ color:#fff; font-family:var(--font-display); font-size:15px; display:block; margin-top:2px; }
+  .preview-card__dot{ width:9px; height:9px; border-radius:50%; background:var(--c-accent); box-shadow:0 0 0 4px rgba(200,154,75,.25); }
+  .preview-card__body{ padding:22px; }
+  .preview-card__body .ranperda-name{ font-size:13.5px; font-weight:700; margin-bottom:16px; color:var(--c-text); }
+
+  .stage-tracker-v{ display:flex; flex-direction:column; }
+  .stage-tracker-v .stage{ display:flex; gap:14px; position:relative; padding-bottom:22px; }
+  .stage-tracker-v .stage:last-child{ padding-bottom:0; }
+  .stage-tracker-v .stage::before{
+    content:""; position:absolute; left:11px; top:24px; bottom:0; width:2px; background:var(--c-border);
+  }
+  .stage-tracker-v .stage:last-child::before{ display:none; }
+  .stage-tracker-v .stage.done::before{ background:var(--c-accent); }
+  .stage-node{ width:24px; height:24px; border-radius:50%; border:2.5px solid var(--c-border); background:#fff; flex-shrink:0; display:flex; align-items:center; justify-content:center; z-index:1; }
+  .stage.done .stage-node{ background:var(--c-accent); border-color:var(--c-accent); }
+  .stage.current .stage-node{ border-color:var(--c-primary); }
+  .stage.current .stage-node::after{ content:""; width:9px; height:9px; border-radius:50%; background:var(--c-primary); }
+  .stage.done .stage-node svg{ width:13px; height:13px; color:#fff; }
+  .stage-label{ padding-top:2px; }
+  .stage-label strong{ display:block; font-size:13px; }
+  .stage-label span{ font-size:11.5px; color:var(--c-text-muted); }
+  .stage.current .stage-label strong{ color:var(--c-primary); }
+  .stage.upcoming .stage-label strong{ color:var(--c-text-muted); font-weight:600; }
+
+  /* ============ SIGNATURE FLOW (hero background motif) ============ */
+  .hero{ position:relative; overflow:hidden; }
+  .hero-bg-motif{ position:absolute; inset:0; z-index:0; opacity:.55; pointer-events:none; }
+  .hero .wrap{ position:relative; z-index:1; }
+
+  /* ============ SECTION CARDS (landing) ============ */
+  .section-cards{ padding:12px 0 72px; }
+  .section-cards .kicker{ text-align:center; margin-bottom:34px; }
+  .section-cards .kicker h2{ font-size:clamp(22px,3vw,28px); margin-top:10px; }
+  .card-grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:22px; }
+  .info-card{
+    background:var(--c-surface); border:1px solid var(--c-border); border-radius:var(--radius-md);
+    padding:28px 26px; box-shadow:var(--shadow-sm);
+    transition:transform .18s ease, box-shadow .18s ease, border-color .18s ease;
+    display:flex; flex-direction:column; gap:14px; text-align:left;
+    border-top:3px solid transparent;
+  }
+  .info-card:hover{ transform:translateY(-4px); box-shadow:var(--shadow-md); border-top-color:var(--c-accent); }
+  .info-card .icon-badge{
+    width:48px; height:48px; border-radius:12px; background:var(--c-primary-tint);
+    display:flex; align-items:center; justify-content:center; color:var(--c-primary);
+  }
+  .info-card .icon-badge svg{ width:24px; height:24px; }
+  .info-card h3{ font-size:18px; }
+  .info-card p{ color:var(--c-text-muted); font-size:14px; flex-grow:1; }
+  .info-card .card-link{ font-size:13.5px; font-weight:700; color:var(--c-primary); display:inline-flex; align-items:center; gap:6px; }
+  .info-card .card-link svg{ width:14px; height:14px; transition:transform .15s ease; }
+  .info-card:hover .card-link svg{ transform:translateX(3px); }
+
+  /* ============ FOOTER ============ */
+  .site-footer{ background:var(--c-primary-darker); color:#CBD8E1; margin-top:20px; }
+  .site-footer .footer-top{ height:4px; background:linear-gradient(90deg,var(--c-accent),var(--c-primary-light)); }
+  .footer-grid{ display:grid; grid-template-columns:1.3fr 1fr 1fr; gap:40px; padding:52px 0 36px; }
+  .footer-col h4{ color:#fff; font-size:14px; letter-spacing:.06em; text-transform:uppercase; margin-bottom:16px; font-family:var(--font-body); font-weight:700; }
+  .footer-brand{ display:flex; gap:12px; align-items:flex-start; margin-bottom:14px; }
+  .footer-brand svg{ width:38px; height:38px; flex-shrink:0; }
+  .footer-brand strong{ display:block; color:#fff; font-family:var(--font-display); font-size:16px; line-height:1.3; }
+  .footer-col p{ font-size:13px; line-height:1.7; color:#A9BAC7; }
+  .social-list{ display:flex; flex-direction:column; gap:12px; }
+  .social-list a{ display:flex; align-items:center; gap:11px; font-size:13.5px; color:#CBD8E1; transition:color .15s ease; }
+  .social-list a:hover{ color:var(--c-accent); }
+  .social-list .icon-circle{ width:32px; height:32px; border-radius:50%; background:rgba(255,255,255,.08); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .social-list .icon-circle svg{ width:16px; height:16px; }
+  .contact-list li{ display:flex; gap:11px; font-size:13.5px; margin-bottom:14px; color:#CBD8E1; align-items:flex-start; }
+  .contact-list svg{ width:17px; height:17px; flex-shrink:0; margin-top:1px; color:var(--c-accent); }
+  .footer-bottom{ border-top:1px solid rgba(255,255,255,.1); padding:18px 0; font-size:12px; color:#8CA0AF; text-align:center; }
+
+  /* ============ TABS (year) ============ */
+  .year-tabs{ display:inline-flex; background:var(--c-primary-tint); padding:5px; border-radius:999px; gap:4px; margin-bottom:30px; }
+  .year-tabs button{
+    background:none; border:none; padding:9px 22px; border-radius:999px; font-weight:700; font-size:13.5px;
+    color:var(--c-primary); font-family:inherit; transition:background .15s ease, color .15s ease;
+  }
+  .year-tabs button.active{ background:var(--c-primary); color:#fff; }
+  .year-panel{ display:none; }
+  .year-panel.active{ display:block; animation:fadeIn .3s ease; }
+
+  /* ============ PROPEMPERDA doc cards ============ */
+  .doc-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:14px; }
+  .doc-card{
+    display:flex; align-items:center; gap:14px; background:var(--c-surface);
+    border:1px solid var(--c-border); border-radius:var(--radius-sm); padding:16px 18px;
+    box-shadow:var(--shadow-sm); transition:border-color .15s ease, box-shadow .15s ease, transform .15s ease;
+  }
+  .doc-card:hover{ border-color:var(--c-accent); box-shadow:var(--shadow-md); transform:translateY(-2px); }
+  .doc-card .doc-icon{ width:42px; height:42px; border-radius:10px; background:var(--c-accent-tint); color:var(--c-accent-dark); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .doc-card .doc-icon svg{ width:21px; height:21px; }
+  .doc-card .doc-info{ flex-grow:1; min-width:0; }
+  .doc-card .doc-info strong{ display:block; font-size:14px; font-weight:700; line-height:1.35; }
+  .doc-card .doc-info span{ font-size:12px; color:var(--c-text-muted); }
+  .doc-card .doc-open{ width:34px; height:34px; border-radius:50%; background:var(--c-primary-tint); color:var(--c-primary); display:flex; align-items:center; justify-content:center; flex-shrink:0; transition:background .15s ease, color .15s ease; }
+  .doc-card .doc-open svg{ width:15px; height:15px; }
+  .doc-card:hover .doc-open{ background:var(--c-primary); color:#fff; }
+
+  /* ============ INFORMASI page - ranperda rows ============ */
+  .sample-note{
+    display:flex; gap:10px; align-items:flex-start; background:var(--c-warning-tint); border:1px solid #EAD7AE;
+    color:#7A5313; padding:13px 16px; border-radius:var(--radius-sm); font-size:13px; margin-bottom:28px;
+  }
+  .sample-note svg{ width:17px; height:17px; flex-shrink:0; margin-top:1px; }
+
+  .ranperda-list{ display:flex; flex-direction:column; gap:14px; }
+  .ranperda-row{
+    background:var(--c-surface); border:1px solid var(--c-border); border-radius:var(--radius-md);
+    padding:20px 24px; box-shadow:var(--shadow-sm);
+  }
+  .ranperda-row__head{ display:flex; align-items:flex-start; justify-content:space-between; gap:16px; margin-bottom:18px; flex-wrap:wrap; }
+  .ranperda-row__head h4{ font-size:16px; font-weight:700; font-family:var(--font-body); }
+  .ranperda-row__head .meta{ font-size:12.5px; color:var(--c-text-muted); margin-top:4px; }
+  .badge{ font-size:11.5px; font-weight:700; padding:5px 12px; border-radius:999px; white-space:nowrap; letter-spacing:.02em; }
+  .badge-selesai{ background:var(--c-success-tint); color:var(--c-success); }
+  .badge-proses{ background:var(--c-warning-tint); color:var(--c-warning); }
+  .badge-baru{ background:var(--c-info-tint); color:var(--c-info); }
+
+  .stage-tracker-h{ display:flex; align-items:center; }
+  .stage-tracker-h .stage-h{ display:flex; flex-direction:column; align-items:center; gap:8px; flex:1; position:relative; }
+  .stage-tracker-h .stage-h .line{ position:absolute; top:12px; left:50%; width:100%; height:2px; background:var(--c-border); z-index:0; }
+  .stage-tracker-h .stage-h:last-child .line{ display:none; }
+  .stage-tracker-h .stage-h.done .line{ background:var(--c-accent); }
+  .stage-tracker-h .node{ width:25px; height:25px; border-radius:50%; border:2.5px solid var(--c-border); background:#fff; z-index:1; display:flex; align-items:center; justify-content:center; }
+  .stage-tracker-h .stage-h.done .node{ background:var(--c-accent); border-color:var(--c-accent); }
+  .stage-tracker-h .stage-h.done .node svg{ width:12px; height:12px; color:#fff; }
+  .stage-tracker-h .stage-h.current .node{ border-color:var(--c-primary); }
+  .stage-tracker-h .stage-h.current .node::after{ content:""; width:8px; height:8px; border-radius:50%; background:var(--c-primary); }
+  .stage-tracker-h .stage-h span{ font-size:11.5px; font-weight:600; color:var(--c-text-muted); text-align:center; }
+  .stage-tracker-h .stage-h.current span{ color:var(--c-primary); font-weight:700; }
+  .stage-tracker-h .stage-h.done span{ color:var(--c-text); }
+
+  /* ============ SURVEY ============ */
+  .legend-box{
+    background:var(--c-primary-tint); border-radius:var(--radius-md); padding:20px 24px; margin-bottom:38px;
+    display:flex; flex-wrap:wrap; gap:22px; align-items:center;
+  }
+  .legend-box .legend-title{ font-weight:700; font-size:13.5px; color:var(--c-primary); flex-basis:100%; margin-bottom:2px; }
+  .legend-item{ display:flex; align-items:center; gap:8px; font-size:13px; color:var(--c-text); }
+  .legend-item .num{ width:22px; height:22px; border-radius:50%; background:var(--c-primary); color:#fff; font-size:11.5px; font-weight:700; display:flex; align-items:center; justify-content:center; }
+
+  .survey-section{ margin-bottom:40px; }
+  .survey-section__title{ display:flex; align-items:baseline; gap:10px; margin-bottom:18px; padding-bottom:10px; border-bottom:2px solid var(--c-border); }
+  .survey-section__title .letter{ font-family:var(--font-display); font-size:22px; color:var(--c-accent-dark); font-weight:700; }
+  .survey-section__title h3{ font-size:17px; }
+
+  .likert-row{
+    display:flex; align-items:center; justify-content:space-between; gap:18px;
+    padding:16px 4px; border-bottom:1px solid var(--c-border); flex-wrap:wrap;
+  }
+  .likert-row:last-child{ border-bottom:none; }
+  .likert-q{ font-size:14.5px; flex:1 1 320px; }
+  .likert-q .qnum{ color:var(--c-primary); font-weight:700; margin-right:6px; }
+  .likert-scale{ display:flex; gap:7px; }
+  .likert-opt{ position:relative; }
+  .likert-opt input{ position:absolute; opacity:0; width:100%; height:100%; margin:0; cursor:pointer; }
+  .likert-opt label{
+    width:38px; height:38px; border-radius:50%; border:1.5px solid var(--c-border); background:#fff;
+    display:flex; align-items:center; justify-content:center; font-size:13.5px; font-weight:700; color:var(--c-text-muted);
+    transition:all .15s ease; cursor:pointer;
+  }
+  .likert-opt input:hover + label{ border-color:var(--c-primary-light); }
+  .likert-opt input:checked + label{ background:var(--c-primary); border-color:var(--c-primary); color:#fff; transform:scale(1.06); }
+  .likert-opt input:focus-visible + label{ outline:2.5px solid var(--c-accent); outline-offset:2px; }
+
+  .open-q{ margin-bottom:22px; }
+  .open-q label{ display:block; font-size:14.5px; font-weight:600; margin-bottom:8px; }
+  .open-q label .qnum{ color:var(--c-primary); font-weight:700; margin-right:6px; }
+  .open-q textarea{
+    width:100%; border:1.5px solid var(--c-border); border-radius:var(--radius-sm); padding:13px 15px;
+    font-family:inherit; font-size:14px; resize:vertical; min-height:80px; color:var(--c-text);
+    transition:border-color .15s ease;
+  }
+  .open-q textarea:focus{ border-color:var(--c-primary); outline:none; }
+
+  .survey-submit{ text-align:center; padding:30px 0 10px; }
+  .survey-submit p{ font-size:12.5px; color:var(--c-text-muted); margin-top:12px; }
+  .thankyou{
+    display:none; text-align:center; background:var(--c-success-tint); border:1px solid #bfe0cf;
+    border-radius:var(--radius-md); padding:38px 28px; margin-top:20px;
+  }
+  .thankyou.show{ display:block; animation:fadeIn .4s ease; }
+  .thankyou svg{ width:44px; height:44px; color:var(--c-success); margin:0 auto 12px; }
+  .thankyou h3{ font-size:19px; margin-bottom:8px; }
+  .thankyou p{ color:var(--c-text-muted); font-size:14px; }
+
+  footer + .toast{ }
+
+  /* ============ RESPONSIVE ============ */
+  @media (max-width: 900px){
+    .main-nav{ position:fixed; top:var(--header-h); left:0; right:0; background:var(--c-primary-dark);
+      flex-direction:column; align-items:stretch; padding:10px 20px 20px; gap:2px;
+      transform:translateY(-8px); opacity:0; visibility:hidden; transition:all .2s ease; box-shadow:var(--shadow-lg); }
+    .main-nav.open{ transform:translateY(0); opacity:1; visibility:visible; }
+    .main-nav a, .main-nav button.nav-link{ text-align:left; padding:13px 10px; border-radius:8px; }
+    .nav-more{ width:100%; }
+    .more-panel{ position:static; box-shadow:none; background:rgba(255,255,255,.06); width:100%; margin-top:4px; padding:12px; opacity:1; visibility:visible; transform:none; display:none; }
+    .nav-more.open .more-panel{ display:block; }
+    .more-panel strong{ color:#fff; }
+    .more-panel span{ color:#B7C6D1; }
+    .menu-toggle{ display:flex; align-items:center; justify-content:center; }
+    .hero .wrap{ grid-template-columns:1fr; }
+    .hero{ padding:40px 0 44px; }
+    .card-grid{ grid-template-columns:1fr; }
+    .footer-grid{ grid-template-columns:1fr; gap:34px; padding:40px 0 28px; }
+    .doc-grid{ grid-template-columns:1fr; }
+    .likert-row{ flex-direction:column; align-items:flex-start; gap:12px; }
+    .likert-scale{ align-self:stretch; justify-content:space-between; }
+    .stage-tracker-h span{ display:none; }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration:0.001ms !important; transition-duration:0.001ms !important; scroll-behavior:auto !important; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ ICON SPRITE ============ -->
+<svg width="0" height="0" style="position:absolute">
+  <defs>
+    <symbol id="i-doc" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M7 3h7l5 5v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" stroke-linejoin="round"/><path d="M14 3v5h5" stroke-linejoin="round"/><path d="M9 13h6M9 17h6M9 9h2"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M8 16v-4M12 16V8M16 16v-7"/></symbol>
+    <symbol id="i-clipboard" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="6" y="4" width="12" height="17" rx="2"/><path d="M9 4V3a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v1"/><path d="m9 13 2 2 4-4"/></symbol>
+    <symbol id="i-external" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M7 17 17 7M9 7h8v8"/></symbol>
+    <symbol id="i-arrow-left" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M11 18l-6-6 6-6"/></symbol>
+    <symbol id="i-arrow-right" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></symbol>
+    <symbol id="i-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="m6 9 6 6 6-6"/></symbol>
+    <symbol id="i-menu" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 7h16M4 12h16M4 17h16"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M5 13l4 4L19 7"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M6.6 10.8a15.9 15.9 0 0 0 6.6 6.6l2.2-2.2a1 1 0 0 1 1-.25 9 9 0 0 0 2.8.45 1 1 0 0 1 1 1V20a1 1 0 0 1-1 1A17 17 0 0 1 3 5a1 1 0 0 1 1-1h3.3a1 1 0 0 1 1 1 9 9 0 0 0 .45 2.8 1 1 0 0 1-.25 1Z" stroke-linejoin="round"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m4 6.5 8 6 8-6"/></symbol>
+    <symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12Z" stroke-linejoin="round"/><circle cx="12" cy="9" r="2.4"/></symbol>
+    <symbol id="i-info" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 11v6M12 7.5v.01"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18Z"/></symbol>
+    <symbol id="i-insta" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17" cy="7" r="1" fill="currentColor" stroke="none"/></symbol>
+    <symbol id="i-fb" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><path d="M13.5 20v-6.2h2.1l.3-2.5h-2.4V9.6c0-.7.2-1.2 1.2-1.2h1.3V6.1c-.2 0-1-.1-1.9-.1-1.9 0-3.2 1.2-3.2 3.3v1.9H8.9v2.5h2v6.2" stroke-linejoin="round" stroke-linecap="round"/></symbol>
+    <symbol id="i-tiktok" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3.5" y="3.5" width="17" height="17" rx="5"/><path d="M11 8v6.3a2 2 0 1 1-1.4-1.9" stroke-linecap="round"/><path d="M11 8c.3 1.6 1.5 2.7 3 2.8" stroke-linecap="round"/></symbol>
+    <symbol id="i-youtube" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="3.5" y="5.5" width="17" height="13" rx="4"/><path d="M10.5 9.5v5l4.3-2.5-4.3-2.5Z" fill="currentColor" stroke="none"/></symbol>
+  </defs>
+</svg>
+
+<!-- ============ HEADER ============ -->
+<header class="site-header">
+  <div class="wrap">
+    <a href="#" class="brand" data-page="landing" aria-label="Beranda SIPROPERDA">
+      <svg class="brand-mark" viewBox="0 0 42 42" fill="none">
+        <rect width="42" height="42" rx="10" fill="#C89A4B"/>
+        <path d="M13 12h11l6 6v11a1.4 1.4 0 0 1-1.4 1.4H13A1.4 1.4 0 0 1 11.6 29V13.4A1.4 1.4 0 0 1 13 12Z" stroke="#22394B" stroke-width="1.8" stroke-linejoin="round" fill="#fff"/>
+        <path d="M24 12v6h6" stroke="#22394B" stroke-width="1.8" stroke-linejoin="round"/>
+        <path d="M16 23h9M16 26.4h6" stroke="#22394B" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      <span class="brand-text">
+        <span class="brand-name">SIPROPERDA</span>
+        <span class="brand-sub">Sistem Informasi Progres Pembentukan Peraturan Daerah</span>
+      </span>
+    </a>
+
+    <nav class="main-nav" id="mainNav">
+      <a href="#" data-page="propemperda" class="nav-link">PROPEMPERDA</a>
+      <a href="#" data-page="informasi" class="nav-link">INFORMASI PEMBENTUKAN PERDA</a>
+      <a href="#" data-page="survei" class="nav-link">SURVEI PENGGUNA</a>
+      <div class="nav-more" id="navMore">
+        <button type="button" class="nav-link" id="moreBtn">LAINNYA <svg width="11" height="11" style="display:inline;vertical-align:-1px;margin-left:2px"><use href="#i-chevron"/></svg></button>
+        <div class="more-panel">
+          <strong>Segera hadir</strong>
+          <span>Menu tambahan untuk regulasi terkait &amp; FAQ akan ditambahkan di sini.</span>
+        </div>
+      </div>
+    </nav>
+
+    <button class="menu-toggle" id="menuToggle" aria-label="Buka menu">
+      <svg width="24" height="24"><use href="#i-menu" id="menuIcon"/></svg>
+    </button>
+  </div>
+</header>
+
+<main>
+
+  <!-- ============ LANDING PAGE ============ -->
+  <section class="page active" id="page-landing">
+    <div class="hero">
+      <svg class="hero-bg-motif" viewBox="0 0 1180 520" preserveAspectRatio="xMidYMid slice">
+        <circle cx="1050" cy="80" r="220" fill="#E8EDF1"/>
+        <circle cx="1120" cy="440" r="140" fill="#F6ECD9"/>
+      </svg>
+      <div class="wrap">
+        <div>
+          <span class="eyebrow">Sekretariat DPRD Provinsi NTT</span>
+          <h1>Memantau <em>progres Peraturan Daerah</em> secara terbuka dan akuntabel.</h1>
+          <p class="lead">Pusat informasi dan pemantauan pelaksanaan Program Pembentukan Peraturan Daerah (Propemperda) pada Sekretariat DPRD Provinsi Nusa Tenggara Timur. Dashboard ini menyediakan informasi perkembangan pembentukan Peraturan Daerah secara terintegrasi, transparan, akuntabel, dan mudah diakses untuk mendukung pengambilan keputusan, meningkatkan koordinasi antar pemangku kepentingan, serta mewujudkan pelayanan publik yang lebih efektif melalui transformasi digital.</p>
+          <div class="cta-row">
+            <button class="btn btn-primary nav-link" data-page="informasi">Lihat Progres Perda <svg><use href="#i-arrow-right"/></svg></button>
+            <button class="btn btn-ghost nav-link" data-page="propemperda">Dokumen Propemperda</button>
+          </div>
+        </div>
+
+        <div class="preview-card">
+          <div class="preview-card__top">
+            <div>
+              <span>Ilustrasi Tampilan</span>
+              <strong>Progres Ranperda</strong>
+            </div>
+            <span class="preview-card__dot"></span>
+          </div>
+          <div class="preview-card__body">
+            <div class="ranperda-name">Ranperda tentang Pengelolaan Sampah Daerah</div>
+            <div class="stage-tracker-v">
+              <div class="stage done">
+                <span class="stage-node"><svg><use href="#i-check"/></svg></span>
+                <span class="stage-label"><strong>Perencanaan</strong><span>Selesai</span></span>
+              </div>
+              <div class="stage done">
+                <span class="stage-node"><svg><use href="#i-check"/></svg></span>
+                <span class="stage-label"><strong>Pembahasan</strong><span>Selesai</span></span>
+              </div>
+              <div class="stage current">
+                <span class="stage-node"></span>
+                <span class="stage-label"><strong>Persetujuan</strong><span>Sedang berjalan</span></span>
+              </div>
+              <div class="stage upcoming">
+                <span class="stage-node"></span>
+                <span class="stage-label"><strong>Penetapan</strong><span>Belum dimulai</span></span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-cards">
+      <div class="wrap">
+        <div class="kicker">
+          <span class="eyebrow" style="justify-content:center">Akses Cepat</span>
+          <h2>Jelajahi layanan SIPROPERDA</h2>
+        </div>
+        <div class="card-grid">
+          <div class="info-card">
+            <span class="icon-badge"><svg><use href="#i-doc"/></svg></span>
+            <h3>Propemperda</h3>
+            <p>Dokumen SK Program Pembentukan Peraturan Daerah beserta seluruh perubahannya per tahun.</p>
+            <button class="card-link nav-link" data-page="propemperda" style="background:none;border:none;padding:0;">Buka Propemperda <svg><use href="#i-arrow-right"/></svg></button>
+          </div>
+          <div class="info-card">
+            <span class="icon-badge"><svg><use href="#i-chart"/></svg></span>
+            <h3>Informasi Pembentukan Perda</h3>
+            <p>Pantau tahapan dan status terkini setiap Rancangan Peraturan Daerah (Ranperda).</p>
+            <button class="card-link nav-link" data-page="informasi" style="background:none;border:none;padding:0;">Lihat Progres <svg><use href="#i-arrow-right"/></svg></button>
+          </div>
+          <div class="info-card">
+            <span class="icon-badge"><svg><use href="#i-clipboard"/></svg></span>
+            <h3>Survei Pengguna</h3>
+            <p>Bantu kami meningkatkan kualitas layanan dengan mengisi survei kepuasan pengguna dashboard.</p>
+            <button class="card-link nav-link" data-page="survei" style="background:none;border:none;padding:0;">Isi Survei <svg><use href="#i-arrow-right"/></svg></button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NAV PANE 1 — PROPEMPERDA ============ -->
+  <section class="page" id="page-propemperda">
+    <div class="wrap">
+      <a href="#" class="back-link nav-link" data-page="landing"><svg><use href="#i-arrow-left"/></svg> Kembali ke Beranda</a>
+      <div class="subpage-header">
+        <span class="eyebrow">Dokumen Resmi</span>
+        <h1>PROPEMPERDA</h1>
+        <p>Program Pembentukan Peraturan Daerah Provinsi Nusa Tenggara Timur</p>
+      </div>
+
+      <div class="year-tabs" data-group="propemperda">
+        <button data-year="2025">2025</button>
+        <button data-year="2026" class="active">2026</button>
+      </div>
+
+      <div class="year-panel" data-group="propemperda" data-year="2025">
+        <div class="doc-grid">
+          <a class="doc-card" href="https://drive.google.com/file/d/1ZtJNNpHjtTU3ntNonpqhxlvpJuGMjAIZ/view?usp=sharing" target="_blank" rel="noopener">
+            <span class="doc-icon"><svg><use href="#i-doc"/></svg></span>
+            <span class="doc-info"><strong>SK PROPEMPERDA 2025</strong><span>Google Drive · PDF</span></span>
+            <span class="doc-open"><svg><use href="#i-external"/></svg></span>
+          </a>
+          <a class="doc-card" href="https://drive.google.com/file/d/1kpMRhh_jL4lyiiQ8FE9p8PEGn6r16Dr8/view?usp=sharing" target="_blank" rel="noopener">
+            <span class="doc-icon"><svg><use href="#i-doc"/></svg></span>
+            <span class="doc-info"><strong>SK Perubahan PROPEMPERDA 2025</strong><span>Google Drive · PDF</span></span>
+            <span class="doc-open"><svg><use href="#i-external"/></svg></span>
+          </a>
+          <a class="doc-card" href="https://drive.google.com/file/d/1FcOLje_N0bFBKSCUZww8IM7Slnnrb3nt/view?usp=sharing" target="_blank" rel="noopener">
+            <span class="doc-icon"><svg><use href="#i-doc"/></svg></span>
+            <span class="doc-info"><strong>SK Perubahan Kedua PROPEMPERDA 2025</strong><span>Google Drive · PDF</span></span>
+            <span class="doc-open"><svg><use href="#i-external"/></svg></span>
+          </a>
+          <a class="doc-card" href="https://drive.google.com/file/d/1xv8uF__TpXhqOZMHVmj0rVrPkC6JzGWq/view?usp=drive_link" target="_blank" rel="noopener">
+            <span class="doc-icon"><svg><use href="#i-doc"/></svg></span>
+            <span class="doc-info"><strong>SK Perubahan Ketiga PROPEMPERDA 2025</strong><span>Google Drive · PDF</span></span>
+            <span class="doc-open"><svg><use href="#i-external"/></svg></span>
+          </a>
+          <a class="doc-card" href="https://drive.google.com/file/d/1HzzoX-dKFpY8Yopz621pCNX5zg9cbo8i/view?usp=drive_link" target="_blank" rel="noopener">
+            <span class="doc-icon"><svg><use href="#i-doc"/></svg></span>
+            <span class="doc-info"><strong>SK Perubahan Keempat PROPEMPERDA 2025</strong><span>Google Drive · PDF</span></span>
+            <span class="doc-open"><svg><use href="#i-external"/></svg></span>
+          </a>
+          <a class="doc-card" href="https://drive.google.com/file/d/1EBVU_iJKOXyrfIbKt2VWToqbhIpa1bfD/view?usp=drive_link" target="_blank" rel="noopener">
+            <span class="doc-icon"><svg><use href="#i-doc"/></svg></span>
+            <span class="doc-info"><strong>SK Perubahan Kelima PROPEMPERDA 2025</strong><span>Google Drive · PDF</span></span>
+            <span class="doc-open"><svg><use href="#i-external"/></svg></span>
+          </a>
+        </div>
+      </div>
+
+      <div class="year-panel active" data-group="propemperda" data-year="2026">
+        <div class="doc-grid">
+          <a class="doc-card" href="https://drive.google.com/file/d/1k3OX4WMGW3C1K_awW2EzOhB6p6Vn3XRk/view?usp=drive_link" target="_blank" rel="noopener">
+            <span class="doc-icon"><svg><use href="#i-doc"/></svg></span>
+            <span class="doc-info"><strong>SK PROPEMPERDA 2026</strong><span>Google Drive · PDF</span></span>
+            <span class="doc-open"><svg><use href="#i-external"/></svg></span>
+          </a>
+          <a class="doc-card" href="https://drive.google.com/file/d/16gSW1YIpyvR0VWvQ4eQEhxhm_73UMeE6/view?usp=drive_link" target="_blank" rel="noopener">
+            <span class="doc-icon"><svg><use href="#i-doc"/></svg></span>
+            <span class="doc-info"><strong>SK Perubahan PROPEMPERDA 2026</strong><span>Google Drive · PDF</span></span>
+            <span class="doc-open"><svg><use href="#i-external"/></svg></span>
+          </a>
+          <a class="doc-card" href="https://drive.google.com/file/d/12PbafsdgBMj7-oRFH-C7nG68te6bLb8v/view?usp=sharing" target="_blank" rel="noopener">
+            <span class="doc-icon"><svg><use href="#i-doc"/></svg></span>
+            <span class="doc-info"><strong>SK Perubahan Kedua PROPEMPERDA 2026</strong><span>Google Drive · PDF</span></span>
+            <span class="doc-open"><svg><use href="#i-external"/></svg></span>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div style="height:70px"></div>
+  </section>
+
+  <!-- ============ NAV PANE 2 — INFORMASI PEMBENTUKAN PERDA ============ -->
+  <section class="page" id="page-informasi">
+    <div class="wrap">
+      <a href="#" class="back-link nav-link" data-page="landing"><svg><use href="#i-arrow-left"/></svg> Kembali ke Beranda</a>
+      <div class="subpage-header">
+        <span class="eyebrow">Pemantauan Tahapan</span>
+        <h1>INFORMASI PEMBENTUKAN PERDA</h1>
+        <p>Status dan tahapan terkini setiap Rancangan Peraturan Daerah (Ranperda) yang sedang atau telah diproses.</p>
+      </div>
+
+      <div class="year-tabs" data-group="informasi">
+        <button data-year="2025">2025</button>
+        <button data-year="2026" class="active">2026</button>
+      </div>
+
+      <div class="sample-note">
+        <svg><use href="#i-info"/></svg>
+        <span>Catatan desain: baris Ranperda di bawah ini adalah <strong>contoh tampilan (dummy)</strong> untuk kebutuhan draf desain. Data akan digantikan dengan data aktual oleh admin SIPROPERDA.</span>
+      </div>
+
+      <div class="year-panel" data-group="informasi" data-year="2025">
+        <div class="ranperda-list">
+
+          <div class="ranperda-row">
+            <div class="ranperda-row__head">
+              <div><h4>Ranperda tentang Pengelolaan Sampah Daerah</h4><div class="meta">Inisiator: Pemerintah Daerah</div></div>
+              <span class="badge badge-selesai">Selesai</span>
+            </div>
+            <div class="stage-tracker-h">
+              <div class="stage-h done"><span class="line"></span><span class="node"><svg><use href="#i-check"/></svg></span><span>Perencanaan</span></div>
+              <div class="stage-h done"><span class="line"></span><span class="node"><svg><use href="#i-check"/></svg></span><span>Pembahasan</span></div>
+              <div class="stage-h done"><span class="line"></span><span class="node"><svg><use href="#i-check"/></svg></span><span>Persetujuan</span></div>
+              <div class="stage-h done"><span class="node"><svg><use href="#i-check"/></svg></span><span>Penetapan</span></div>
+            </div>
+          </div>
+
+          <div class="ranperda-row">
+            <div class="ranperda-row__head">
+              <div><h4>Ranperda tentang Pajak Daerah</h4><div class="meta">Inisiator: DPRD</div></div>
+              <span class="badge badge-proses">Dalam Proses</span>
+            </div>
+            <div class="stage-tracker-h">
+              <div class="stage-h done"><span class="line"></span><span class="node"><svg><use href="#i-check"/></svg></span><span>Perencanaan</span></div>
+              <div class="stage-h done"><span class="line"></span><span class="node"><svg><use href="#i-check"/></svg></span><span>Pembahasan</span></div>
+              <div class="stage-h current"><span class="line"></span><span class="node"></span><span>Persetujuan</span></div>
+              <div class="stage-h upcoming"><span class="node"></span><span>Penetapan</span></div>
+            </div>
+          </div>
+
+          <div class="ranperda-row">
+            <div class="ranperda-row__head">
+              <div><h4>Ranperda tentang Ketenagakerjaan</h4><div class="meta">Inisiator: Pemerintah Daerah</div></div>
+              <span class="badge badge-proses">Dalam Proses</span>
+            </div>
+            <div class="stage-tracker-h">
+              <div class="stage-h done"><span class="line"></span><span class="node"><svg><use href="#i-check"/></svg></span><span>Perencanaan</span></div>
+              <div class="stage-h current"><span class="line"></span><span class="node"></span><span>Pembahasan</span></div>
+              <div class="stage-h upcoming"><span class="line"></span><span class="node"></span><span>Persetujuan</span></div>
+              <div class="stage-h upcoming"><span class="node"></span><span>Penetapan</span></div>
+            </div>
+          </div>
+
+          <div class="ranperda-row">
+            <div class="ranperda-row__head">
+              <div><h4>Ranperda tentang Pariwisata Daerah</h4><div class="meta">Inisiator: DPRD</div></div>
+              <span class="badge badge-baru">Baru Diusulkan</span>
+            </div>
+            <div class="stage-tracker-h">
+              <div class="stage-h current"><span class="line"></span><span class="node"></span><span>Perencanaan</span></div>
+              <div class="stage-h upcoming"><span class="line"></span><span class="node"></span><span>Pembahasan</span></div>
+              <div class="stage-h upcoming"><span class="line"></span><span class="node"></span><span>Persetujuan</span></div>
+              <div class="stage-h upcoming"><span class="node"></span><span>Penetapan</span></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="year-panel active" data-group="informasi" data-year="2026">
+        <div class="ranperda-list">
+
+          <div class="ranperda-row">
+            <div class="ranperda-row__head">
+              <div><h4>Ranperda tentang Pendidikan Daerah</h4><div class="meta">Inisiator: Pemerintah Daerah</div></div>
+              <span class="badge badge-proses">Dalam Proses</span>
+            </div>
+            <div class="stage-tracker-h">
+              <div class="stage-h done"><span class="line"></span><span class="node"><svg><use href="#i-check"/></svg></span><span>Perencanaan</span></div>
+              <div class="stage-h current"><span class="line"></span><span class="node"></span><span>Pembahasan</span></div>
+              <div class="stage-h upcoming"><span class="line"></span><span class="node"></span><span>Persetujuan</span></div>
+              <div class="stage-h upcoming"><span class="node"></span><span>Penetapan</span></div>
+            </div>
+          </div>
+
+          <div class="ranperda-row">
+            <div class="ranperda-row__head">
+              <div><h4>Ranperda tentang Perlindungan Anak</h4><div class="meta">Inisiator: DPRD</div></div>
+              <span class="badge badge-baru">Baru Diusulkan</span>
+            </div>
+            <div class="stage-tracker-h">
+              <div class="stage-h current"><span class="line"></span><span class="node"></span><span>Perencanaan</span></div>
+              <div class="stage-h upcoming"><span class="line"></span><span class="node"></span><span>Pembahasan</span></div>
+              <div class="stage-h upcoming"><span class="line"></span><span class="node"></span><span>Persetujuan</span></div>
+              <div class="stage-h upcoming"><span class="node"></span><span>Penetapan</span></div>
+            </div>
+          </div>
+
+          <div class="ranperda-row">
+            <div class="ranperda-row__head">
+              <div><h4>Ranperda tentang Investasi Daerah</h4><div class="meta">Inisiator: Pemerintah Daerah</div></div>
+              <span class="badge badge-baru">Baru Diusulkan</span>
+            </div>
+            <div class="stage-tracker-h">
+              <div class="stage-h current"><span class="line"></span><span class="node"></span><span>Perencanaan</span></div>
+              <div class="stage-h upcoming"><span class="line"></span><span class="node"></span><span>Pembahasan</span></div>
+              <div class="stage-h upcoming"><span class="line"></span><span class="node"></span><span>Persetujuan</span></div>
+              <div class="stage-h upcoming"><span class="node"></span><span>Penetapan</span></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+    <div style="height:70px"></div>
+  </section>
+
+  <!-- ============ NAV PANE 3 — SURVEI PENGGUNA ============ -->
+  <section class="page" id="page-survei">
+    <div class="wrap" style="max-width:880px">
+      <a href="#" class="back-link nav-link" data-page="landing"><svg><use href="#i-arrow-left"/></svg> Kembali ke Beranda</a>
+      <div class="subpage-header">
+        <span class="eyebrow">Umpan Balik Pengguna</span>
+        <h1>SURVEI PENGGUNA</h1>
+        <p>Masukan Anda membantu kami menyempurnakan Dashboard SIPROPERDA agar lebih bermanfaat bagi seluruh pemangku kepentingan.</p>
+      </div>
+
+      <div class="legend-box">
+        <span class="legend-title">Petunjuk Penilaian</span>
+        <div class="legend-item"><span class="num">1</span> Sangat Tidak Setuju</div>
+        <div class="legend-item"><span class="num">2</span> Tidak Setuju</div>
+        <div class="legend-item"><span class="num">3</span> Cukup Setuju</div>
+        <div class="legend-item"><span class="num">4</span> Setuju</div>
+        <div class="legend-item"><span class="num">5</span> Sangat Setuju</div>
+      </div>
+
+      <form id="surveyForm">
+
+        <div class="survey-section">
+          <div class="survey-section__title"><span class="letter">A.</span><h3>Kemudahan Penggunaan</h3></div>
+          <div class="likert-row"><div class="likert-q"><span class="qnum">1.</span>Dashboard SIPROPERDA mudah dipahami.</div><div class="likert-scale">
+            <div class="likert-opt"><input type="radio" name="q1" id="q1-1" value="1"><label for="q1-1">1</label></div>
+            <div class="likert-opt"><input type="radio" name="q1" id="q1-2" value="2"><label for="q1-2">2</label></div>
+            <div class="likert-opt"><input type="radio" name="q1" id="q1-3" value="3"><label for="q1-3">3</label></div>
+            <div class="likert-opt"><input type="radio" name="q1" id="q1-4" value="4"><label for="q1-4">4</label></div>
+            <div class="likert-opt"><input type="radio" name="q1" id="q1-5" value="5"><label for="q1-5">5</label></div>
+          </div></div>
+          <div class="likert-row"><div class="likert-q"><span class="qnum">2.</span>Menu dan fitur mudah digunakan.</div><div class="likert-scale">
+            <div class="likert-opt"><input type="radio" name="q2" id="q2-1" value="1"><label for="q2-1">1</label></div>
+            <div class="likert-opt"><input type="radio" name="q2" id="q2-2" value="2"><label for="q2-2">2</label></div>
+            <div class="likert-opt"><input type="radio" name="q2" id="q2-3" value="3"><label for="q2-3">3</label></div>
+            <div class="likert-opt"><input type="radio" name="q2" id="q2-4" value="4"><label for="q2-4">4</label></div>
+            <div class="likert-opt"><input type="radio" name="q2" id="q2-5" value="5"><label for="q2-5">5</label></div>
+          </div></div>
+          <div class="likert-row"><div class="likert-q"><span class="qnum">3.</span>Informasi dapat ditemukan dengan cepat.</div><div class="likert-scale">
+            <div class="likert-opt"><input type="radio" name="q3" id="q3-1" value="1"><label for="q3-1">1</label></div>
+            <div class="likert-opt"><input type="radio" name="q3" id="q3-2" value="2"><label for="q3-2">2</label></div>
+            <div class="likert-opt"><input type="radio" name="q3" id="q3-3" value="3"><label for="q3-3">3</label></div>
+            <div class="likert-opt"><input type="radio" name="q3" id="q3-4" value="4"><label for="q3-4">4</label></div>
+            <div class="likert-opt"><input type="radio" name="q3" id="q3-5" value="5"><label for="q3-5">5</label></div>
+          </div></div>
+        </div>
+
+        <div class="survey-section">
+          <div class="survey-section__title"><span class="letter">B.</span><h3>Kualitas Informasi</h3></div>
+          <div class="likert-row"><div class="likert-q"><span class="qnum">4.</span>Informasi yang ditampilkan lengkap.</div><div class="likert-scale">
+            <div class="likert-opt"><input type="radio" name="q4" id="q4-1" value="1"><label for="q4-1">1</label></div>
+            <div class="likert-opt"><input type="radio" name="q4" id="q4-2" value="2"><label for="q4-2">2</label></div>
+            <div class="likert-opt"><input type="radio" name="q4" id="q4-3" value="3"><label for="q4-3">3</label></div>
+            <div class="likert-opt"><input type="radio" name="q4" id="q4-4" value="4"><label for="q4-4">4</label></div>
+            <div class="likert-opt"><input type="radio" name="q4" id="q4-5" value="5"><label for="q4-5">5</label></div>
+          </div></div>
+          <div class="likert-row"><div class="likert-q"><span class="qnum">5.</span>Data yang tersedia mudah dipahami.</div><div class="likert-scale">
+            <div class="likert-opt"><input type="radio" name="q5" id="q5-1" value="1"><label for="q5-1">1</label></div>
+            <div class="likert-opt"><input type="radio" name="q5" id="q5-2" value="2"><label for="q5-2">2</label></div>
+            <div class="likert-opt"><input type="radio" name="q5" id="q5-3" value="3"><label for="q5-3">3</label></div>
+            <div class="likert-opt"><input type="radio" name="q5" id="q5-4" value="4"><label for="q5-4">4</label></div>
+            <div class="likert-opt"><input type="radio" name="q5" id="q5-5" value="5"><label for="q5-5">5</label></div>
+          </div></div>
+          <div class="likert-row"><div class="likert-q"><span class="qnum">6.</span>Informasi yang disajikan sesuai kebutuhan pekerjaan.</div><div class="likert-scale">
+            <div class="likert-opt"><input type="radio" name="q6" id="q6-1" value="1"><label for="q6-1">1</label></div>
+            <div class="likert-opt"><input type="radio" name="q6" id="q6-2" value="2"><label for="q6-2">2</label></div>
+            <div class="likert-opt"><input type="radio" name="q6" id="q6-3" value="3"><label for="q6-3">3</label></div>
+            <div class="likert-opt"><input type="radio" name="q6" id="q6-4" value="4"><label for="q6-4">4</label></div>
+            <div class="likert-opt"><input type="radio" name="q6" id="q6-5" value="5"><label for="q6-5">5</label></div>
+          </div></div>
+        </div>
+
+        <div class="survey-section">
+          <div class="survey-section__title"><span class="letter">C.</span><h3>Efektivitas Pemantauan</h3></div>
+          <div class="likert-row"><div class="likert-q"><span class="qnum">7.</span>Dashboard memudahkan pemantauan perkembangan Propemperda.</div><div class="likert-scale">
+            <div class="likert-opt"><input type="radio" name="q7" id="q7-1" value="1"><label for="q7-1">1</label></div>
+            <div class="likert-opt"><input type="radio" name="q7" id="q7-2" value="2"><label for="q7-2">2</label></div>
+            <div class="likert-opt"><input type="radio" name="q7" id="q7-3" value="3"><label for="q7-3">3</label></div>
+            <div class="likert-opt"><input type="radio" name="q7" id="q7-4" value="4"><label for="q7-4">4</label></div>
+            <div class="likert-opt"><input type="radio" name="q7" id="q7-5" value="5"><label for="q7-5">5</label></div>
+          </div></div>
+          <div class="likert-row"><div class="likert-q"><span class="qnum">8.</span>Dashboard mempercepat proses monitoring dibanding cara manual.</div><div class="likert-scale">
+            <div class="likert-opt"><input type="radio" name="q8" id="q8-1" value="1"><label for="q8-1">1</label></div>
+            <div class="likert-opt"><input type="radio" name="q8" id="q8-2" value="2"><label for="q8-2">2</label></div>
+            <div class="likert-opt"><input type="radio" name="q8" id="q8-3" value="3"><label for="q8-3">3</label></div>
+            <div class="likert-opt"><input type="radio" name="q8" id="q8-4" value="4"><label for="q8-4">4</label></div>
+            <div class="likert-opt"><input type="radio" name="q8" id="q8-5" value="5"><label for="q8-5">5</label></div>
+          </div></div>
+          <div class="likert-row"><div class="likert-q"><span class="qnum">9.</span>Dashboard membantu mengetahui status setiap Ranperda secara lebih cepat.</div><div class="likert-scale">
+            <div class="likert-opt"><input type="radio" name="q9" id="q9-1" value="1"><label for="q9-1">1</label></div>
+            <div class="likert-opt"><input type="radio" name="q9" id="q9-2" value="2"><label for="q9-2">2</label></div>
+            <div class="likert-opt"><input type="radio" name="q9" id="q9-3" value="3"><label for="q9-3">3</label></div>
+            <div class="likert-opt"><input type="radio" name="q9" id="q9-4" value="4"><label for="q9-4">4</label></div>
+            <div class="likert-opt"><input type="radio" name="q9" id="q9-5" value="5"><label for="q9-5">5</label></div>
+          </div></div>
+        </div>
+
+        <div class="survey-section">
+          <div class="survey-section__title"><span class="letter">D.</span><h3>Manfaat</h3></div>
+          <div class="likert-row"><div class="likert-q"><span class="qnum">10.</span>Dashboard membantu meningkatkan efisiensi pekerjaan.</div><div class="likert-scale">
+            <div class="likert-opt"><input type="radio" name="q10" id="q10-1" value="1"><label for="q10-1">1</label></div>
+            <div class="likert-opt"><input type="radio" name="q10" id="q10-2" value="2"><label for="q10-2">2</label></div>
+            <div class="likert-opt"><input type="radio" name="q10" id="q10-3" value="3"><label for="q10-3">3</label></div>
+            <div class="likert-opt"><input type="radio" name="q10" id="q10-4" value="4"><label for="q10-4">4</label></div>
+            <div class="likert-opt"><input type="radio" name="q10" id="q10-5" value="5"><label for="q10-5">5</label></div>
+          </div></div>
+          <div class="likert-row"><div class="likert-q"><span class="qnum">11.</span>Dashboard mempermudah penyusunan laporan atau penyampaian informasi.</div><div class="likert-scale">
+            <div class="likert-opt"><input type="radio" name="q11" id="q11-1" value="1"><label for="q11-1">1</label></div>
+            <div class="likert-opt"><input type="radio" name="q11" id="q11-2" value="2"><label for="q11-2">2</label></div>
+            <div class="likert-opt"><input type="radio" name="q11" id="q11-3" value="3"><label for="q11-3">3</label></div>
+            <div class="likert-opt"><input type="radio" name="q11" id="q11-4" value="4"><label for="q11-4">4</label></div>
+            <div class="likert-opt"><input type="radio" name="q11" id="q11-5" value="5"><label for="q11-5">5</label></div>
+          </div></div>
+          <div class="likert-row"><div class="likert-q"><span class="qnum">12.</span>Dashboard mendukung koordinasi antarbagian.</div><div class="likert-scale">
+            <div class="likert-opt"><input type="radio" name="q12" id="q12-1" value="1"><label for="q12-1">1</label></div>
+            <div class="likert-opt"><input type="radio" name="q12" id="q12-2" value="2"><label for="q12-2">2</label></div>
+            <div class="likert-opt"><input type="radio" name="q12" id="q12-3" value="3"><label for="q12-3">3</label></div>
+            <div class="likert-opt"><input type="radio" name="q12" id="q12-4" value="4"><label for="q12-4">4</label></div>
+            <div class="likert-opt"><input type="radio" name="q12" id="q12-5" value="5"><label for="q12-5">5</label></div>
+          </div></div>
+        </div>
+
+        <div class="survey-section">
+          <div class="survey-section__title"><span class="letter">E.</span><h3>Kepuasan Pengguna</h3></div>
+          <div class="likert-row"><div class="likert-q"><span class="qnum">13.</span>Saya puas dengan tampilan Dashboard SIPROPERDA.</div><div class="likert-scale">
+            <div class="likert-opt"><input type="radio" name="q13" id="q13-1" value="1"><label for="q13-1">1</label></div>
+            <div class="likert-opt"><input type="radio" name="q13" id="q13-2" value="2"><label for="q13-2">2</label></div>
+            <div class="likert-opt"><input type="radio" name="q13" id="q13-3" value="3"><label for="q13-3">3</label></div>
+            <div class="likert-opt"><input type="radio" name="q13" id="q13-4" value="4"><label for="q13-4">4</label></div>
+            <div class="likert-opt"><input type="radio" name="q13" id="q13-5" value="5"><label for="q13-5">5</label></div>
+          </div></div>
+          <div class="likert-row"><div class="likert-q"><span class="qnum">14.</span>Dashboard layak digunakan sebagai media monitoring Propemperda.</div><div class="likert-scale">
+            <div class="likert-opt"><input type="radio" name="q14" id="q14-1" value="1"><label for="q14-1">1</label></div>
+            <div class="likert-opt"><input type="radio" name="q14" id="q14-2" value="2"><label for="q14-2">2</label></div>
+            <div class="likert-opt"><input type="radio" name="q14" id="q14-3" value="3"><label for="q14-3">3</label></div>
+            <div class="likert-opt"><input type="radio" name="q14" id="q14-4" value="4"><label for="q14-4">4</label></div>
+            <div class="likert-opt"><input type="radio" name="q14" id="q14-5" value="5"><label for="q14-5">5</label></div>
+          </div></div>
+          <div class="likert-row"><div class="likert-q"><span class="qnum">15.</span>Saya merekomendasikan Dashboard SIPROPERDA untuk digunakan secara berkelanjutan.</div><div class="likert-scale">
+            <div class="likert-opt"><input type="radio" name="q15" id="q15-1" value="1"><label for="q15-1">1</label></div>
+            <div class="likert-opt"><input type="radio" name="q15" id="q15-2" value="2"><label for="q15-2">2</label></div>
+            <div class="likert-opt"><input type="radio" name="q15" id="q15-3" value="3"><label for="q15-3">3</label></div>
+            <div class="likert-opt"><input type="radio" name="q15" id="q15-4" value="4"><label for="q15-4">4</label></div>
+            <div class="likert-opt"><input type="radio" name="q15" id="q15-5" value="5"><label for="q15-5">5</label></div>
+          </div></div>
+        </div>
+
+        <div class="survey-section">
+          <div class="survey-section__title"><span class="letter">F.</span><h3>Pertanyaan Terbuka</h3></div>
+          <div class="open-q">
+            <label for="f1"><span class="qnum">1.</span>Apa kelebihan Dashboard SIPROPERDA?</label>
+            <textarea id="f1" name="f1" placeholder="Tuliskan pendapat Anda di sini..."></textarea>
+          </div>
+          <div class="open-q">
+            <label for="f2"><span class="qnum">2.</span>Apa kekurangan Dashboard SIPROPERDA?</label>
+            <textarea id="f2" name="f2" placeholder="Tuliskan pendapat Anda di sini..."></textarea>
+          </div>
+          <div class="open-q">
+            <label for="f3"><span class="qnum">3.</span>Fitur apa yang perlu ditambahkan?</label>
+            <textarea id="f3" name="f3" placeholder="Tuliskan pendapat Anda di sini..."></textarea>
+          </div>
+          <div class="open-q">
+            <label for="f4"><span class="qnum">4.</span>Saran untuk pengembangan SIPROPERDA ke depan.</label>
+            <textarea id="f4" name="f4" placeholder="Tuliskan pendapat Anda di sini..."></textarea>
+          </div>
+        </div>
+
+        <div class="survey-submit">
+          <button type="submit" class="btn btn-accent" style="padding:14px 40px;font-size:15px">Kirim Survei</button>
+          <p>Pratinjau desain — pengiriman data aktual memerlukan integrasi backend.</p>
+        </div>
+      </form>
+
+      <div class="thankyou" id="thankyou">
+        <svg><use href="#i-check"/></svg>
+        <h3>Terima kasih atas partisipasi Anda!</h3>
+        <p>Masukan Anda sangat berarti bagi pengembangan Dashboard SIPROPERDA ke depan.</p>
+      </div>
+    </div>
+    <div style="height:70px"></div>
+  </section>
+
+</main>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site-footer">
+  <div class="footer-top"></div>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <div class="footer-brand">
+          <svg viewBox="0 0 42 42" fill="none">
+            <rect width="42" height="42" rx="10" fill="#C89A4B"/>
+            <path d="M13 12h11l6 6v11a1.4 1.4 0 0 1-1.4 1.4H13A1.4 1.4 0 0 1 11.6 29V13.4A1.4 1.4 0 0 1 13 12Z" stroke="#22394B" stroke-width="1.8" stroke-linejoin="round" fill="#fff"/>
+            <path d="M24 12v6h6" stroke="#22394B" stroke-width="1.8" stroke-linejoin="round"/>
+            <path d="M16 23h9M16 26.4h6" stroke="#22394B" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+          <strong>SEKRETARIAT DEWAN PERWAKILAN RAKYAT DAERAH<br>PROVINSI NUSA TENGGARA TIMUR</strong>
+        </div>
+        <p>Pusat informasi dan pemantauan Program Pembentukan Peraturan Daerah (Propemperda) yang transparan dan akuntabel.</p>
+      </div>
+
+      <div class="footer-col">
+        <h4>Media Sosial</h4>
+        <ul class="social-list">
+          <li><a href="https://www.instagram.com/setwan.ntt/" target="_blank" rel="noopener"><span class="icon-circle"><svg><use href="#i-insta"/></svg></span> Instagram</a></li>
+          <li><a href="https://web.facebook.com/humas.provntt" target="_blank" rel="noopener"><span class="icon-circle"><svg><use href="#i-fb"/></svg></span> Facebook</a></li>
+          <li><a href="https://www.tiktok.com/@setwan.ntt" target="_blank" rel="noopener"><span class="icon-circle"><svg><use href="#i-tiktok"/></svg></span> TikTok</a></li>
+          <li><a href="https://www.youtube.com/@SekretariatDPRDProvNTT" target="_blank" rel="noopener"><span class="icon-circle"><svg><use href="#i-youtube"/></svg></span> YouTube</a></li>
+          <li><a href="https://dprd.nttprov.go.id/" target="_blank" rel="noopener"><span class="icon-circle"><svg><use href="#i-globe"/></svg></span> Website Resmi</a></li>
+        </ul>
+      </div>
+
+      <div class="footer-col">
+        <h4>Kontak</h4>
+        <ul class="contact-list">
+          <li><svg><use href="#i-phone"/></svg> 0821-4567-6564</li>
+          <li><svg><use href="#i-mail"/></svg> nttsetwan@gmail.com</li>
+          <li><svg><use href="#i-pin"/></svg> Jl. El Tari No. 52, Kupang, Nusa Tenggara Timur</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 Sekretariat DPRD Provinsi Nusa Tenggara Timur. Seluruh hak cipta dilindungi.</div>
+</footer>
+
+<script>
+(function(){
+  var pages = document.querySelectorAll('.page');
+  var navLinks = document.querySelectorAll('.nav-link[data-page]');
+  var mainNav = document.getElementById('mainNav');
+  var menuToggle = document.getElementById('menuToggle');
+  var menuIcon = document.getElementById('menuIcon');
+  var navMore = document.getElementById('navMore');
+  var moreBtn = document.getElementById('moreBtn');
+
+  function goToPage(pageId){
+    pages.forEach(function(p){ p.classList.toggle('active', p.id === 'page-' + pageId); });
+    navLinks.forEach(function(l){
+      if(l.classList.contains('back-link')) return;
+      l.classList.toggle('active', l.dataset.page === pageId);
+    });
+    window.scrollTo({ top:0, behavior:'smooth' });
+    if(mainNav.classList.contains('open')){ mainNav.classList.remove('open'); }
+  }
+
+  navLinks.forEach(function(link){
+    link.addEventListener('click', function(e){
+      e.preventDefault();
+      goToPage(this.dataset.page);
+    });
+  });
+
+  menuToggle.addEventListener('click', function(){
+    mainNav.classList.toggle('open');
+    menuIcon.setAttribute('href', mainNav.classList.contains('open') ? '#i-close' : '#i-menu');
+  });
+
+  moreBtn.addEventListener('click', function(e){
+    e.preventDefault();
+    navMore.classList.toggle('open');
+  });
+  document.addEventListener('click', function(e){
+    if(!navMore.contains(e.target)){ navMore.classList.remove('open'); }
+  });
+
+  /* Year tabs */
+  document.querySelectorAll('.year-tabs').forEach(function(tabGroup){
+    var group = tabGroup.dataset.group;
+    tabGroup.querySelectorAll('button').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        tabGroup.querySelectorAll('button').forEach(function(b){ b.classList.remove('active'); });
+        this.classList.add('active');
+        var year = this.dataset.year;
+        document.querySelectorAll('.year-panel[data-group="' + group + '"]').forEach(function(panel){
+          panel.classList.toggle('active', panel.dataset.year === year);
+        });
+      });
+    });
+  });
+
+  /* Survey submit (design preview only) */
+  var form = document.getElementById('surveyForm');
+  var thankyou = document.getElementById('thankyou');
+  form.addEventListener('submit', function(e){
+    e.preventDefault();
+    form.style.display = 'none';
+    thankyou.classList.add('show');
+    thankyou.scrollIntoView({ behavior:'smooth', block:'center' });
+  });
+})();
+</script>
+
+</body>
+</html>
