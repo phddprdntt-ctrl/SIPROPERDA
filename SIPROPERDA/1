@@ -1,0 +1,129 @@
+        <div class="container section page-content">
+          <div class="page-title">
+            <p class="eyebrow eyebrow--blue">Dokumen</p>
+            <h1 id="propemperda-title">PROPEMPERDA</h1>
+            <p>Program Pembentukan Peraturan Daerah Provinsi Nusa Tenggara Timur</p>
+          </div>
+
+          <section class="year-block" aria-labelledby="year-2025-title">
+            <h2 id="year-2025-title">2025</h2>
+            <div class="document-grid">
+              <a class="document-card" href="https://drive.google.com/file/d/1ZtJNNpHjtTU3ntNonpqhxlvpJuGMjAIZ/view?usp=sharing" target="_blank" rel="noopener noreferrer"><i class="fa-regular fa-file-pdf" aria-hidden="true"></i><span>SK PROPEMPERDA 2025</span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+              <a class="document-card" href="https://drive.google.com/file/d/1kpMRhh_jL4lyiiQ8FE9p8PEGn6r16Dr8/view?usp=sharing" target="_blank" rel="noopener noreferrer"><i class="fa-regular fa-file-pdf" aria-hidden="true"></i><span>SK Perubahan PROPEMPERDA 2025</span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+              <a class="document-card" href="https://drive.google.com/file/d/1FcOLje_N0bFBKSCUZww8IM7Slnnrb3nt/view?usp=sharing" target="_blank" rel="noopener noreferrer"><i class="fa-regular fa-file-pdf" aria-hidden="true"></i><span>SK Perubahan Kedua PROPEMPERDA 2025</span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+              <a class="document-card" href="https://drive.google.com/file/d/1xv8uF__TpXhqOZMHVmj0rVrPkC6JzGWq/view?usp=drive_link" target="_blank" rel="noopener noreferrer"><i class="fa-regular fa-file-pdf" aria-hidden="true"></i><span>SK Perubahan Ketiga PROPEMPERDA 2025</span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+              <a class="document-card" href="https://drive.google.com/file/d/1HzzoX-dKFpY8Yopz621pCNX5zg9cbo8i/view?usp=drive_link" target="_blank" rel="noopener noreferrer"><i class="fa-regular fa-file-pdf" aria-hidden="true"></i><span>SK Perubahan Keempat PROPEMPERDA 2025</span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+              <a class="document-card" href="https://drive.google.com/file/d/1EBVU_iJKOXyrfIbKt2VWToqbhIpa1bfD/view?usp=drive_link" target="_blank" rel="noopener noreferrer"><i class="fa-regular fa-file-pdf" aria-hidden="true"></i><span>SK Perubahan Kelima PROPEMPERDA 2025</span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+            </div>
+          </section>
+
+          <section class="year-block" aria-labelledby="year-2026-title">
+            <h2 id="year-2026-title">2026</h2>
+            <div class="document-grid">
+              <a class="document-card" href="https://drive.google.com/file/d/1k3OX4WMGW3C1K_awW2EzOhB6p6Vn3XRk/view?usp=drive_link" target="_blank" rel="noopener noreferrer"><i class="fa-regular fa-file-pdf" aria-hidden="true"></i><span>SK PROPEMPERDA 2026</span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+              <a class="document-card" href="https://drive.google.com/file/d/16gSW1YIpyvR0VWvQ4eQEhxhm_73UMeE6/view?usp=drive_link" target="_blank" rel="noopener noreferrer"><i class="fa-regular fa-file-pdf" aria-hidden="true"></i><span>SK Perubahan PROPEMPERDA 2026</span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+              <a class="document-card" href="https://drive.google.com/file/d/12PbafsdgBMj7-oRFH-C7nG68te6bLb8v/view?usp=sharing" target="_blank" rel="noopener noreferrer"><i class="fa-regular fa-file-pdf" aria-hidden="true"></i><span>SK Perubahan Kedua PROPEMPERDA 2026</span><i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i></a>
+            </div>
+          </section>
+        </div>
+      </section>
+
+      <!-- Informasi Pembentukan Perda -->
+      <section id="informasi" class="page" aria-labelledby="informasi-title" hidden>
+        <div class="container section page-content">
+          <div class="page-title">
+            <p class="eyebrow eyebrow--blue">Pemantauan</p>
+            <h1 id="informasi-title">INFORMASI PEMBENTUKAN PERDA</h1>
+            <p>Pilih tahun untuk mengakses informasi pembentukan Peraturan Daerah.</p>
+          </div>
+
+          <div class="year-choice-grid" role="group" aria-label="Pilih tahun informasi">
+            <button class="year-choice" type="button" data-information-year="2025">
+              <i class="fa-regular fa-calendar-days" aria-hidden="true"></i>
+              <strong>2025</strong>
+              <span>Informasi pembentukan Perda Tahun 2025</span>
+              <small>Lihat informasi <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></small>
+            </button>
+            <button class="year-choice" type="button" data-information-year="2026">
+              <i class="fa-regular fa-calendar-days" aria-hidden="true"></i>
+              <strong>2026</strong>
+              <span>Informasi pembentukan Perda Tahun 2026</span>
+              <small>Lihat informasi <i class="fa-solid fa-arrow-right" aria-hidden="true"></i></small>
+            </button>
+          </div>
+
+          <div id="information-panel" class="information-panel" aria-live="polite">
+            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+            <p>Pilih salah satu tahun untuk menampilkan informasi pembentukan Perda.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Survei -->
+      <section id="survei" class="page" aria-labelledby="survei-title" hidden>
+        <div class="container section page-content survey-content">
+          <div class="page-title">
+            <p class="eyebrow eyebrow--blue">Partisipasi pengguna</p>
+            <h1 id="survei-title">SURVEI PENGGUNA</h1>
+            <p>Penilaian Anda membantu pengembangan Dashboard SIPROPERDA.</p>
+          </div>
+
+          <div class="rating-guide" aria-label="Petunjuk penilaian">
+            <span><b>1</b> Sangat Tidak Setuju</span>
+            <span><b>2</b> Tidak Setuju</span>
+            <span><b>3</b> Cukup Setuju</span>
+            <span><b>4</b> Setuju</span>
+            <span><b>5</b> Sangat Setuju</span>
+          </div>
+
+          <form id="survey-form">
+            <div id="survey-questions"></div>
+
+            <fieldset class="survey-group survey-group--open">
+              <legend>F. Pertanyaan Terbuka</legend>
+              <label>1. Apa kelebihan Dashboard SIPROPERDA?<textarea name="kelebihan" rows="4"></textarea></label>
+              <label>2. Apa kekurangan Dashboard SIPROPERDA?<textarea name="kekurangan" rows="4"></textarea></label>
+              <label>3. Fitur apa yang perlu ditambahkan?<textarea name="fitur" rows="4"></textarea></label>
+              <label>4. Saran untuk pengembangan SIPROPERDA ke depan.<textarea name="saran" rows="4"></textarea></label>
+            </fieldset>
+
+            <div class="form-action">
+              <button class="button button--primary" type="submit">Kirim Penilaian</button>
+              <p id="survey-feedback" role="status" aria-live="polite"></p>
+            </div>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <footer id="kontak" class="site-footer">
+      <div class="container footer-grid">
+        <section>
+          <h2>SEKRETARIAT DEWAN PERWAKILAN RAKYAT DAERAH<br />PROVINSI NUSA TENGGARA TIMUR</h2>
+          <p>SIPROPERDA — Sistem Informasi Progres Pembentukan Peraturan Daerah</p>
+        </section>
+        <section>
+          <h2>Media Sosial</h2>
+          <ul class="footer-list">
+            <li><a href="https://www.instagram.com/setwan.ntt/" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+            <li><a href="https://web.facebook.com/humas.provntt?locale=id_ID&_rdc=1&_rdr" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i> Facebook</a></li>
+            <li><a href="https://www.tiktok.com/@setwan.ntt" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-tiktok" aria-hidden="true"></i> TikTok</a></li>
+            <li><a href="https://www.youtube.com/@SekretariatDPRDProvNTT" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-youtube" aria-hidden="true"></i> YouTube</a></li>
+            <li><a href="https://dprd.nttprov.go.id/" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-globe" aria-hidden="true"></i> Website DPRD NTT</a></li>
+          </ul>
+        </section>
+        <section>
+          <h2>Kontak</h2>
+          <ul class="footer-list footer-list--plain">
+            <li><i class="fa-solid fa-phone" aria-hidden="true"></i> 082145676564</li>
+            <li><i class="fa-solid fa-envelope" aria-hidden="true"></i> nttsetwan@gmail.com</li>
+            <li><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Jl. El Tari No. 52</li>
+          </ul>
+        </section>
+      </div>
+      <div class="container footer-bottom">© <span id="current-year"></span> Sekretariat DPRD Provinsi Nusa Tenggara Timur</div>
+    </footer>
+
+    <script src="script.js"></script>
+  </body>
+</html>

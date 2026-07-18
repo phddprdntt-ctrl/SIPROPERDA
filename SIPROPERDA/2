@@ -1,0 +1,142 @@
+const pages = document.querySelectorAll('.page');
+const pageLinks = document.querySelectorAll('[data-page-link]');
+const mainNav = document.querySelector('.main-nav');
+const navToggle = document.querySelector('.nav-toggle');
+
+const showPage = (pageId) => {
+  const page = document.getElementById(pageId);
+  if (!page) return;
+
+  pages.forEach((item) => {
+    const isActive = item.id === pageId;
+    item.hidden = !isActive;
+    item.classList.toggle('page--active', isActive);
+  });
+
+  pageLinks.forEach((link) => {
+    link.classList.toggle('active', link.dataset.pageLink === pageId);
+  });
+
+  mainNav.classList.remove('open');
+  navToggle.setAttribute('aria-expanded', 'false');
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+};
+
+pageLinks.forEach((link) => {
+  link.addEventListener('click', (event) => {
+    const pageId = link.dataset.pageLink;
+    if (!pageId) return;
+    event.preventDefault();
+    history.replaceState(null, '', `#${pageId}`);
+    showPage(pageId);
+  });
+});
+
+document.querySelectorAll('[data-go-to]').forEach((button) => {
+  button.addEventListener('click', () => {
+    const pageId = button.dataset.goTo;
+    history.replaceState(null, '', `#${pageId}`);
+    showPage(pageId);
+  });
+});
+
+navToggle.addEventListener('click', () => {
+  const isOpen = mainNav.classList.toggle('open');
+  navToggle.setAttribute('aria-expanded', String(isOpen));
+});
+
+const surveyGroups = [
+  {
+    title: 'A. Kemudahan Penggunaan',
+    questions: [
+      'Dashboard SIPROPERDA mudah dipahami.',
+      'Menu dan fitur mudah digunakan.',
+      'Informasi dapat ditemukan dengan cepat.'
+    ]
+  },
+  {
+    title: 'B. Kualitas Informasi',
+    questions: [
+      'Informasi yang ditampilkan lengkap.',
+      'Data yang tersedia mudah dipahami.',
+      'Informasi yang disajikan sesuai kebutuhan pekerjaan.'
+    ]
+  },
+  {
+    title: 'C. Efektivitas Pemantauan',
+    questions: [
+      'Dashboard memudahkan pemantauan perkembangan Propemperda.',
+      'Dashboard mempercepat proses monitoring dibanding cara manual.',
+      'Dashboard membantu mengetahui status setiap Ranperda secara lebih cepat.'
+    ]
+  },
+  {
+    title: 'D. Manfaat',
+    questions: [
+      'Dashboard membantu meningkatkan efisiensi pekerjaan.',
+      'Dashboard mempermudah penyusunan laporan atau penyampaian informasi.',
+      'Dashboard mendukung koordinasi antarbagian.'
+    ]
+  },
+  {
+    title: 'E. Kepuasan Pengguna',
+    questions: [
+      'Saya puas dengan tampilan Dashboard SIPROPERDA.',
+      'Dashboard layak digunakan sebagai media monitoring Propemperda.',
+      'Saya merekomendasikan Dashboard SIPROPERDA untuk digunakan secara berkelanjutan.'
+    ]
+  }
+];
+
+let questionNumber = 1;
+const questionsContainer = document.querySelector('#survey-questions');
+
+surveyGroups.forEach((group) => {
+  const groupElement = document.createElement('fieldset');
+  groupElement.className = 'survey-group';
+  groupElement.innerHTML = `<legend>${group.title}</legend>`;
+
+  group.questions.forEach((question) => {
+    const currentNumber = questionNumber;
+    const questionElement = document.createElement('div');
+    questionElement.className = 'survey-question';
+
+    const options = [1, 2, 3, 4, 5]
+      .map((value) => `
+        <input id="q${currentNumber}-${value}" name="q${currentNumber}" type="radio" value="${value}" />
+        <label for="q${currentNumber}-${value}" aria-label="Nilai ${value}">${value}</label>
+      `)
+      .join('');
+
+    questionElement.innerHTML = `
+      <span>${currentNumber}. ${question}</span>
+      <div class="rating-options" aria-label="Nilai pertanyaan ${currentNumber}">${options}</div>
+    `;
+    groupElement.appendChild(questionElement);
+    questionNumber += 1;
+  });
+
+  questionsContainer.appendChild(groupElement);
+});
+
+document.querySelectorAll('[data-information-year]').forEach((button) => {
+  button.addEventListener('click', () => {
+    const year = button.dataset.informationYear;
+    document.querySelectorAll('[data-information-year]').forEach((item) => item.classList.remove('selected'));
+    button.classList.add('selected');
+    document.querySelector('#information-panel').innerHTML = `
+      <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+      <p>Area informasi pembentukan Perda Tahun <strong>${year}</strong> siap diisi dengan data, status, atau tautan dokumen sesuai kebutuhan pengelola SIPROPERDA.</p>
+    `;
+  });
+});
+
+document.querySelector('#survey-form').addEventListener('submit', (event) => {
+  event.preventDefault();
+  document.querySelector('#survey-feedback').textContent = 'Terima kasih. Pada versi produksi, hubungkan formulir ini ke Google Forms, Formspree, atau database Anda.';
+});
+
+document.querySelector('#current-year').textContent = new Date().getFullYear();
+
+const pageFromHash = window.location.hash.replace('#', '');
+if (pageFromHash && document.getElementById(pageFromHash)) showPage(pageFromHash);
