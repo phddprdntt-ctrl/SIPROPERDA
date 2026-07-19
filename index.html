@@ -161,6 +161,26 @@
       .information-panel i { margin-top: 4px; color: var(--blue); }
       .information-panel p { margin: 0; }
 
+      .year-panel { margin-top: 8px; }
+      .ranperda-list { display: grid; gap: 18px; }
+      .ranperda-row { padding: 22px 24px; border: 1px solid var(--line); border-radius: 16px; background: var(--paper); box-shadow: 0 8px 24px rgba(15, 76, 129, 0.05); }
+      .ranperda-row__head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 22px; }
+      .ranperda-row__head h4 { margin: 0 0 6px; color: var(--blue); font-size: 18px; }
+      .meta { color: var(--muted); font-size: 13px; }
+      .badge { display: inline-flex; align-items: center; padding: 7px 12px; border-radius: 999px; font-size: 12px; font-weight: 800; letter-spacing: .02em; text-transform: uppercase; }
+      .badge-selesai { color: #0b6b3a; background: #e6f7ee; }
+      .stage-tracker-h { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+      .stage-h { position: relative; padding-top: 8px; text-align: center; color: var(--muted); font-size: 12px; font-weight: 600; }
+      .stage-h .node { display: grid; place-items: center; width: 34px; height: 34px; margin: 0 auto 10px; border-radius: 50%; background: #e5edf2; color: var(--muted); }
+      .stage-h .node i { font-size: 13px; }
+      .stage-h .line { position: absolute; top: 16px; left: calc(-50% + 17px); width: calc(100% - 34px); height: 2px; background: #cfdbe3; }
+      .stage-h:first-child .line { display: none; }
+      .stage-h.done .node { color: #fff; background: var(--blue); }
+      .stage-h.active .node { color: #fff; background: var(--gold); }
+      .stage-h.pending .node { color: #95a4ad; background: #eef4f7; }
+      .stage-h.done .line, .stage-h.active .line { background: var(--blue); }
+      .stage-label { display: block; margin-top: 2px; }
+
       .survey-content { max-width: 900px; }
       .rating-guide { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 34px; }
       .rating-guide span { padding: 8px 10px; color: var(--blue); background: #e6edf0; font-size: 12px; }
@@ -346,45 +366,48 @@
           </div>
         </div>
       </section>
-      <section id="2025" class="page" aria-labelledby="informasi-title" hidden>
+      <section id="Informasi2025" class="page" aria-labelledby="informasi-title" hidden>
         <div class="container section page-content">
           <div class="page-title">
             <p class="eyebrow eyebrow--blue">Pemantauan Progres Pembentukan Perda</p>
             <h1 id="informasi-title">Informasi Pembentukan Perda Tahun 2025</h1>
           </div>
-           <div class="preview-card">
-          <div class="preview-card__top">
-            <div>
-              <span>Ilustrasi Tampilan</span>
-              <strong>Progres Ranperda</strong>
-            </div>
-            <span class="preview-card__dot"></span>
-          </div>
-          <div class="preview-card__body">
-            <div class="ranperda-name">Ranperda tentang Pengelolaan Sampah Daerah</div>
-            <div class="stage-tracker-v">
-              <div class="stage done">
-                <span class="stage-node"><svg><use href="#i-check"/></svg></span>
-                <span class="stage-label"><strong>Perencanaan</strong><span>Selesai</span></span>
-              </div>
-              <div class="stage done">
-                <span class="stage-node"><svg><use href="#i-check"/></svg></span>
-                <span class="stage-label"><strong>Pembahasan</strong><span>Selesai</span></span>
-              </div>
-              <div class="stage current">
-                <span class="stage-node"></span>
-                <span class="stage-label"><strong>Persetujuan</strong><span>Sedang berjalan</span></span>
-              </div>
-              <div class="stage upcoming">
-                <span class="stage-node"></span>
-                <span class="stage-label"><strong>Penetapan</strong><span>Belum dimulai</span></span>
-              </div>
+          <div class="year-panel" data-group="informasi" data-year="2025">
+            <div class="ranperda-list">
+              <article class="ranperda-row">
+                <div class="ranperda-row__head">
+                  <div>
+                    <h4>Ranperda tentang Pengelolaan Sampah Daerah</h4>
+                    <div class="meta">Inisiator: Pemerintah Daerah</div>
+                  </div>
+                  <span class="badge badge-selesai">Selesai</span>
+                </div>
+                <div class="stage-tracker-h">
+                  <div class="stage-h done">
+                    <span class="line"></span>
+                    <span class="node"><i class="fa-solid fa-check" aria-hidden="true"></i></span>
+                    <span class="stage-label">Perencanaan</span>
+                  </div>
+                  <div class="stage-h done">
+                    <span class="line"></span>
+                    <span class="node"><i class="fa-solid fa-check" aria-hidden="true"></i></span>
+                    <span class="stage-label">Pembahasan</span>
+                  </div>
+                  <div class="stage-h active">
+                    <span class="line"></span>
+                    <span class="node"><i class="fa-solid fa-rotate-right" aria-hidden="true"></i></span>
+                    <span class="stage-label">Persetujuan</span>
+                  </div>
+                  <div class="stage-h pending">
+                    <span class="node"><i class="fa-regular fa-circle" aria-hidden="true"></i></span>
+                    <span class="stage-label">Penetapan</span>
+                  </div>
+                </div>
+              </article>
             </div>
           </div>
         </div>
-      </div>
-    </div>
-    </section>
+      </section>
       <section id="survei" class="page" aria-labelledby="survei-title" hidden>
         <div class="container section page-content survey-content">
           <div class="page-title">
