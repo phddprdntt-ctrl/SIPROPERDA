@@ -193,8 +193,8 @@
       .ranperda-table tbody tr:nth-child(even) { background: #fbfdfe; }
       .status-button { padding: 7px 12px; border: 0; border-radius: 999px; color: #fff; background: var(--blue); font-size: 12px; font-weight: 700; cursor: pointer; }
       .status-button:hover, .status-button:focus-visible { background: var(--blue-dark); outline: 0; }
-      .ranperda-progress-panel { margin-top: 18px; padding: 18px; border: 1px solid var(--line); border-radius: 14px; background: #fff; }
-      .ranperda-progress-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 16px; }
+      .ranperda-progress-panel { margin-bottom: 16px; padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: #fff; }
+      .ranperda-progress-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 12px; }
       .ranperda-progress-head h5 { margin: 0 0 6px; color: var(--blue); font-size: 17px; }
       .ranperda-progress-head p { margin: 0; color: var(--muted); font-size: 13px; }
 
@@ -426,6 +426,16 @@
                     <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
                     <input type="search" id="ranperda-search" placeholder="Cari ranperda..." aria-label="Cari ranperda" />
                   </div>
+                  <div id="ranperda-progress-panel" class="ranperda-progress-panel" hidden>
+                    <div class="ranperda-progress-head">
+                      <div>
+                        <h5 id="ranperda-progress-title">Pilih status untuk melihat progres</h5>
+                        <p id="ranperda-progress-meta">Klik tombol “Lihat Progres” pada tabel untuk membuka indikator tahap pembahasan.</p>
+                      </div>
+                      <span class="badge badge-selesai">Selesai</span>
+                    </div>
+                    <div id="ranperda-progress-tracker" class="stage-tracker-h" aria-live="polite"></div>
+                  </div>
                   <table class="ranperda-table">
                     <thead>
                       <tr>
@@ -540,16 +550,6 @@
                       </tr>
                     </tbody>
                   </table>
-                  <div id="ranperda-progress-panel" class="ranperda-progress-panel" hidden>
-                    <div class="ranperda-progress-head">
-                      <div>
-                        <h5 id="ranperda-progress-title">Pilih status untuk melihat progres</h5>
-                        <p id="ranperda-progress-meta">Klik tombol “Lihat Progres” pada tabel untuk membuka indikator tahap pembahasan.</p>
-                      </div>
-                      <span class="badge badge-selesai">Selesai</span>
-                    </div>
-                    <div id="ranperda-progress-tracker" class="stage-tracker-h" aria-live="polite"></div>
-                  </div>
                 </div>
               </article>
             </div>
