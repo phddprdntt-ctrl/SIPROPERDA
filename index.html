@@ -184,6 +184,9 @@
       .stage-h.done .line, .stage-h.active .line { background: var(--blue); }
       .stage-label { display: block; margin-top: 2px; }
       .ranperda-table-wrap { margin-top: 20px; overflow-x: auto; }
+      .ranperda-search { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
+      .ranperda-search i { color: var(--blue); }
+      .ranperda-search input { flex: 1; border: 0; outline: 0; font: inherit; color: var(--ink); background: transparent; }
       .ranperda-table { width: 100%; border-collapse: collapse; background: #fff; border: 1px solid var(--line); }
       .ranperda-table th, .ranperda-table td { padding: 12px 14px; border-bottom: 1px solid var(--line); text-align: left; font-size: 14px; }
       .ranperda-table thead th { color: var(--blue); background: #eef5f8; font-weight: 800; }
@@ -413,6 +416,10 @@
                 </div>
 
                 <div class="ranperda-table-wrap">
+                  <div class="ranperda-search">
+                    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                    <input type="search" id="ranperda-search" placeholder="Cari ranperda..." aria-label="Cari ranperda" />
+                  </div>
                   <table class="ranperda-table">
                     <thead>
                       <tr>
@@ -422,7 +429,7 @@
                         <th>Status</th>
                       </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="ranperda-table-body">
                       <tr>
                         <td>1.</td>
                         <td>Ranperda tentang Perubahan Atas Peraturan Daerah Provinsi Nusa Tenggara Timur Nomor 1 Tahun 2024 tentang Pajak Daerah dan Retribusi Daerah</td>
@@ -766,6 +773,20 @@
         event.preventDefault();
         document.querySelector('#survey-feedback').textContent = 'Terima kasih. Pada versi produksi, hubungkan formulir ini ke Google Forms, Formspree, atau database Anda.';
       });
+
+      const ranperdaSearch = document.querySelector('#ranperda-search');
+      const ranperdaTableBody = document.querySelector('#ranperda-table-body');
+      const ranperdaRows = Array.from(ranperdaTableBody ? ranperdaTableBody.querySelectorAll('tr') : []);
+
+      if (ranperdaSearch && ranperdaTableBody) {
+        ranperdaSearch.addEventListener('input', () => {
+          const query = ranperdaSearch.value.trim().toLowerCase();
+          ranperdaRows.forEach((row) => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(query) ? '' : 'none';
+          });
+        });
+      }
 
       document.querySelector('#current-year').textContent = new Date().getFullYear();
 
