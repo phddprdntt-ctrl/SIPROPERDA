@@ -389,22 +389,22 @@
             <p class="eyebrow eyebrow--blue">Pemantauan Progres Pembentukan Perda</p>
             <h1 id="informasi-title">Informasi Pembentukan Peraturan Daerah Tahun 2025</h1>
           </div>
-                <div class="ranperda-table-wrap">
-                  <div class="ranperda-search">
-                    <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
-                    <input type="search" id="ranperda-search" placeholder="Cari ranperda..." aria-label="Cari ranperda" />
-                  </div>
-                  <div id="ranperda-progress-panel" class="ranperda-progress-panel" hidden>
-                    <div class="ranperda-progress-head">
-                      <div>
-                        <h5 id="ranperda-progress-title">Pilih status untuk melihat progres</h5>
-                        <p id="ranperda-progress-meta">Klik tombol “Lihat Progres” pada tabel untuk membuka indikator tahap pembahasan.</p>
-                      </div>
-                      <span class="badge badge-selesai">Selesai</span>
-                    </div>
-                    <div id="ranperda-progress-tracker" class="stage-tracker-h" aria-live="polite"></div>
-                  </div>
-                  <table class="ranperda-table">
+          <div class="ranperda-table-wrap">
+            <div class="ranperda-search">
+              <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+              <input type="search" placeholder="Cari ranperda..." aria-label="Cari ranperda" />
+            </div>
+            <div class="ranperda-progress-panel" hidden>
+              <div class="ranperda-progress-head">
+                <div>
+                  <h5 class="ranperda-progress-title">Pilih status untuk melihat progres</h5>
+                  <p class="ranperda-progress-meta">Klik tombol “Lihat Progres” pada tabel untuk membuka indikator tahap pembahasan.</p>
+                </div>
+                <span class="badge badge-selesai">Selesai</span>
+              </div>
+              <div class="ranperda-progress-tracker stage-tracker-h" aria-live="polite"></div>
+            </div>
+            <table class="ranperda-table">
                     <thead>
                       <tr>
                         <th>No.</th>
@@ -413,7 +413,7 @@
                         <th>Status</th>
                       </tr>
                     </thead>
-                    <tbody id="ranperda-table-body">
+                    <tbody class="ranperda-table-body">
                       <tr>
                         <td>1.</td>
                         <td>Ranperda tentang Perubahan Atas Peraturan Daerah Provinsi Nusa Tenggara Timur Nomor 1 Tahun 2024 tentang Pajak Daerah dan Retribusi Daerah</td>
@@ -524,6 +524,60 @@
           </div>
         </div>
       </section>
+      <section id="Informasi2026" class="page" aria-labelledby="informasi-2026-title" hidden>
+        <div class="container section page-content">
+          <div class="page-title">
+            <p class="eyebrow eyebrow--blue">Pemantauan Progres Pembentukan Perda</p>
+            <h1 id="informasi-2026-title">Informasi Pembentukan Peraturan Daerah Tahun 2026</h1>
+          </div>
+          <div class="ranperda-table-wrap">
+            <div class="ranperda-search">
+              <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+              <input type="search" placeholder="Cari ranperda..." aria-label="Cari ranperda" />
+            </div>
+            <div class="ranperda-progress-panel" hidden>
+              <div class="ranperda-progress-head">
+                <div>
+                  <h5 class="ranperda-progress-title">Pilih status untuk melihat progres</h5>
+                  <p class="ranperda-progress-meta">Klik tombol “Lihat Progres” pada tabel untuk membuka indikator tahap pembahasan.</p>
+                </div>
+                <span class="badge badge-selesai">Selesai</span>
+              </div>
+              <div class="ranperda-progress-tracker stage-tracker-h" aria-live="polite"></div>
+            </div>
+            <table class="ranperda-table">
+              <thead>
+                <tr>
+                  <th>No.</th>
+                  <th>Judul Ranperda</th>
+                  <th>NA dan Ranperda disiapkan oleh</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody class="ranperda-table-body">
+                <tr>
+                  <td>1.</td>
+                  <td>Ranperda tentang Tata Kelola Energi Terbarukan Daerah</td>
+                  <td>Pemerintah Daerah</td>
+                  <td><button class="status-button" type="button" data-title="Ranperda tentang Tata Kelola Energi Terbarukan Daerah" data-initiator="Pemerintah Daerah" data-progress="done,done,active,pending">Lihat Progres</button></td>
+                </tr>
+                <tr>
+                  <td>2.</td>
+                  <td>Ranperda tentang Penguatan Sistem Perlindungan Anak</td>
+                  <td>DPRD</td>
+                  <td><button class="status-button" type="button" data-title="Ranperda tentang Penguatan Sistem Perlindungan Anak" data-initiator="DPRD" data-progress="done,active,pending,pending">Lihat Progres</button></td>
+                </tr>
+                <tr>
+                  <td>3.</td>
+                  <td>Ranperda tentang Pengelolaan Air Minum dan Sanitasi</td>
+                  <td>Pemerintah Daerah</td>
+                  <td><button class="status-button" type="button" data-title="Ranperda tentang Pengelolaan Air Minum dan Sanitasi" data-initiator="Pemerintah Daerah" data-progress="done,done,done,pending">Lihat Progres</button></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
       <section id="survei" class="page" aria-labelledby="survei-title" hidden>
         <div class="container section page-content survey-content">
           <div class="page-title">
@@ -621,7 +675,7 @@
       const showPage = (pageId) => {
         const page = document.getElementById(pageId);
         const visiblePageIds = pageId === 'beranda' ? ['beranda', 'beranda-content'] : [pageId];
-        const navPageId = pageId === 'Informasi2025' ? 'informasi' : pageId;
+        const navPageId = pageId.startsWith('Informasi') ? 'informasi' : pageId;
 
         if (!page && pageId !== 'beranda') return;
 
@@ -742,14 +796,15 @@
       document.querySelectorAll('[data-information-year]').forEach((button) => {
         button.addEventListener('click', () => {
           const year = button.dataset.informationYear;
+          const targetPageId = year === '2026' ? 'Informasi2026' : 'Informasi2025';
           document.querySelectorAll('[data-information-year]').forEach((item) => item.classList.remove('selected'));
           button.classList.add('selected');
           document.querySelector('#information-panel').innerHTML = `
             <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
             <p>Area informasi pembentukan Perda Tahun <strong>${year}</strong> siap diisi dengan data, status, atau tautan dokumen sesuai kebutuhan pengelola SIPROPERDA.</p>
           `;
-          history.replaceState(null, '', '#Informasi2025');
-          showPage('Informasi2025');
+          history.replaceState(null, '', `#${targetPageId}`);
+          showPage(targetPageId);
         });
       });
 
@@ -758,17 +813,9 @@
         document.querySelector('#survey-feedback').textContent = 'Terima kasih. Pada versi produksi, hubungkan formulir ini ke Google Forms, Formspree, atau database Anda.';
       });
 
-      const ranperdaSearch = document.querySelector('#ranperda-search');
-      const ranperdaTableBody = document.querySelector('#ranperda-table-body');
-      const ranperdaRows = Array.from(ranperdaTableBody ? ranperdaTableBody.querySelectorAll('tr') : []);
-      const ranperdaProgressPanel = document.querySelector('#ranperda-progress-panel');
-      const ranperdaProgressTitle = document.querySelector('#ranperda-progress-title');
-      const ranperdaProgressMeta = document.querySelector('#ranperda-progress-meta');
-      const ranperdaProgressTracker = document.querySelector('#ranperda-progress-tracker');
-
-      const renderProgressTracker = (stages) => {
-        if (!ranperdaProgressTracker) return;
-        ranperdaProgressTracker.innerHTML = stages.map((state, index) => {
+      const renderProgressTracker = (trackerElement, stages) => {
+        if (!trackerElement) return;
+        trackerElement.innerHTML = stages.map((state, index) => {
           const labels = ['Perencanaan', 'Pembahasan', 'Persetujuan', 'Penetapan'];
           const icon = state === 'done' ? '<i class="fa-solid fa-check" aria-hidden="true"></i>' : state === 'active' ? '<i class="fa-solid fa-rotate-right" aria-hidden="true"></i>' : '<i class="fa-regular fa-circle" aria-hidden="true"></i>';
           return `
@@ -781,26 +828,36 @@
         }).join('');
       };
 
-      document.querySelectorAll('.status-button').forEach((button) => {
-        button.addEventListener('click', () => {
-          if (ranperdaProgressPanel) ranperdaProgressPanel.hidden = false;
-          if (ranperdaProgressTitle) ranperdaProgressTitle.textContent = button.dataset.title;
-          if (ranperdaProgressMeta) ranperdaProgressMeta.textContent = `Inisiator: ${button.dataset.initiator}`;
-          const stages = (button.dataset.progress || 'done,done,done,done').split(',');
-          renderProgressTracker(stages);
-          ranperdaProgressPanel?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-        });
-      });
+      document.querySelectorAll('.ranperda-table-wrap').forEach((wrap) => {
+        const searchInput = wrap.querySelector('.ranperda-search input[type="search"]');
+        const tableBody = wrap.querySelector('.ranperda-table-body');
+        const rows = Array.from(tableBody ? tableBody.querySelectorAll('tr') : []);
+        const progressPanel = wrap.querySelector('.ranperda-progress-panel');
+        const progressTitle = wrap.querySelector('.ranperda-progress-title');
+        const progressMeta = wrap.querySelector('.ranperda-progress-meta');
+        const progressTracker = wrap.querySelector('.ranperda-progress-tracker');
 
-      if (ranperdaSearch && ranperdaTableBody) {
-        ranperdaSearch.addEventListener('input', () => {
-          const query = ranperdaSearch.value.trim().toLowerCase();
-          ranperdaRows.forEach((row) => {
-            const text = row.textContent.toLowerCase();
-            row.style.display = text.includes(query) ? '' : 'none';
+        wrap.querySelectorAll('.status-button').forEach((button) => {
+          button.addEventListener('click', () => {
+            if (progressPanel) progressPanel.hidden = false;
+            if (progressTitle) progressTitle.textContent = button.dataset.title;
+            if (progressMeta) progressMeta.textContent = `Inisiator: ${button.dataset.initiator}`;
+            const stages = (button.dataset.progress || 'done,done,done,done').split(',');
+            renderProgressTracker(progressTracker, stages);
+            progressPanel?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
           });
         });
-      }
+
+        if (searchInput && tableBody) {
+          searchInput.addEventListener('input', () => {
+            const query = searchInput.value.trim().toLowerCase();
+            rows.forEach((row) => {
+              const text = row.textContent.toLowerCase();
+              row.style.display = text.includes(query) ? '' : 'none';
+            });
+          });
+        }
+      });
 
       document.querySelector('#current-year').textContent = new Date().getFullYear();
 
