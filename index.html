@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SIPROPERDA</title>
     <meta name="description" content="Dashboard informasi pembentukan Peraturan Daerah" />
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="0" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -505,6 +508,7 @@
       const showPage = (pageId) => {
         const page = document.getElementById(pageId);
         const visiblePageIds = pageId === 'beranda' ? ['beranda', 'beranda-content'] : [pageId];
+        const navPageId = pageId === 'Informasi2025' ? 'informasi' : pageId;
 
         if (!page && pageId !== 'beranda') return;
 
@@ -515,7 +519,7 @@
         });
 
         pageLinks.forEach((link) => {
-          link.classList.toggle('active', link.dataset.pageLink === pageId);
+          link.classList.toggle('active', link.dataset.pageLink === navPageId);
         });
 
         if (mainNav) mainNav.classList.remove('open');
@@ -631,6 +635,8 @@
             <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
             <p>Area informasi pembentukan Perda Tahun <strong>${year}</strong> siap diisi dengan data, status, atau tautan dokumen sesuai kebutuhan pengelola SIPROPERDA.</p>
           `;
+          history.replaceState(null, '', '#Informasi2025');
+          showPage('Informasi2025');
         });
       });
 
