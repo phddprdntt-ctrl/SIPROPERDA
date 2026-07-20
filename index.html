@@ -606,14 +606,15 @@
           </div>
 
           <form id="survey-form">
+            <label>Nama <input name="nama" type="text" placeholder="Nama lengkap" required></label>
             <div id="survey-questions"></div>
 
             <fieldset class="survey-group survey-group--open">
               <legend>F. Pertanyaan Terbuka</legend>
-              <label>1. Apa kelebihan Dashboard SIPROPERDA?<textarea name="kelebihan" rows="4"></textarea></label>
-              <label>2. Apa kekurangan Dashboard SIPROPERDA?<textarea name="kekurangan" rows="4"></textarea></label>
-              <label>3. Fitur apa yang perlu ditambahkan?<textarea name="fitur" rows="4"></textarea></label>
-              <label>4. Saran untuk pengembangan SIPROPERDA ke depan.<textarea name="saran" rows="4"></textarea></label>
+              <label>1. Apa kelebihan Dashboard SIPROPERDA?<textarea name="kelebihan" rows="4" required></textarea></label>
+              <label>2. Apa kekurangan Dashboard SIPROPERDA?<textarea name="kekurangan" rows="4" required></textarea></label>
+              <label>3. Fitur apa yang perlu ditambahkan?<textarea name="fitur" rows="4" required></textarea></label>
+              <label>4. Saran untuk pengembangan SIPROPERDA ke depan.<textarea name="saran" rows="4" required></textarea></label>
             </fieldset>
 
             <div class="form-action">
@@ -682,6 +683,8 @@
       const pageLinks = document.querySelectorAll('[data-page-link]');
       const mainNav = document.querySelector('.main-nav');
       const navToggle = document.querySelector('.nav-toggle');
+
+      const GOOGLE_SCRIPT_URL = 'YOUR_WEB_APP_URL_HEREhttps://script.google.com/macros/s/AKfycbwxSb8MQSClyLLP8pq7Ui0rTgkUVAt7pwdRZLzLeEPtnNEjo23SdRB0_-0jsuuxpj4r/exec';
 
       const showPage = (pageId) => {
         const page = document.getElementById(pageId);
@@ -788,7 +791,7 @@
 
           const options = [1, 2, 3, 4, 5]
             .map((value) => `
-              <input id="q${currentNumber}-${value}" name="q${currentNumber}" type="radio" value="${value}" />
+              <input id="q${currentNumber}-${value}" name="q${currentNumber}" type="radio" value="${value}" required />
               <label for="q${currentNumber}-${value}" aria-label="Nilai ${value}">${value}</label>
             `)
             .join('');
@@ -819,9 +822,32 @@
         });
       });
 
-      document.querySelector('#survey-form').addEventListener('submit', (event) => {
+      document.querySelector('#survey-form').addEventListener('submit', async (event) => {
         event.preventDefault();
-        document.querySelector('#survey-feedback').textContent = 'Terima kasih. Pada versi produksi, hubungkan formulir ini ke Google Forms, Formspree, atau database Anda.';
+        const form = event.target;
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        const formData = new FormData(form);
+        const payload = Object.fromEntries(formData.entries());
+
+        try {
+          const response = await fetch(GOOGLE_SCRIPT_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+
+          const result = await response.json();
+          document.querySelector('#survey-feedback').textContent = result.status === 'success'
+            ? 'Terima kasih! Data survei berhasil dikirim.'
+            : 'Gagal mengirim survei. Coba lagi nanti.';
+        } catch (error) {
+          document.querySelector('#survey-feedback').textContent = 'Terjadi kesalahan saat mengirim survei. Silakan coba lagi.';
+          console.error(error);
+        }
       });
 
       const renderProgressTracker = (trackerElement, stages) => {
