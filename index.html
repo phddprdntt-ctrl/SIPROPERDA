@@ -162,8 +162,7 @@
       .year-choice-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; }
       .year-choice { min-height: 220px; display: flex; flex-direction: column; align-items: flex-start; padding: 28px; border: 1px solid var(--line); color: var(--ink); background: var(--paper); text-align: left; transition: transform .18s ease, box-shadow .18s ease; }
       .year-choice:hover, .year-choice:focus-visible, .year-choice.selected { border-color: #92a8b5; outline: 0; box-shadow: var(--shadow); transform: translateY(-4px); }
-      .year-choice > i { margin: 0 0 16px; color: var(--gold); font-size: 23px; }
-      .year-choice img { display: block; width: auto; max-height: 52px; margin-bottom: 16px; }
+      .year-choice img { display: block; width: auto; max-height: 64px; margin-bottom: 20px; }
       .year-choice strong { margin-top: 0; color: var(--blue); font-size: 30px; }
       .year-choice span { margin-top: 0; color: var(--muted); font-size: 14px; }
       .year-choice small { margin-top: 20px; color: var(--blue); font-size: 13px; font-weight: 700; }
@@ -634,14 +633,12 @@
 
           <div class="year-choice-grid" role="group" aria-label="Pilih tahun informasi">
             <button class="year-choice" type="button" data-information-year="2025">
-              <i class="fa-regular fa-calendar-days" aria-hidden="true"></i>
               <img src="./Logo DPRD.png" alt="Logo DPRD NTT">
               <strong>WEBSITE DPRD PROVINSI NUSA TENGGARA TIMUR</strong>
               <span>Website Resmi Dewan Perwakilan Rakyat Daerah Provinsi Nusa Tenggara Timur</span>
               <a href="https://dprd.nttprov.go.id/" target="_blank" rel="noopener noreferrer" class="button button--primary" style="margin-top: 12px;">Kunjungi Website</a>
             </button>
             <button class="year-choice" type="button" data-information-year="2026">
-              <i class="fa-regular fa-calendar-days" aria-hidden="true"></i>
               <img src="./logo-badekat.png" alt="logo-badekat">
               <strong>WEBSITE BaDEKAT</strong>
               <span>Bangun Dedikasi, Efisiensi Efektifitas, Kolaboratif, Adaptif dan Transparansi</span>
