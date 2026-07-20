@@ -219,9 +219,12 @@
       .rating-options input:focus-visible + label { outline: 3px solid #bfd2dd; outline-offset: 2px; }
       .rating-options input:checked + label { border-color: var(--blue); color: #fff; background: var(--blue); }
       .survey-group--open { display: grid; gap: 17px; }
-      .survey-group--open label { display: grid; gap: 8px; color: var(--blue); font-size: 14px; line-height: 1.45; }
-      textarea { width: 100%; min-height: 90px; padding: 11px; border: 1px solid #b6c7cf; color: var(--ink); background: var(--paper); resize: vertical; }
-      textarea:focus { border-color: var(--blue); outline: 3px solid #c8d8df; }
+      .survey-group--open label,
+      #survey-form > label { display: grid; gap: 8px; color: var(--blue); font-size: 14px; line-height: 1.45; }
+      textarea, input[type="text"] { width: 100%; padding: 11px; border: 1px solid #b6c7cf; color: var(--ink); background: var(--paper); }
+      textarea { min-height: 90px; resize: vertical; }
+      input[type="text"] { min-height: 48px; }
+      textarea:focus, input[type="text"]:focus { border-color: var(--blue); outline: 3px solid #c8d8df; }
       .form-action { display: flex; flex-wrap: wrap; gap: 15px; align-items: center; margin-top: 32px; }
       .button { padding: 13px 18px; border: 0; font-size: 14px; font-weight: 800; }
       .button--primary { color: #fff; background: var(--blue); }
@@ -684,7 +687,7 @@
       const mainNav = document.querySelector('.main-nav');
       const navToggle = document.querySelector('.nav-toggle');
 
-      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwxSb8MQSClyLLP8pq7Ui0rTgkUVAt7pwdRZLzLeEPtnNEjo23SdRB0_-0jsuuxpj4r/exec';
+      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwnxirLSkX1raWtID1jZR835PU0uxxgd4uBhHrmbZDGFSVRVe24XT5FHoa3uSpOa3zz/exec';
 
       const showPage = (pageId) => {
         const page = document.getElementById(pageId);

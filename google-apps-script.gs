@@ -8,7 +8,7 @@ function doGet(e) {
 }
 
 function doPost(e) {
-  const payload = getPayload(e);
+  const payload = getPayload(e || {});
   const sheet = SpreadsheetApp.openById(SPREADSHEET_ID).getSheetByName(SHEET_NAME);
 
   if (!sheet) {
@@ -49,8 +49,17 @@ function doPost(e) {
 }
 
 function getPayload(e) {
-  if (e.postData && e.postData.type === ContentService.MimeType.JSON) {
-    return JSON.parse(e.postData.contents || '{}');
+  if (e && e.postData && typeof e.postData.contents === 'string') {
+    try {
+      return JSON.parse(e.postData.contents);
+    } catch (err) {
+      return {};
+    }
   }
-  return e.parameter || {};
+
+  if (e && e.parameter) {
+    return e.parameter;
+  }
+
+  return {};
 }
