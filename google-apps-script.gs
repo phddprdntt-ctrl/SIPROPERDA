@@ -2,9 +2,7 @@ const SPREADSHEET_ID = 'SPREADSHEET_ID';
 const SHEET_NAME = 'Sheet1';
 
 function doGet(e) {
-  return ContentService
-    .createTextOutput(JSON.stringify({status: 'ready'}))
-    .setMimeType(ContentService.MimeType.JSON);
+  return createJsonResponse({status: 'ready'});
 }
 
 function doPost(e) {
@@ -12,9 +10,7 @@ function doPost(e) {
   const sheet = SpreadsheetApp.openById(SPREADSHEET_ID).getSheetByName(SHEET_NAME);
 
   if (!sheet) {
-    return ContentService
-      .createTextOutput(JSON.stringify({status: 'error', message: 'Sheet not found'}))
-      .setMimeType(ContentService.MimeType.JSON);
+    return createJsonResponse({status: 'error', message: 'Sheet not found'});
   }
 
   const row = [
@@ -43,9 +39,7 @@ function doPost(e) {
 
   sheet.appendRow(row);
 
-  return ContentService
-    .createTextOutput(JSON.stringify({status: 'success'}))
-    .setMimeType(ContentService.MimeType.JSON);
+  return createJsonResponse({status: 'success'});
 }
 
 function getPayload(e) {
@@ -62,4 +56,10 @@ function getPayload(e) {
   }
 
   return {};
+}
+
+function createJsonResponse(data) {
+  return ContentService
+    .createTextOutput(JSON.stringify(data))
+    .setMimeType(ContentService.MimeType.JSON);
 }
