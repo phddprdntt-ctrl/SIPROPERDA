@@ -53,7 +53,7 @@ function getPayload(e) {
     try {
       return JSON.parse(e.postData.contents);
     } catch (err) {
-      return {};
+      return e.parameter || {};
     }
   }
 

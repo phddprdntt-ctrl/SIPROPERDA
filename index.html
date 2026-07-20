@@ -687,7 +687,7 @@
       const mainNav = document.querySelector('.main-nav');
       const navToggle = document.querySelector('.nav-toggle');
 
-      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwnxirLSkX1raWtID1jZR835PU0uxxgd4uBhHrmbZDGFSVRVe24XT5FHoa3uSpOa3zz/exec';
+      const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz-yIH_x8rIFM-E2V8yE57CHSaln3DC1TT9RX5-awExVvtxdysl8E8tridd-JVY2NHz/exec';
 
       const showPage = (pageId) => {
         const page = document.getElementById(pageId);
@@ -834,13 +834,12 @@
         }
 
         const formData = new FormData(form);
-        const payload = Object.fromEntries(formData.entries());
+        const payload = new URLSearchParams(formData);
 
         try {
           const response = await fetch(GOOGLE_SCRIPT_URL, {
             method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(payload)
+            body: payload
           });
 
           const result = await response.json();
