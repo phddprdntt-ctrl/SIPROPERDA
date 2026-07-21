@@ -385,7 +385,7 @@
             
             <div class="chart-container">
               <div class="chart-wrapper">
-                <h3>Pengusul Ranperda (Pemerintah vs DPRD)</h3>
+                <h3>Pengusul Ranperda</h3>
                 <div class="chart-canvas">
                   <canvas id="chart-pengusul"></canvas>
                 </div>
@@ -1246,7 +1246,7 @@
       
       // Inisialisasi grafik saat halaman dimuat
       initializeCharts();
-
+      
       const pageFromHash = window.location.hash.replace('#', '');
       if (pageFromHash && document.getElementById(pageFromHash)) showPage(pageFromHash);
       else showPage('beranda');
