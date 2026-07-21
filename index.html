@@ -272,7 +272,65 @@
         .survey-question { grid-template-columns: 1fr; gap: 12px; }
         .rating-options { justify-content: flex-start; }
       }
+      
+      /* Grafik Status Ranperda */
+      .chart-section { margin-top: 40px; margin-bottom: 40px; }
+      .chart-controls { display: flex; gap: 12px; margin-bottom: 24px; justify-content: center; flex-wrap: wrap; }
+      .chart-btn { padding: 10px 20px; border: 2px solid var(--line); background: #fff; color: var(--blue); border-radius: 8px; cursor: pointer; font-weight: 600; transition: all .2s ease; font-size: 14px; }
+      .chart-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+      .chart-btn:hover { border-color: var(--blue); }
+      .chart-container { display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px; margin-top: 24px; }
+      .chart-wrapper { background: #fff; padding: 24px; border-radius: 12px; border: 1px solid var(--line); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+      .chart-wrapper h3 { margin: 0 0 16px; color: var(--blue); font-size: 16px; }
+      .chart-canvas { position: relative; height: 300px; }
+      
+      @media (max-width: 768px) {
+        .chart-container { grid-template-columns: 1fr; }
+      }
+
+      /* Status Dashboard */
+      .status-dashboard { margin-bottom: 40px; }
+      .status-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+      .status-header h2 { margin: 0; color: var(--ink); font-size: 24px; }
+      .status-toggle { display: flex; gap: 12px; }
+      .status-toggle button { padding: 8px 16px; border: 1px solid var(--line); background: #fff; color: var(--blue); border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: 600; transition: all .2s; }
+      .status-toggle button.active { background: var(--blue); color: #fff; border-color: var(--blue); }
+      .status-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 16px; }
+      .status-card {
+        padding: 20px;
+        border-radius: 12px;
+        border: 1px solid var(--line);
+        text-align: left;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+      }
+      .status-card--blue { background: #e6f0f7; border-color: #0f4c81; }
+      .status-card--gray { background: #f0f3f6; border-color: #8b95a3; }
+      .status-card--gold { background: #fef6e8; border-color: #f0c96b; }
+      .status-card--orange { background: #fee4d6; border-color: #eb7a3c; }
+      .status-card--green { background: #e8f6f1; border-color: #0b6b3a; }
+      .status-card--purple { background: #f0ebf8; border-color: #7c3aed; }
+      
+      .status-card__header { display: flex; justify-content: space-between; align-items: flex-start; }
+      .status-card__title { margin: 0; color: var(--ink); font-size: 16px; font-weight: 600; flex: 1; }
+      .status-card__icon { font-size: 28px; margin-left: 12px; }
+      .status-card__content { display: flex; flex-direction: column; gap: 14px; }
+      .status-card__desc { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.5; }
+      .status-card__row { display: flex; gap: 16px; align-items: flex-end; }
+      .status-card__item { flex: 1; }
+      .status-card__label { margin: 0; color: var(--muted); font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+      .status-card__number { margin: 6px 0 0; color: var(--ink); font-size: 32px; font-weight: 800; }
+      
+      @media (max-width: 1200px) {
+        .status-grid { grid-template-columns: repeat(2, 1fr); }
+      }
+      @media (max-width: 768px) {
+        .status-grid { grid-template-columns: 1fr; }
+        .status-header { flex-direction: column; align-items: flex-start; }
+      }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
     <header class="site-header">
@@ -313,6 +371,34 @@
 
       <section class="page" id="beranda-content" aria-labelledby="beranda-services-title">
         <div class="container section">
+          <!-- Grafik Status Ranperda -->
+          <div class="chart-section" id="chart-section">
+            <div class="section-heading">
+              <h2>Status Ranperda</h2>
+              <p>Analisis status pembentukan Peraturan Daerah berdasarkan tahun yang dipilih.</p>
+            </div>
+            
+            <div class="chart-controls">
+              <button class="chart-btn active" type="button" data-chart-year="2025">Tahun 2025</button>
+              <button class="chart-btn" type="button" data-chart-year="2026">Tahun 2026</button>
+            </div>
+            
+            <div class="chart-container">
+              <div class="chart-wrapper">
+                <h3>Pengusul Ranperda (Pemerintah vs DPRD)</h3>
+                <div class="chart-canvas">
+                  <canvas id="chart-pengusul"></canvas>
+                </div>
+              </div>
+              <div class="chart-wrapper">
+                <h3>Status Pembahasan Ranperda</h3>
+                <div class="chart-canvas">
+                  <canvas id="chart-status"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="section-heading">
             <h2 id="beranda-services-title">Fitur utama</h2>
             <p>Jelajahi informasi penting mengenai PROPEMPERDA, pemantauan pembentukan Perda, dan survei pengguna.</p>
@@ -621,7 +707,13 @@
                   <td>9.</td>
                   <td>Ranperda tentang Perubahan Bentuk Hukum Perseroan Terbatas Bank Nusa Tenggara Timur Menjadi PT. Bank NTT (Perseroda)</td>
                   <td>DPRD</td>
-                  <td><button class="status-button" type="button" data-title="Ranperda tentang Tanggung Jawab Sosial dan Lingkungan Perusahaan" data-initiator="DPRD" data-progress="done,done,done,pending">Lihat Progres</button></td>
+                  <td><button class="status-button" type="button" data-title="Ranperda tentang Perubahan Bentuk Hukum Perseroan Terbatas Bank Nusa Tenggara Timur Menjadi PT. Bank NTT (Perseroda)" data-initiator="DPRD" data-progress="done,done,done,pending">Lihat Progres</button></td>
+                </tr>
+                <tr>
+                  <td>10.</td>
+                  <td>Ranperda tentang Penyertaan Modal Pada Perseroan Terbatas Bank Pembangunan Daerah Nusa Tenggara Timur</td>
+                  <td>DPRD</td>
+                  <td><button class="status-button" type="button" data-title="Ranperda tentang Penyertaan Modal Pada Perseroan Terbatas Bank Pembangunan Daerah Nusa Tenggara Timur" data-initiator="DPRD" data-progress="done,done,done,pending">Lihat Progres</button></td>
                 </tr>
               </tbody>
             </table>
@@ -935,6 +1027,214 @@
       });
 
       document.querySelector('#current-year').textContent = new Date().getFullYear();
+
+      // Grafik Status Ranperda
+      let chartPengusul, chartStatus;
+      
+      const initializeCharts = () => {
+        // Mengumpulkan data dari tabel
+        const getChartData = (year) => {
+          const pageId = year === '2025' ? 'Informasi2025' : 'Informasi2026';
+          const page = document.getElementById(pageId);
+          if (!page) return { pengusul: {}, status: {} };
+          
+          const tableBody = page.querySelector('.ranperda-table-body');
+          if (!tableBody) return { pengusul: {}, status: {} };
+          
+          const rows = tableBody.querySelectorAll('tr');
+          const pengusul = { 'Pemerintah Daerah': 0, 'DPRD': 0 };
+          const status = { 'Perencanaan': 0, 'Pembahasan': 0, 'Persetujuan': 0, 'Penetapan': 0 };
+          
+          rows.forEach((row) => {
+            const cells = row.querySelectorAll('td');
+            if (cells.length >= 4) {
+              // Kolom 3: Pengusul
+              const pengusulCell = cells[2].textContent.trim();
+              if (pengusulCell === 'Pemerintah Daerah') pengusul['Pemerintah Daerah']++;
+              else if (pengusulCell === 'DPRD') pengusul['DPRD']++;
+              
+              // Kolom 4: Status (data-progress)
+              const statusButton = cells[3].querySelector('.status-button');
+              if (statusButton) {
+                const progressStr = statusButton.dataset.progress || 'pending,pending,pending,pending';
+                const stages = progressStr.split(',');
+                
+                // Hitung status berdasarkan stages
+                let statusIndex = stages.length - 1;
+                for (let i = stages.length - 1; i >= 0; i--) {
+                  if (stages[i] !== 'done') {
+                    statusIndex = i;
+                    break;
+                  }
+                }
+                
+                if (statusIndex === 0) status['Perencanaan']++;
+                else if (statusIndex === 1) status['Pembahasan']++;
+                else if (statusIndex === 2) status['Persetujuan']++;
+                else if (statusIndex === 3) status['Penetapan']++;
+                else status['Penetapan']++; // Jika semua done
+              }
+            }
+          });
+          
+          return { pengusul, status };
+        };
+        
+        // Inisialisasi Chart Pengusul (Pie Chart)
+        const ctxPengusul = document.getElementById('chart-pengusul');
+        if (chartPengusul) chartPengusul.destroy();
+        
+        const data2025 = getChartData(2025);
+        chartPengusul = new Chart(ctxPengusul, {
+          type: 'doughnut',
+          data: {
+            labels: ['Pemerintah Daerah', 'DPRD'],
+            datasets: [{
+              data: [data2025.pengusul['Pemerintah Daerah'], data2025.pengusul['DPRD']],
+              backgroundColor: ['#0f4c81', '#f0c96b'],
+              borderColor: '#fff',
+              borderWidth: 2
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                position: 'bottom',
+                labels: {
+                  font: { size: 13, weight: '600' },
+                  padding: 15,
+                  usePointStyle: true
+                }
+              }
+            }
+          }
+        });
+        
+        // Inisialisasi Chart Status (Bar Chart)
+        const ctxStatus = document.getElementById('chart-status');
+        if (chartStatus) chartStatus.destroy();
+        
+        chartStatus = new Chart(ctxStatus, {
+          type: 'bar',
+          data: {
+            labels: ['Perencanaan', 'Pembahasan', 'Persetujuan', 'Penetapan'],
+            datasets: [{
+              label: 'Jumlah Ranperda',
+              data: [
+                data2025.status['Perencanaan'],
+                data2025.status['Pembahasan'],
+                data2025.status['Persetujuan'],
+                data2025.status['Penetapan']
+              ],
+              backgroundColor: '#0f4c81',
+              borderColor: '#0b355a',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            indexAxis: 'x',
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: {
+                display: true,
+                labels: {
+                  font: { size: 12, weight: '600' },
+                  usePointStyle: true
+                }
+              }
+            },
+            scales: {
+              y: {
+                beginAtZero: true,
+                ticks: {
+                  stepSize: 1
+                }
+              }
+            }
+          }
+        });
+      };
+      
+      // Event listener untuk tombol tahun
+      document.querySelectorAll('[data-chart-year]').forEach((btn) => {
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('[data-chart-year]').forEach((b) => b.classList.remove('active'));
+          btn.classList.add('active');
+          
+          const year = btn.dataset.chartYear;
+          const data = getChartData(year);
+          
+          // Update Chart Pengusul
+          chartPengusul.data.datasets[0].data = [
+            data.pengusul['Pemerintah Daerah'],
+            data.pengusul['DPRD']
+          ];
+          chartPengusul.update();
+          
+          // Update Chart Status
+          chartStatus.data.datasets[0].data = [
+            data.status['Perencanaan'],
+            data.status['Pembahasan'],
+            data.status['Persetujuan'],
+            data.status['Penetapan']
+          ];
+          chartStatus.update();
+        });
+      });
+      
+      // Helper function untuk mendapatkan data
+      const getChartData = (year) => {
+        const pageId = year === '2025' ? 'Informasi2025' : 'Informasi2026';
+        const page = document.getElementById(pageId);
+        if (!page) return { pengusul: {}, status: {} };
+        
+        const tableBody = page.querySelector('.ranperda-table-body');
+        if (!tableBody) return { pengusul: {}, status: {} };
+        
+        const rows = tableBody.querySelectorAll('tr');
+        const pengusul = { 'Pemerintah Daerah': 0, 'DPRD': 0 };
+        const status = { 'Perencanaan': 0, 'Pembahasan': 0, 'Persetujuan': 0, 'Penetapan': 0 };
+        
+        rows.forEach((row) => {
+          const cells = row.querySelectorAll('td');
+          if (cells.length >= 4) {
+            // Kolom 3: Pengusul
+            const pengusulCell = cells[2].textContent.trim();
+            if (pengusulCell === 'Pemerintah Daerah') pengusul['Pemerintah Daerah']++;
+            else if (pengusulCell === 'DPRD') pengusul['DPRD']++;
+            
+            // Kolom 4: Status (data-progress)
+            const statusButton = cells[3].querySelector('.status-button');
+            if (statusButton) {
+              const progressStr = statusButton.dataset.progress || 'pending,pending,pending,pending';
+              const stages = progressStr.split(',');
+              
+              // Hitung status berdasarkan stages
+              let statusIndex = stages.length - 1;
+              for (let i = stages.length - 1; i >= 0; i--) {
+                if (stages[i] !== 'done') {
+                  statusIndex = i;
+                  break;
+                }
+              }
+              
+              if (statusIndex === 0) status['Perencanaan']++;
+              else if (statusIndex === 1) status['Pembahasan']++;
+              else if (statusIndex === 2) status['Persetujuan']++;
+              else if (statusIndex === 3) status['Penetapan']++;
+              else status['Penetapan']++; // Jika semua done
+            }
+          }
+        });
+        
+        return { pengusul, status };
+      };
+      
+      // Inisialisasi grafik saat halaman dimuat
+      initializeCharts();
 
       const pageFromHash = window.location.hash.replace('#', '');
       if (pageFromHash && document.getElementById(pageFromHash)) showPage(pageFromHash);
