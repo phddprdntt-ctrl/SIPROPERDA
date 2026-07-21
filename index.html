@@ -199,10 +199,40 @@
       .ranperda-table tbody tr:nth-child(even) { background: #fbfdfe; }
       .status-button { padding: 7px 12px; border: 0; border-radius: 999px; color: #fff; background: var(--blue); font-size: 12px; font-weight: 700; cursor: pointer; }
       .status-button:hover, .status-button:focus-visible { background: var(--blue-dark); outline: 0; }
-      .ranperda-progress-panel { margin-bottom: 16px; padding: 16px; border: 1px solid var(--line); border-radius: 14px; background: #fff; }
-      .ranperda-progress-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; margin-bottom: 12px; }
-      .ranperda-progress-head h5 { margin: 0 0 6px; color: var(--blue); font-size: 17px; }
-      .ranperda-progress-head p { margin: 0; color: var(--muted); font-size: 13px; }
+      .ranperda-progress-panel { margin-bottom: 16px; padding: 22px; border: 1px solid var(--line); border-radius: 18px; background: #fff; box-shadow: 0 10px 24px rgba(15, 76, 129, 0.08); }
+      .ranperda-progress-head { display: grid; gap: 12px; margin-bottom: 18px; }
+      .ranperda-progress-title { margin: 0; color: var(--blue); font-size: 19px; line-height: 1.35; }
+      .ranperda-progress-meta { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.65; }
+      .progress-meta-grid { display: grid; grid-template-columns: 1fr; gap: 14px; margin-top: 14px; }
+      .progress-meta-grid div { display: grid; gap: 6px; }
+      .progress-meta-grid strong { display: block; color: var(--blue); font-size: 13px; text-transform: uppercase; letter-spacing: .06em; }
+      .progress-meta-grid span { color: var(--ink); font-size: 14px; line-height: 1.4; }
+      .progress-link { display: block; margin-top: 16px; }
+      .progress-link .progress-document-card + .progress-document-card { margin-top: 12px; }
+      .progress-document-card {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        width: 100%;
+        padding: 18px 20px;
+        border-radius: 16px;
+        border: 1px solid #da1e42;
+        background: #fff0f5;
+        color: #a60039;
+        text-decoration: none;
+        transition: background .2s ease, border-color .2s ease, transform .2s ease;
+      }
+      .progress-document-card:hover,
+      .progress-document-card:focus-visible { background: #ffe5f0; border-color: #b40f36; transform: translateY(-1px); outline: 0; }
+      .progress-document-label { display: block; font-weight: 700; letter-spacing: .02em; }
+      .progress-document-note { display: block; margin-top: 4px; color: #6b2232; font-size: 13px; }
+      .progress-document-icon { display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; border-radius: 50%; background: rgba(214, 0, 70, 0.1); color: #a60039; font-size: 14px; }
+      .progress-extra { display: none; }
+      .progress-badge { display: inline-flex; align-items: center; gap: 8px; padding: 8px 12px; border-radius: 999px; background: #e8f6f1; color: #0b6b3a; font-size: 13px; font-weight: 700; text-transform: uppercase; }
+      .progress-badge--pending { background: #fff4e6; color: #b35c07; }
+      .progress-badge--active { background: #e8f3ff; color: #0f4c81; }
+      .progress-badge--done { background: #e8f6f1; color: #0b6b3a; }
 
       .survey-content { max-width: 900px; }
       .rating-guide { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 34px; }
@@ -275,6 +305,7 @@
       
       /* Grafik Status Ranperda */
       .chart-section { margin-top: 40px; margin-bottom: 40px; }
+      /* Sidebar tahun Informasi (desktop) */
       .chart-controls { display: flex; gap: 12px; margin-bottom: 24px; justify-content: center; flex-wrap: wrap; }
       .chart-btn { padding: 10px 20px; border: 2px solid var(--line); background: #fff; color: var(--blue); border-radius: 8px; cursor: pointer; font-weight: 600; transition: all .2s ease; font-size: 14px; }
       .chart-btn.active { background: var(--blue); color: #fff; border-color: var(--blue); }
@@ -358,6 +389,7 @@
       </div>
     </header>
 
+
     <main>
       <section id="beranda" class="page hero" aria-labelledby="beranda-title">
         <div class="hero__shape hero__shape--one"></div>
@@ -385,7 +417,7 @@
             
             <div class="chart-container">
               <div class="chart-wrapper">
-                <h3>Pengusul Ranperda</h3>
+                <h3>Pengusul Ranperda (Pemerintah vs DPRD)</h3>
                 <div class="chart-canvas">
                   <canvas id="chart-pengusul"></canvas>
                 </div>
@@ -489,6 +521,11 @@
             <p class="eyebrow eyebrow--blue">Pemantauan Progres Pembentukan Perda</p>
             <h1 id="informasi-title">Informasi Pembentukan Peraturan Daerah Tahun 2025</h1>
           </div>
+      
+          <div class="chart-controls" style="justify-content:flex-start; margin-bottom:12px;">
+            <button class="chart-btn" type="button" data-information-year="2025">2025</button>
+            <button class="chart-btn" type="button" data-information-year="2026">2026</button>
+          </div>
           <div class="ranperda-table-wrap">
             <div class="ranperda-search">
               <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
@@ -496,12 +533,32 @@
             </div>
             <div class="ranperda-progress-panel" hidden>
               <div class="ranperda-progress-head">
-                <div>
-                  <h5 class="ranperda-progress-title">Pilih status untuk melihat progres</h5>
-                  <p class="ranperda-progress-meta">Klik tombol “Lihat Progres” pada tabel untuk membuka indikator tahap pembahasan.</p>
-                </div>
-                <span class="badge badge-selesai">Selesai</span>
+                <h5 class="ranperda-progress-title">Pilih status untuk melihat progres</h5>
+                <p class="ranperda-progress-meta">Klik tombol “Lihat Progres” pada tabel untuk membuka indikator tahap pembahasan.</p>
               </div>
+              <div class="progress-meta-grid">
+                <div>
+                  <strong>Pengusul</strong>
+                  <span class="progress-meta-text">-</span>
+                </div>
+              </div>
+              <div class="progress-link">
+                <a href="#" target="_blank" rel="noopener noreferrer" class="progress-document-card">
+                  <div>
+                    <span class="progress-document-label">Dokumen Sidang - Dokumen Pendukung Lain</span>
+                    <span class="progress-document-note">Klik untuk membuka dokumen terkait ranperda</span>
+                  </div>
+                  <span class="progress-document-icon"><i class="fa-solid fa-arrow-down"></i></span>
+                </a>
+                <a href="https://drive.google.com/file/d/1g-yuHwlyrRJ-QxWhRBLw8rjpZOfJPRIZ/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="progress-document-card">
+                  <div>
+                    <span class="progress-document-label">Dokumen Tambahan</span>
+                    <span class="progress-document-note">File tambahan untuk semua judul ranperda</span>
+                  </div>
+                  <span class="progress-document-icon"><i class="fa-solid fa-file-lines"></i></span>
+                </a>
+              </div>
+              <div class="progress-extra"></div>
               <div class="ranperda-progress-tracker stage-tracker-h" aria-live="polite"></div>
             </div>
             <table class="ranperda-table">
@@ -518,103 +575,103 @@
                         <td>1.</td>
                         <td>Ranperda tentang Perubahan Atas Peraturan Daerah Provinsi Nusa Tenggara Timur Nomor 1 Tahun 2024 tentang Pajak Daerah dan Retribusi Daerah</td>
                         <td>Pemerintah Daerah</td>
-                        <td><button class="status-button" type="button" data-title="Ranperda tentang Perubahan Atas Peraturan Daerah Provinsi Nusa Tenggara Timur Nomor 1 Tahun 2024 tentang Pajak Daerah dan Retribusi Daerah" data-initiator="Pemerintah Daerah" data-progress="done,done,done,done">Lihat Progres</button></td>
+                        <td><button class="status-button" type="button" data-title="Ranperda tentang Perubahan Atas Peraturan Daerah Provinsi Nusa Tenggara Timur Nomor 1 Tahun 2024 tentang Pajak Daerah dan Retribusi Daerah" data-initiator="Pemerintah Daerah"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 1|https://docs.google.com/document/d/example1/edit">Lihat Progres</button></td>
                       </tr>
                       <tr>
                         <td>2.</td>
                         <td>Ranperda tentang Pengalokasian Anggaran Penyelenggaraan Bantuan Hukum</td>
                         <td>Pemerintah Daerah</td>
-                        <td><button class="status-button" type="button" data-title="Ranperda tentang Pengalokasian Anggaran Penyelenggaraan Bantuan Hukum" data-initiator="Pemerintah Daerah" data-progress="done,done,done,done">Lihat Progres</button></td>
+                        <td><button class="status-button" type="button" data-title="Ranperda tentang Pengalokasian Anggaran Penyelenggaraan Bantuan Hukum" data-initiator="Pemerintah Daerah"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 2|https://docs.google.com/document/d/example2/edit">Lihat Progres</button></td>
                       </tr>
                       <tr>
                         <td>3.</td>
                         <td>Ranperda tentang Tugas Belajar, Ijin Belajar dan Bantuan Belajar</td>
                         <td>Pemerintah Daerah</td>
-                        <td><button class="status-button" type="button" data-title="Ranperda tentang Tugas Belajar, Ijin Belajar dan Bantuan Belajar" data-initiator="Pemerintah Daerah" data-progress="done,done,done,done">Lihat Progres</button></td>
+                        <td><button class="status-button" type="button" data-title="Ranperda tentang Tugas Belajar, Ijin Belajar dan Bantuan Belajar" data-initiator="Pemerintah Daerah"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 3|https://docs.google.com/document/d/example3/edit">Lihat Progres</button></td>
                       </tr>
                       <tr>
                         <td>4.</td>
                         <td>Ranperda tentang Penyelenggaraan Penanaman Modal</td>
                         <td>Pemerintah Daerah</td>
-                        <td><button class="status-button" type="button" data-title="Ranperda tentang Penyelenggaraan Penanaman Modal" data-initiator="Pemerintah Daerah" data-progress="done,done,done,done">Lihat Progres</button></td>
+                        <td><button class="status-button" type="button" data-title="Ranperda tentang Penyelenggaraan Penanaman Modal" data-initiator="Pemerintah Daerah"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 4|https://docs.google.com/document/d/example4/edit">Lihat Progres</button></td>
                       </tr>
                       <tr>
                         <td>5.</td>
                         <td>Ranperda tentang Penyelenggaraan Transportasi</td>
                         <td>Pemerintah Daerah</td>
-                        <td><button class="status-button" type="button" data-title="Ranperda tentang Penyelenggaraan Transportasi" data-initiator="Pemerintah Daerah" data-progress="done,done,done,done">Lihat Progres</button></td>
+                        <td><button class="status-button" type="button" data-title="Ranperda tentang Penyelenggaraan Transportasi" data-initiator="Pemerintah Daerah"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 5|https://docs.google.com/document/d/example5/edit">Lihat Progres</button></td>
                       </tr>
                       <tr>
                         <td>6.</td>
                         <td>Ranperda tentang Penyertaan Modal Daerah pada Perseroan Terbatas Bank Pembangunan Daerah Nusa Tenggara Timur</td>
                         <td>Pemerintah Daerah</td>
-                        <td><button class="status-button" type="button" data-title="Ranperda tentang Penyertaan Modal Daerah pada Perseroan Terbatas Bank Pembangunan Daerah Nusa Tenggara Timur" data-initiator="Pemerintah Daerah" data-progress="done,done,done,done">Lihat Progres</button></td>
+                        <td><button class="status-button" type="button" data-title="Ranperda tentang Penyertaan Modal Daerah pada Perseroan Terbatas Bank Pembangunan Daerah Nusa Tenggara Timur" data-initiator="Pemerintah Daerah"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 6|https://docs.google.com/document/d/example6/edit">Lihat Progres</button></td>
                       </tr>
                       <tr>
                         <td>7.</td>
                         <td>Ranperda tentang Rencana Pembangunan Jangka Menengah Daerah Provinsi Nusa Tenggara Timur Tahun 2025-2029</td>
                         <td>Pemerintah Daerah</td>
-                        <td><button class="status-button" type="button" data-title="Ranperda tentang Rencana Pembangunan Jangka Menengah Daerah Provinsi Nusa Tenggara Timur Tahun 2025-2029" data-initiator="Pemerintah Daerah" data-progress="done,done,done,done">Lihat Progres</button></td>
+                        <td><button class="status-button" type="button" data-title="Ranperda tentang Rencana Pembangunan Jangka Menengah Daerah Provinsi Nusa Tenggara Timur Tahun 2025-2029" data-initiator="Pemerintah Daerah"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 7|https://docs.google.com/document/d/example7/edit">Lihat Progres</button></td>
                       </tr>
                       <tr>
                         <td>8.</td>
                         <td>Ranperda tentang Pembentukan Dana Cadangan Pekan Olahraga Nasional XXII Tahun 2028</td>
                         <td>Pemerintah Daerah</td>
-                        <td><button class="status-button" type="button" data-title="Ranperda tentang Pembentukan Dana Cadangan Pekan Olahraga Nasional XXII Tahun 2028" data-initiator="Pemerintah Daerah" data-progress="done,done,done,done">Lihat Progres</button></td>
+                        <td><button class="status-button" type="button" data-title="Ranperda tentang Pembentukan Dana Cadangan Pekan Olahraga Nasional XXII Tahun 2028" data-initiator="Pemerintah Daerah"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 8|https://docs.google.com/document/d/example8/edit">Lihat Progres</button></td>
                       </tr>
                       <tr>
                         <td>9.</td>
                         <td>Ranperda tentang Perubahan Keempat Atas Peraturan Daerah Provinsi Nusa Tenggara Timur Nomor 9 Tahun 2006 tentang Pembentukan dan Susunan Perangkat Daerah Provinsi Nusa Tenggara Timur</td>
                         <td>Pemerintah Daerah</td>
-                        <td><button class="status-button" type="button" data-title="Ranperda tentang Perubahan Keempat Atas Peraturan Daerah Provinsi Nusa Tenggara Timur Nomor 9 Tahun 2006 tentang Pembentukan dan Susunan Perangkat Daerah Provinsi Nusa Tenggara Timur" data-initiator="Pemerintah Daerah" data-progress="done,done,done,done">Lihat Progres</button></td>
+                        <td><button class="status-button" type="button" data-title="Ranperda tentang Perubahan Keempat Atas Peraturan Daerah Provinsi Nusa Tenggara Timur Nomor 9 Tahun 2006 tentang Pembentukan dan Susunan Perangkat Daerah Provinsi Nusa Tenggara Timur" data-initiator="Pemerintah Daerah"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 9|https://docs.google.com/document/d/example9/edit">Lihat Progres</button></td>
                       </tr>
                       <tr>
                         <td>10.</td>
                         <td>Ranperda tentang Perubahan Bentuk Hukum Perseroan Terbatas Flobamor Menjadi PT. Flobamor (Perseroda)</td>
                         <td>Pemerintah Daerah</td>
-                        <td><button class="status-button" type="button" data-title="Ranperda tentang Perubahan Bentuk Hukum Perseroan Terbatas Flobamor Menjadi PT. Flobamor (Perseroda)" data-initiator="Pemerintah Daerah" data-progress="done,done,done,done">Lihat Progres</button></td>
+                        <td><button class="status-button" type="button" data-title="Ranperda tentang Perubahan Bentuk Hukum Perseroan Terbatas Flobamor Menjadi PT. Flobamor (Perseroda)" data-initiator="Pemerintah Daerah"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 10|https://docs.google.com/document/d/example10/edit">Lihat Progres</button></td>
                       </tr>
                       <tr>
                         <td>11.</td>
                         <td>Ranperda tentang Perubahan Bentuk Hukum Perseroan Terbatas Penjaminan Kredit Daerah Nusa Tenggara Timur Menjadi PT. Jamkrida NTT (Perseroda)</td>
                         <td>Pemerintah Daerah</td>
-                        <td><button class="status-button" type="button" data-title="Ranperda tentang Perubahan Bentuk Hukum Perseroan Terbatas Penjaminan Kredit Daerah Nusa Tenggara Timur Menjadi PT. Jamkrida NTT (Perseroda)" data-initiator="Pemerintah Daerah" data-progress="done,done,done,done">Lihat Progres</button></td>
+                        <td><button class="status-button" type="button" data-title="Ranperda tentang Perubahan Bentuk Hukum Perseroan Terbatas Penjaminan Kredit Daerah Nusa Tenggara Timur Menjadi PT. Jamkrida NTT (Perseroda)" data-initiator="Pemerintah Daerah"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 11|https://docs.google.com/document/d/example11/edit">Lihat Progres</button></td>
                       </tr>
                       <tr>
                         <td>12.</td>
                         <td>Ranperda tentang Penambahan Penyertaan Modal Daerah pada PT. Flobamor (Perseroda)</td>
                         <td>Pemerintah Daerah</td>
-                        <td><button class="status-button" type="button" data-title="Ranperda tentang Penambahan Penyertaan Modal Daerah pada PT. Flobamor (Perseroda)" data-initiator="Pemerintah Daerah" data-progress="done,done,done,done">Lihat Progres</button></td>
+                        <td><button class="status-button" type="button" data-title="Ranperda tentang Penambahan Penyertaan Modal Daerah pada PT. Flobamor (Perseroda)" data-initiator="Pemerintah Daerah"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 12|https://docs.google.com/document/d/example12/edit">Lihat Progres</button></td>
                       </tr>
                       <tr>
                         <td>13.</td>
                         <td>Ranperda tentang Penambahan Penyertaan Modal Daerah pada PT. Jamkrida NTT (Perseroda)</td>
                         <td>Pemerintah Daerah</td>
-                        <td><button class="status-button" type="button" data-title="Ranperda tentang Penambahan Penyertaan Modal Daerah pada PT. Jamkrida NTT (Perseroda)" data-initiator="Pemerintah Daerah" data-progress="done,done,done,done">Lihat Progres</button></td>
+                        <td><button class="status-button" type="button" data-title="Ranperda tentang Penambahan Penyertaan Modal Daerah pada PT. Jamkrida NTT (Perseroda)" data-initiator="Pemerintah Daerah"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 13|https://docs.google.com/document/d/example13/edit">Lihat Progres</button></td>
                       </tr>
                       <tr>
                         <td>14.</td>
                         <td>Ranperda tentang Penambahan Penyertaan Modal Daerah pada PT. Kawasan Industri Bolok (Perseroda)</td>
                         <td>Pemerintah Daerah</td>
-                        <td><button class="status-button" type="button" data-title="Ranperda tentang Penambahan Penyertaan Modal Daerah pada PT. Kawasan Industri Bolok (Perseroda)" data-initiator="Pemerintah Daerah" data-progress="done,done,done,done">Lihat Progres</button></td>
+                        <td><button class="status-button" type="button" data-title="Ranperda tentang Penambahan Penyertaan Modal Daerah pada PT. Kawasan Industri Bolok (Perseroda)" data-initiator="Pemerintah Daerah"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 14|https://docs.google.com/document/d/example14/edit">Lihat Progres</button></td>
                       </tr>
                       <tr>
                         <td>15.</td>
                         <td>Ranperda tentang Pemajuan Kearifan Lokal Dalam Pengelolaan Sumber Daya Pesisir dan Laut</td>
                         <td>DPRD</td>
-                        <td><button class="status-button" type="button" data-title="Ranperda tentang Pemajuan Kearifan Lokal Dalam Pengelolaan Sumber Daya Pesisir dan Laut" data-initiator="DPRD" data-progress="done,done,done,done">Lihat Progres</button></td>
+                        <td><button class="status-button" type="button" data-title="Ranperda tentang Pemajuan Kearifan Lokal Dalam Pengelolaan Sumber Daya Pesisir dan Laut" data-initiator="DPRD"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 15|https://docs.google.com/document/d/example15/edit">Lihat Progres</button></td>
                       </tr>
                       <tr>
                         <td>16.</td>
                         <td>Ranperda tentang Perlindungan Tenaga Kerja Informal Bukan Penerima Upah</td>
                         <td>DPRD</td>
-                        <td><button class="status-button" type="button" data-title="Ranperda tentang Perlindungan Tenaga Kerja Informal Bukan Penerima Upah" data-initiator="DPRD" data-progress="done,done,done,done">Lihat Progres</button></td>
+                        <td><button class="status-button" type="button" data-title="Ranperda tentang Perlindungan Tenaga Kerja Informal Bukan Penerima Upah" data-initiator="DPRD"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 16|https://docs.google.com/document/d/example16/edit">Lihat Progres</button></td>
                       </tr>
                       <tr>
                         <td>17.</td>
                         <td>Ranperda tentang Tanggungjawab Sosial dan Lingkungan Perusahaan</td>
                         <td>DPRD</td>
-                        <td><button class="status-button" type="button" data-title="Ranperda tentang Tanggungjawab Sosial dan Lingkungan Perusahaan" data-initiator="DPRD" data-progress="done,done,done,done">Lihat Progres</button></td>
+                        <td><button class="status-button" type="button" data-title="Ranperda tentang Tanggungjawab Sosial dan Lingkungan Perusahaan" data-initiator="DPRD"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 17|https://docs.google.com/document/d/example17/edit">Lihat Progres</button></td>
                       </tr>
                     </tbody>
                   </table>
@@ -630,6 +687,11 @@
             <p class="eyebrow eyebrow--blue">Pemantauan Progres Pembentukan Perda</p>
             <h1 id="informasi-2026-title">Informasi Pembentukan Peraturan Daerah Tahun 2026</h1>
           </div>
+      
+          <div class="chart-controls" style="justify-content:flex-start; margin-bottom:12px;">
+            <button class="chart-btn" type="button" data-information-year="2025">2025</button>
+            <button class="chart-btn" type="button" data-information-year="2026">2026</button>
+          </div>
           <div class="ranperda-table-wrap">
             <div class="ranperda-search">
               <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
@@ -637,12 +699,32 @@
             </div>
             <div class="ranperda-progress-panel" hidden>
               <div class="ranperda-progress-head">
-                <div>
-                  <h5 class="ranperda-progress-title">Pilih status untuk melihat progres</h5>
-                  <p class="ranperda-progress-meta">Klik tombol “Lihat Progres” pada tabel untuk membuka indikator tahap pembahasan.</p>
-                </div>
-                <span class="badge badge-selesai">Selesai</span>
+                <h5 class="ranperda-progress-title">Pilih status untuk melihat progres</h5>
+                <p class="ranperda-progress-meta">Klik tombol “Lihat Progres” pada tabel untuk membuka indikator tahap pembahasan.</p>
               </div>
+              <div class="progress-meta-grid">
+                <div>
+                  <strong>Pengusul</strong>
+                  <span class="progress-meta-text">-</span>
+                </div>
+              </div>
+              <div class="progress-link">
+                <a href="#" target="_blank" rel="noopener noreferrer" class="progress-document-card">
+                  <div>
+                    <span class="progress-document-label">Dokumen Sidang - Dokumen Pendukung Lain</span>
+                    <span class="progress-document-note">Klik untuk membuka dokumen terkait ranperda</span>
+                  </div>
+                  <span class="progress-document-icon"><i class="fa-solid fa-arrow-down"></i></span>
+                </a>
+                <a href="https://drive.google.com/file/d/1g-yuHwlyrRJ-QxWhRBLw8rjpZOfJPRIZ/view?usp=sharing" target="_blank" rel="noopener noreferrer" class="progress-document-card">
+                  <div>
+                    <span class="progress-document-label">Dokumen Tambahan</span>
+                    <span class="progress-document-note">File tambahan untuk semua judul ranperda</span>
+                  </div>
+                  <span class="progress-document-icon"><i class="fa-solid fa-file-lines"></i></span>
+                </a>
+              </div>
+              <div class="progress-extra"></div>
               <div class="ranperda-progress-tracker stage-tracker-h" aria-live="polite"></div>
             </div>
             <table class="ranperda-table">
@@ -659,61 +741,61 @@
                   <td>1.</td>
                   <td>Ranperda tentang Pemajuan Kearifan Lokal Dalam Pengelolaan Sumber Daya Pesisir dan Laut</td>
                   <td>DPRD</td>
-                  <td><button class="status-button" type="button" data-title="Ranperda tentang Pemajuan Kearifan Lokal Dalam Pengelolaan Sumber Daya Pesisir dan Laut" data-initiator="DPRD" data-progress="done,done,active,pending">Lihat Progres</button></td>
+                  <td><button class="status-button" type="button" data-title="Ranperda tentang Pemajuan Kearifan Lokal Dalam Pengelolaan Sumber Daya Pesisir dan Laut" data-initiator="DPRD"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 18|https://docs.google.com/document/d/example18/edit">Lihat Progres</button></td>
                 </tr>
                 <tr>
                   <td>2.</td>
                   <td>Ranperda tentang Perlindungan Tenaga Kerja Informal Bukan Penerima Upah</td>
                   <td>DPRD</td>
-                  <td><button class="status-button" type="button" data-title="Ranperda tentang Perlindungan Tenaga Kerja Informal Bukan Penerima Upah" data-initiator="DPRD" data-progress="done,active,pending,pending">Lihat Progres</button></td>
+                  <td><button class="status-button" type="button" data-title="Ranperda tentang Perlindungan Tenaga Kerja Informal Bukan Penerima Upah" data-initiator="DPRD"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 19|https://docs.google.com/document/d/example19/edit">Lihat Progres</button></td>
                 </tr>
                 <tr>
                   <td>3.</td>
                   <td>Ranperda tentang Tanggung Jawab Sosial dan Lingkungan Perusahaan</td>
                   <td>DPRD</td>
-                  <td><button class="status-button" type="button" data-title="Ranperda tentang Tanggung Jawab Sosial dan Lingkungan Perusahaan" data-initiator="DPRD" data-progress="done,done,done,pending">Lihat Progres</button></td>
+                  <td><button class="status-button" type="button" data-title="Ranperda tentang Tanggung Jawab Sosial dan Lingkungan Perusahaan" data-initiator="DPRD"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 20|https://docs.google.com/document/d/example20/edit">Lihat Progres</button></td>
                 </tr>
                 <tr>
                   <td>4.</td>
                   <td>Ranperda tentang Penyelenggaraan Jasa Konstruksi</td>
                   <td>Pemerintah Daerah</td>
-                  <td><button class="status-button" type="button" data-title="Ranperda tentang Penyelenggaraan Jasa Konstruksi" data-initiator="Pemerintah Daerah" data-progress="done,done,done,pending">Lihat Progres</button></td>
+                  <td><button class="status-button" type="button" data-title="Ranperda tentang Penyelenggaraan Jasa Konstruksi" data-initiator="Pemerintah Daerah"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 21|https://docs.google.com/document/d/example21/edit">Lihat Progres</button></td>
                 </tr>
                 <tr>
                   <td>5.</td>
                   <td>Ranperda tentang Rencana Pembangunan dan Pengembangan Perumahan dan Kawasan Pemukiman</td>
                   <td>Pemerintah Daerah</td>
-                  <td><button class="status-button" type="button" data-title="Ranperda tentang Rencana Pembangunan dan Pengembangan Perumahan dan Kawasan Pemukiman" data-initiator="Pemerintah Daerah" data-progress="done,done,done,pending">Lihat Progres</button></td>
+                  <td><button class="status-button" type="button" data-title="Ranperda tentang Rencana Pembangunan dan Pengembangan Perumahan dan Kawasan Pemukiman" data-initiator="Pemerintah Daerah"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 22|https://docs.google.com/document/d/example22/edit">Lihat Progres</button></td>
                 </tr>
                 <tr>
                   <td>6.</td>
                   <td>Ranperda tentang Pengelolaan Cendana</td>
                   <td>Pemerintah Daerah</td>
-                  <td><button class="status-button" type="button" data-title="Ranperda tentang Pengelolaan Cendana" data-initiator="Pemerintah Daerah" data-progress="done,done,done,pending">Lihat Progres</button></td>
+                  <td><button class="status-button" type="button" data-title="Ranperda tentang Pengelolaan Cendana" data-initiator="Pemerintah Daerah"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 23|https://docs.google.com/document/d/example23/edit">Lihat Progres</button></td>
                 </tr>
                 <tr>
                   <td>7.</td>
                   <td>Ranperda tentang Pengelolaan Perhutanan Sosial</td>
                   <td>Pemerintah Daerah</td>
-                  <td><button class="status-button" type="button" data-title="Ranperda tentang Pengelolaan Perhutanan Sosial" data-initiator="Pemerintah Daerah" data-progress="done,done,done,pending">Lihat Progres</button></td>
+                  <td><button class="status-button" type="button" data-title="Ranperda tentang Pengelolaan Perhutanan Sosial" data-initiator="Pemerintah Daerah"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 24|https://docs.google.com/document/d/example24/edit">Lihat Progres</button></td>
                 </tr>
                 <tr>
                   <td>8.</td>
                   <td>Ranperda tentang Pengelolaan Daerah Aliran Sungai di Provinsi Nusa Tenggara Timur</td>
                   <td>DPRD</td>
-                  <td><button class="status-button" type="button" data-title="Ranperda tentang Pengelolaan Daerah Aliran Sungai di Provinsi Nusa Tenggara Timur" data-initiator="DPRD" data-progress="done,done,done,pending">Lihat Progres</button></td>
+                  <td><button class="status-button" type="button" data-title="Ranperda tentang Pengelolaan Daerah Aliran Sungai di Provinsi Nusa Tenggara Timur" data-initiator="DPRD"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 25|https://docs.google.com/document/d/example25/edit">Lihat Progres</button></td>
                 </tr>
                 <tr>
                   <td>9.</td>
                   <td>Ranperda tentang Perubahan Bentuk Hukum Perseroan Terbatas Bank Nusa Tenggara Timur Menjadi PT. Bank NTT (Perseroda)</td>
                   <td>DPRD</td>
-                  <td><button class="status-button" type="button" data-title="Ranperda tentang Perubahan Bentuk Hukum Perseroan Terbatas Bank Nusa Tenggara Timur Menjadi PT. Bank NTT (Perseroda)" data-initiator="DPRD" data-progress="done,done,done,pending">Lihat Progres</button></td>
+                  <td><button class="status-button" type="button" data-title="Ranperda tentang Perubahan Bentuk Hukum Perseroan Terbatas Bank Nusa Tenggara Timur Menjadi PT. Bank NTT (Perseroda)" data-initiator="DPRD"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 26|https://docs.google.com/document/d/example26/edit">Lihat Progres</button></td>
                 </tr>
                 <tr>
                   <td>10.</td>
                   <td>Ranperda tentang Penyertaan Modal Pada Perseroan Terbatas Bank Pembangunan Daerah Nusa Tenggara Timur</td>
                   <td>DPRD</td>
-                  <td><button class="status-button" type="button" data-title="Ranperda tentang Penyertaan Modal Pada Perseroan Terbatas Bank Pembangunan Daerah Nusa Tenggara Timur" data-initiator="DPRD" data-progress="done,done,done,pending">Lihat Progres</button></td>
+                  <td><button class="status-button" type="button" data-title="Ranperda tentang Penyertaan Modal Pada Perseroan Terbatas Bank Pembangunan Daerah Nusa Tenggara Timur" data-initiator="DPRD"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 27|https://docs.google.com/document/d/example27/edit">Lihat Progres</button></td>
                 </tr>
               </tbody>
             </table>
@@ -781,6 +863,34 @@
       </section>
     </main>
 
+    <footer id="kontak" class="site-footer">
+      <div class="container footer-grid">
+        <section>
+          <h2>SEKRETARIAT DEWAN PERWAKILAN RAKYAT DAERAH<br />PROVINSI NUSA TENGGARA TIMUR</h2>
+          <p>SIPROPERDA — Sistem Informasi Progres Pembentukan Peraturan Daerah</p>
+        </section>
+        <section>
+          <h2>Media Sosial</h2>
+          <ul class="footer-list">
+            <li><a href="https://www.instagram.com/setwan.ntt/" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+            <li><a href="https://web.facebook.com/humas.provntt?locale=id_ID&_rdc=1&_rdr" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i> Facebook</a></li>
+            <li><a href="https://www.tiktok.com/@setwan.ntt" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-tiktok" aria-hidden="true"></i> TikTok</a></li>
+            <li><a href="https://www.youtube.com/@SekretariatDPRDProvNTT" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-youtube" aria-hidden="true"></i> YouTube</a></li>
+            <li><a href="https://dprd.nttprov.go.id/" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-globe" aria-hidden="true"></i> Website DPRD NTT</a></li>
+          </ul>
+        </section>
+        <section>
+          <h2>Kontak</h2>
+          <ul class="footer-list footer-list--plain">
+            <li><i class="fa-solid fa-phone" aria-hidden="true"></i> 082145676564</li>
+            <li><i class="fa-solid fa-envelope" aria-hidden="true"></i> nttsetwan@gmail.com</li>
+            <li><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Jl. El Tari No. 52</li>
+          </ul>
+        </section>
+      </div>
+      <div class="container footer-bottom">© <span id="current-year"></span> Sekretariat DPRD Provinsi Nusa Tenggara Timur</div>
+    </footer>
+
     <script>
       const pages = document.querySelectorAll('.page');
       const pageLinks = document.querySelectorAll('[data-page-link]');
@@ -788,45 +898,6 @@
       const navToggle = document.querySelector('.nav-toggle');
 
       const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzS0RvXE4flV2xpzSdBY2vvuClQoND9kdNgcsXTh6C_6VUkEdMQ8aWxHnWLX-WWGxf9/exec';
-
-           const footerMarkup = (pageId) => `
-        <footer class="site-footer" id="kontak-${pageId}">
-          <div class="container footer-grid">
-            <section>
-              <h2>SEKRETARIAT DEWAN PERWAKILAN RAKYAT DAERAH<br />PROVINSI NUSA TENGGARA TIMUR</h2>
-              <p>SIPROPERDA — Sistem Informasi Progres Pembentukan Peraturan Daerah</p>
-            </section>
-            <section>
-              <h2>Media Sosial</h2>
-              <ul class="footer-list">
-                <li><a href="https://www.instagram.com/setwan.ntt/" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-instagram" aria-hidden="true"></i> Instagram</a></li>
-                <li><a href="https://web.facebook.com/humas.provntt?locale=id_ID&_rdc=1&_rdr" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-facebook-f" aria-hidden="true"></i> Facebook</a></li>
-                <li><a href="https://www.tiktok.com/@setwan.ntt" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-tiktok" aria-hidden="true"></i> TikTok</a></li>
-                <li><a href="https://www.youtube.com/@SekretariatDPRDProvNTT" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-youtube" aria-hidden="true"></i> YouTube</a></li>
-                <li><a href="https://dprd.nttprov.go.id/" target="_blank" rel="noopener noreferrer"><i class="fa-solid fa-globe" aria-hidden="true"></i> Website DPRD NTT</a></li>
-              </ul>
-            </section>
-            <section>
-              <h2>Kontak</h2>
-              <ul class="footer-list footer-list--plain">
-                <li><i class="fa-solid fa-phone" aria-hidden="true"></i> 082145676564</li>
-                <li><i class="fa-solid fa-envelope" aria-hidden="true"></i> nttsetwan@gmail.com</li>
-                <li><i class="fa-solid fa-location-dot" aria-hidden="true"></i> Jl. El Tari No. 52</li>
-              </ul>
-            </section>
-          </div>
-          <div class="container footer-bottom">© <span class="current-year"></span> Sekretariat DPRD Provinsi Nusa Tenggara Timur</div>
-        </footer>
-      `;
-
-      const attachSharedFooter = () => {
-        pages.forEach((page) => {
-          if (page.id === 'beranda' || page.querySelector('.site-footer')) return;
-          page.insertAdjacentHTML('beforeend', footerMarkup(page.id));
-        });
-      };
-
-      attachSharedFooter();
 
       const showPage = (pageId) => {
         const page = document.getElementById(pageId);
@@ -847,6 +918,13 @@
 
         if (mainNav) mainNav.classList.remove('open');
         if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
+        // Sinkronkan tombol pilihan tahun saat berpindah halaman Informasi
+        document.querySelectorAll('[data-information-year]').forEach((btn) => {
+          if (pageId === 'Informasi2025') btn.classList.toggle('selected', btn.dataset.informationYear === '2025');
+          else if (pageId === 'Informasi2026') btn.classList.toggle('selected', btn.dataset.informationYear === '2026');
+          else btn.classList.remove('selected');
+        });
+
         window.scrollTo({ top: 0, behavior: 'smooth' });
       };
 
@@ -1019,7 +1097,23 @@
           button.addEventListener('click', () => {
             if (progressPanel) progressPanel.hidden = false;
             if (progressTitle) progressTitle.textContent = button.dataset.title;
-            if (progressMeta) progressMeta.textContent = `Inisiator: ${button.dataset.initiator}`;
+            const progressCard = progressPanel;
+            const metaText = progressCard.querySelector('.progress-meta-text');
+            const documentCard = progressCard.querySelector('.progress-document-card');
+            const extraContainer = progressCard.querySelector('.progress-extra');
+
+            if (metaText) metaText.textContent = button.dataset.initiator;
+            if (documentCard) {
+              const perkembangan = (button.dataset.perkembangan || '').split('|');
+              const label = perkembangan[1] || 'Dokumen Sidang - Dokumen Pendukung Lain';
+              const url = perkembangan[2] || 'https://docs.google.com/document/d/19Tg8tpcHWz6nTFcWFVWv8Y2Fyq3P4Nzr/edit?usp=drive_link&ouid=113953178339488043391&rtpof=true&sd=true';
+              const labelElement = documentCard.querySelector('.progress-document-label');
+              if (labelElement) labelElement.textContent = label;
+              documentCard.href = url;
+            }
+            if (extraContainer) {
+              extraContainer.innerHTML = '';
+            }
             const stages = (button.dataset.progress || 'done,done,done,done').split(',');
             renderProgressTracker(progressTracker, stages);
             progressPanel?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
@@ -1246,7 +1340,7 @@
       
       // Inisialisasi grafik saat halaman dimuat
       initializeCharts();
-      
+
       const pageFromHash = window.location.hash.replace('#', '');
       if (pageFromHash && document.getElementById(pageFromHash)) showPage(pageFromHash);
       else showPage('beranda');
