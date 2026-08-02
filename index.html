@@ -25,6 +25,7 @@
       :root {
         --blue: #0f4c81;
         --blue-dark: #0b355a;
+        --header-height: 86px;
         --blue-light: #7fb4ce;
         --gold: #f0c96b;
         --paper: #f8fbfd;
@@ -46,6 +47,9 @@
       a { color: inherit; }
       button { font: inherit; }
       .container { width: min(100% - 40px, 1120px); margin-inline: auto; }
+      @media (min-width: 1024px) {
+        .container { margin-right: 320px; }
+      }
 
       .site-header {
         position: sticky;
@@ -53,6 +57,68 @@
         z-index: 20;
         background: linear-gradient(90deg, var(--blue-dark), var(--blue));
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
+      }
+      .info-sidebar {
+        position: fixed;
+        top: calc(var(--header-height) + 12px);
+        right: 24px;
+        z-index: 9;
+        width: min(270px, calc(100vw - 48px));
+      }
+      .info-sidebar__card {
+        padding: 20px;
+        border: 1px solid rgba(15, 76, 129, 0.16);
+        border-radius: 20px;
+        background: rgba(255, 255, 255, 0.96);
+        box-shadow: 0 16px 36px rgba(15, 76, 129, 0.12);
+        backdrop-filter: blur(8px);
+      }
+      .info-sidebar__title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 12px;
+        color: var(--blue);
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+      }
+      .info-sidebar__title i { color: var(--gold); }
+      .info-sidebar__date {
+        margin-bottom: 14px;
+        color: var(--blue-dark);
+        font-size: 15px;
+        font-weight: 700;
+        line-height: 1.45;
+      }
+      .info-sidebar__clock-group {
+        display: grid;
+        gap: 10px;
+        grid-template-columns: 1fr;
+      }
+      .info-sidebar__clock {
+        padding: 12px 14px;
+        border-radius: 14px;
+        background: linear-gradient(135deg, #f8fbfd, #eef5f8);
+        border: 1px solid var(--line);
+      }
+      .info-sidebar__clock-label {
+        display: block;
+        margin-bottom: 4px;
+        color: var(--muted);
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+      }
+      .info-sidebar__clock strong {
+        color: var(--blue);
+        font-size: 20px;
+        letter-spacing: .02em;
+      }
+      @media (min-width: 520px) {
+        .info-sidebar__clock-group { grid-template-columns: repeat(3, 1fr); }
       }
       .header-top {
         display: flex;
@@ -72,7 +138,8 @@
         display: inline-flex;
         align-items: center;
         gap: 6px;
-        padding: 4px;
+          grid-auto-flow: row;
+          grid-template-columns: 1fr;
         border: 2px solid rgba(255,255,255,.35);
         border-radius: 16px;
         overflow: hidden;
@@ -118,15 +185,49 @@
         color: #fff;
         background: linear-gradient(118deg, var(--blue-dark), var(--blue) 66%, #4d7187);
       }
-      .hero__content { position: relative; z-index: 1; padding-top: 80px; padding-bottom: 92px; }
-      .hero__shape { position: absolute; border: 1px solid rgba(255,255,255,.12); border-radius: 50%; }
+      .hero__content {
+        position: relative;
+        z-index: 1;
+        padding-top: 80px;
+        padding-bottom: 92px;
+        animation: heroFadeUp 0.9s ease both;
+      }
+      .hero__shape {
+        position: absolute;
+        border: 1px solid rgba(255,255,255,.12);
+        border-radius: 50%;
+        animation: heroFloat 10s ease-in-out infinite;
+      }
       .hero__shape--one { right: -80px; bottom: -120px; width: 430px; height: 430px; box-shadow: 0 0 0 48px rgba(255,255,255,.04), 0 0 0 112px rgba(255,255,255,.03); }
-      .hero__shape--two { top: -170px; right: 30%; width: 280px; height: 280px; }
+      .hero__shape--two { top: -170px; right: 30%; width: 280px; height: 280px; animation-duration: 12s; }
+      .hero .eyebrow,
+      .hero h1,
+      .hero__description {
+        opacity: 0;
+        animation: heroFadeUp 0.9s ease forwards;
+      }
+      .hero .eyebrow { animation-delay: 0.1s; }
+      .hero h1 { animation-delay: 0.2s; }
+      .hero__description { animation-delay: 0.35s; }
       .eyebrow { margin: 0 0 15px; color: #f5ce7c; font-size: 12px; font-weight: 800; letter-spacing: .11em; text-transform: uppercase; }
       .eyebrow--blue { color: var(--blue-light); }
       h1, h2, p { margin-top: 0; }
       .hero h1 { max-width: 790px; margin-bottom: 23px; font-size: clamp(30px, 4.4vw, 50px); line-height: 1.1; letter-spacing: -.025em; }
       .hero__description { max-width: 825px; margin-bottom: 0; color: rgba(255,255,255,.88); font-size: 16px; line-height: 1.74; }
+      @keyframes heroFadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(24px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+      @keyframes heroFloat {
+        0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+        50% { transform: translate3d(0, -16px, 0) scale(1.03); }
+      }
       .hero__caption { display: inline-flex; gap: 9px; align-items: center; margin: 28px 0 0; color: rgba(255,255,255,.86); font-size: 13px; }
       .hero__caption i { color: var(--gold); }
 
@@ -194,10 +295,36 @@
       .stage-h .line { position: absolute; top: 16px; left: calc(-50% + 17px); width: calc(100% - 34px); height: 2px; background: #cfdbe3; }
       .stage-h:first-child .line { display: none; }
       .stage-h.done .node { color: #fff; background: var(--blue); }
-      .stage-h.active .node { color: #fff; background: var(--gold); }
+      .stage-h.active .node {
+        color: #fff;
+        background: linear-gradient(135deg, #f5b13d 0%, #0f4c81 100%);
+        box-shadow: 0 0 0 4px rgba(245, 177, 61, 0.18);
+        animation: stagePulse 1.25s ease-in-out infinite;
+      }
+      .stage-h.active .line {
+        background: linear-gradient(90deg, var(--blue), #f5b13d);
+        animation: stageLineGlow 1.25s ease-in-out infinite;
+      }
+      .stage-h.active .stage-label {
+        color: var(--blue);
+        font-weight: 800;
+      }
       .stage-h.pending .node { color: #95a4ad; background: #eef4f7; }
-      .stage-h.done .line, .stage-h.active .line { background: var(--blue); }
+      .stage-h.done .line { background: var(--blue); }
+      .stage-h.active[data-stage="Perencanaan"] .node { background: linear-gradient(135deg, #f59e0b 0%, #0f4c81 100%); }
+      .stage-h.active[data-stage="Penyusunan"] .node { background: linear-gradient(135deg, #14b8a6 0%, #0f4c81 100%); }
+      .stage-h.active[data-stage="Pembahasan"] .node { background: linear-gradient(135deg, #8b5cf6 0%, #0f4c81 100%); }
+      .stage-h.active[data-stage="Penetapan"] .node { background: linear-gradient(135deg, #ef4444 0%, #0f4c81 100%); }
+      .stage-h.active[data-stage="Pengundangan"] .node { background: linear-gradient(135deg, #3b82f6 0%, #0f4c81 100%); }
       .stage-label { display: block; margin-top: 2px; }
+      @keyframes stagePulse {
+        0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(245, 177, 61, 0.24); }
+        50% { transform: scale(1.06); box-shadow: 0 0 0 8px rgba(245, 177, 61, 0.12); }
+      }
+      @keyframes stageLineGlow {
+        0%, 100% { opacity: 0.8; filter: brightness(1); }
+        50% { opacity: 1; filter: brightness(1.2); }
+      }
       .ranperda-table-wrap { margin-top: 20px; overflow-x: auto; }
       .ranperda-search { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: #fff; }
       .ranperda-search i { color: var(--blue); }
@@ -330,6 +457,11 @@
         .service-card { min-height: 170px; }
         .footer-grid { grid-template-columns: 1fr 1fr; }
         .footer-grid > :first-child { grid-column: 1 / -1; }
+        .info-sidebar {
+          position: static;
+          width: 100%;
+          margin: 24px 0 0;
+        }
       }
 
       @media (max-width: 640px) {
@@ -440,6 +572,26 @@
       </div>
     </header>
 
+    <aside class="info-sidebar" aria-label="Kalender dan jam">
+      <div class="info-sidebar__card">
+        <div class="info-sidebar__title"><i class="fa-solid fa-calendar-days"></i> Kalender & Jam</div>
+        <div class="info-sidebar__date" id="sidebar-date">Loading...</div>
+        <div class="info-sidebar__clock-group">
+          <div class="info-sidebar__clock">
+            <span class="info-sidebar__clock-label">WIB</span>
+            <strong id="sidebar-clock-wib">--:--:--</strong>
+          </div>
+          <div class="info-sidebar__clock">
+            <span class="info-sidebar__clock-label">WITA</span>
+            <strong id="sidebar-clock-wita">--:--:--</strong>
+          </div>
+          <div class="info-sidebar__clock">
+            <span class="info-sidebar__clock-label">WIT</span>
+            <strong id="sidebar-clock-wit">--:--:--</strong>
+          </div>
+        </div>
+      </div>
+    </aside>
 
     <main>
       <section id="beranda" class="page hero" aria-labelledby="beranda-title">
@@ -1141,13 +1293,19 @@
         if (!trackerElement) return;
         const normalizedStages = Array.isArray(stageInput) ? normalizeStages(stageInput.join(',')) : normalizeStages(stageInput);
         const activeIndex = normalizedStages.findIndex((state) => state !== 'done');
-        trackerElement.innerHTML = normalizedStages.map((state, index) => {
+        const resolvedStates = normalizedStages.map((state, index) => {
+          if (state === 'done') return 'done';
+          if (activeIndex !== -1 && index === activeIndex) return 'active';
+          return 'pending';
+        });
+
+        trackerElement.innerHTML = resolvedStates.map((state, index) => {
           let icon;
           if (state === 'done') icon = '<i class="fa-solid fa-check" aria-hidden="true"></i>';
-          else if (index === (activeIndex === -1 ? normalizedStages.length - 1 : activeIndex)) icon = '<i class="fa-solid fa-rotate-right" aria-hidden="true"></i>';
+          else if (state === 'active') icon = '<i class="fa-solid fa-spinner fa-spin" aria-hidden="true"></i>';
           else icon = '<i class="fa-regular fa-circle" aria-hidden="true"></i>';
           return `
-            <div class="stage-h ${state}">
+            <div class="stage-h ${state}" data-stage="${stageLabels[index]}">
               ${index > 0 ? '<span class="line"></span>' : ''}
               <span class="node">${icon}</span>
               <span class="stage-label">${stageLabels[index]}</span>
@@ -2242,7 +2400,7 @@
           documentUrl: 'https://docs.google.com/document/d/example14/edit'
         },
         "Ranperda tentang Penyelenggaraan Ketertiban Umum Dan Ketentraman Masyarakat Serta Pelindungan Masyarakat": {
-          progress: 'done,done,pending,pending,pending',
+          progress: 'done,pending,pending,pending,pending',
           initiator: 'DPRD',
           documentLabel: 'Dokumen Ranperda 28',
           documentUrl: 'https://docs.google.com/document/d/example28/edit'
@@ -2272,19 +2430,19 @@
           documentUrl: 'https://docs.google.com/document/d/example18/edit'
         },
         "Ranperda tentang Penyelenggaraan Jasa Konstruksi": {
-          progress: 'done,done,pending,pending,pending',
+          progress: 'done,pending,pending,pending,pending',
           initiator: 'Pemerintah Daerah',
           documentLabel: 'Dokumen Ranperda 19',
           documentUrl: 'https://docs.google.com/document/d/example19/edit'
         },
         "Ranperda tentang Rencana Pembangunan dan Pengembangan Perumahan dan Kawasan Pemukiman": {
-          progress: 'done,done,pending,pending,pending',
+          progress: 'done,pending,pending,pending,pending',
           initiator: 'Pemerintah Daerah',
           documentLabel: 'Dokumen Ranperda 20',
           documentUrl: 'https://docs.google.com/document/d/example20/edit'
         },
         "Ranperda tentang Pengelolaan Cendana": {
-          progress: 'done,done,pending,pending,pending',
+          progress: 'done,pending,pending,pending,pending',
           initiator: 'Pemerintah Daerah',
           documentLabel: 'Dokumen Ranperda 21',
           documentUrl: 'https://docs.google.com/document/d/example21/edit'
@@ -2296,7 +2454,7 @@
           documentUrl: 'https://docs.google.com/document/d/example22/edit'
         },
         "Ranperda tentang Pengelolaan Daerah Aliran Sungai di Provinsi Nusa Tenggara Timur": {
-          progress: 'done,done,pending,pending,pending',
+          progress: 'done,pending,pending,pending,pending',
           initiator: 'DPRD',
           documentLabel: 'Dokumen Ranperda 23',
           documentUrl: 'https://docs.google.com/document/d/1yYtrgRaLAQ3vFjFy8acl8z9W9xvH-yfj/edit?usp=sharing&ouid=113953178339488043391&rtpof=true&sd=true'
@@ -2308,7 +2466,7 @@
           documentUrl: 'https://docs.google.com/document/d/example24/edit'
         },
         "Ranperda tentang Penyertaan Modal Pada Perseroan Terbatas Bank Pembangunan Daerah Nusa Tenggara Timur": {
-          progress: 'done,done,done,done,done',
+          progress: 'done,done,done,done,pending',
           initiator: 'DPRD',
           documentLabel: 'Dokumen Ranperda 25',
           documentUrl: 'https://docs.google.com/document/d/example25/edit'
@@ -2464,8 +2622,38 @@
         if (visitorCountEl) visitorCountEl.textContent = newCount.toLocaleString('id-ID');
       };
 
+      const updateSidebarTime = () => {
+        const now = new Date();
+        const dateFormatter = new Intl.DateTimeFormat('id-ID', {
+          weekday: 'long',
+          day: 'numeric',
+          month: 'long',
+          year: 'numeric',
+          timeZone: 'Asia/Jakarta'
+        });
+        const timeFormatter = (timeZone) => new Intl.DateTimeFormat('id-ID', {
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false,
+          timeZone
+        });
+
+        const sidebarDate = document.getElementById('sidebar-date');
+        const sidebarClockWib = document.getElementById('sidebar-clock-wib');
+        const sidebarClockWita = document.getElementById('sidebar-clock-wita');
+        const sidebarClockWit = document.getElementById('sidebar-clock-wit');
+
+        if (sidebarDate) sidebarDate.textContent = dateFormatter.format(now);
+        if (sidebarClockWib) sidebarClockWib.textContent = timeFormatter('Asia/Jakarta').format(now);
+        if (sidebarClockWita) sidebarClockWita.textContent = timeFormatter('Asia/Makassar').format(now);
+        if (sidebarClockWit) sidebarClockWit.textContent = timeFormatter('Asia/Jayapura').format(now);
+      };
+
       document.querySelector('#current-year').textContent = new Date().getFullYear();
       updateVisitorCount();
+      updateSidebarTime();
+      setInterval(updateSidebarTime, 1000);
 
       // Grafik Status Ranperda
       let chartPengusul, chartStatus;
@@ -2569,19 +2757,38 @@
         });
       });
       
+      const chartStatusDataByYear = {
+        '2025': {
+          Perencanaan: 17,
+          Penyusunan: 17,
+          Pembahasan: 17,
+          Penetapan: 17,
+          Pengundangan: 14
+        },
+        '2026': {
+          Perencanaan: 11,
+          Penyusunan: 6,
+          Pembahasan: 5,
+          Penetapan: 5,
+          Pengundangan: 1
+        }
+      };
+
       // Helper function untuk mendapatkan data
       const getChartData = (year) => {
         const pageId = year === '2025' ? 'Informasi2025' : 'Informasi2026';
         const page = document.getElementById(pageId);
-        if (!page) return { pengusul: {}, status: {} };
+        const pengusul = { 'Pemerintah Daerah': 0, 'DPRD': 0 };
+        const status = chartStatusDataByYear[year]
+          ? { ...chartStatusDataByYear[year] }
+          : { Perencanaan: 0, Penyusunan: 0, Pembahasan: 0, Penetapan: 0, Pengundangan: 0 };
+
+        if (!page) return { pengusul, status, labels: stageLabels };
         
         const tableBody = page.querySelector('.ranperda-table-body');
-        if (!tableBody) return { pengusul: {}, status: {}, labels: stageLabels };
+        if (!tableBody) return { pengusul, status, labels: stageLabels };
         
         const rows = tableBody.querySelectorAll('tr');
-        const pengusul = { 'Pemerintah Daerah': 0, 'DPRD': 0 };
-        const status = { 'Perencanaan': 0, 'Penyusunan': 0, 'Pembahasan': 0, 'Penetapan': 0, 'Pengundangan': 0 };
-        
         rows.forEach((row) => {
           const cells = row.querySelectorAll('td');
           if (cells.length >= 4) {
@@ -2589,17 +2796,6 @@
             const pengusulCell = cells[2].textContent.trim();
             if (pengusulCell === 'Pemerintah Daerah') pengusul['Pemerintah Daerah']++;
             else if (pengusulCell === 'DPRD') pengusul['DPRD']++;
-            
-            // Kolom 4: Status (data-progress)
-            const statusButton = cells[3].querySelector('.status-button');
-            if (statusButton) {
-              const progressStr = statusButton.dataset.progress || 'pending,pending,pending,pending';
-              const stages = normalizeStages(progressStr);
-              
-              const statusIndex = stages.findIndex((state) => state !== 'done');
-              const label = stageLabels[statusIndex === -1 ? stageLabels.length - 1 : statusIndex];
-              status[label] = (status[label] || 0) + 1;
-            }
           }
         });
         
