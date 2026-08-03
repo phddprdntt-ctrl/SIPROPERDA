@@ -47,9 +47,6 @@
       a { color: inherit; }
       button { font: inherit; }
       .container { width: min(100% - 40px, 1120px); margin-inline: auto; }
-      @media (min-width: 1024px) {
-        .container { margin-right: 320px; }
-      }
 
       .site-header {
         position: sticky;
@@ -57,65 +54,6 @@
         z-index: 20;
         background: linear-gradient(90deg, var(--blue-dark), var(--blue));
         box-shadow: 0 8px 24px rgba(0, 0, 0, 0.16);
-      }
-      .info-sidebar {
-        position: fixed;
-        top: calc(var(--header-height) + 12px);
-        right: 24px;
-        z-index: 9;
-        width: min(270px, calc(100vw - 48px));
-      }
-      .info-sidebar__card {
-        padding: 20px;
-        border: 1px solid rgba(15, 76, 129, 0.16);
-        border-radius: 20px;
-        background: rgba(255, 255, 255, 0.96);
-        box-shadow: 0 16px 36px rgba(15, 76, 129, 0.12);
-        backdrop-filter: blur(8px);
-      }
-      .info-sidebar__title {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        margin-bottom: 12px;
-        color: var(--blue);
-        font-size: 13px;
-        font-weight: 800;
-        letter-spacing: .08em;
-        text-transform: uppercase;
-      }
-      .info-sidebar__title i { color: var(--gold); }
-      .info-sidebar__date {
-        margin-bottom: 14px;
-        color: var(--blue-dark);
-        font-size: 15px;
-        font-weight: 700;
-        line-height: 1.45;
-      }
-      .info-sidebar__clock-group {
-        display: flex;
-        flex-direction: column;
-        gap: 10px;
-      }
-      .info-sidebar__clock {
-        padding: 12px 14px;
-        border-radius: 14px;
-        background: linear-gradient(135deg, #f8fbfd, #eef5f8);
-        border: 1px solid var(--line);
-      }
-      .info-sidebar__clock-label {
-        display: block;
-        margin-bottom: 4px;
-        color: var(--muted);
-        font-size: 11px;
-        font-weight: 800;
-        letter-spacing: .08em;
-        text-transform: uppercase;
-      }
-      .info-sidebar__clock strong {
-        color: var(--blue);
-        font-size: 20px;
-        letter-spacing: .02em;
       }
       .header-top {
         display: flex;
@@ -440,6 +378,57 @@
       .footer-grid { display: grid; grid-template-columns: 1.25fr .9fr .9fr; gap: 42px; padding-top: 48px; padding-bottom: 35px; }
       .site-footer h2 { margin-bottom: 13px; color: #fff; font-size: 15px; line-height: 1.43; }
       .site-footer p, .footer-list { margin: 0; color: rgba(255,255,255,.76); font-size: 13px; line-height: 1.75; }
+      .footer-clock-panel {
+        margin-top: 18px;
+        padding: 16px 18px;
+        border: 1px solid rgba(255,255,255,0.16);
+        border-radius: 16px;
+        background: rgba(255,255,255,0.1);
+      }
+      .footer-clock-panel__title {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 12px;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 800;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+      }
+      .footer-clock-panel__title i { color: var(--gold); }
+      .footer-clock-panel__date {
+        margin-bottom: 14px;
+        color: #f7fbfc;
+        font-size: 14px;
+        font-weight: 700;
+        line-height: 1.45;
+      }
+      .footer-clock-group {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .footer-clock {
+        padding: 12px 14px;
+        border-radius: 14px;
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.16);
+      }
+      .footer-clock-label {
+        display: block;
+        margin-bottom: 4px;
+        color: rgba(255,255,255,.76);
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: .08em;
+        text-transform: uppercase;
+      }
+      .footer-clock strong {
+        color: #fff;
+        font-size: 20px;
+        letter-spacing: .02em;
+      }
       .footer-list { padding: 0; list-style: none; }
       .footer-list a { display: inline-flex; gap: 10px; align-items: center; text-decoration: none; }
       .footer-list a:hover, .footer-list a:focus-visible { color: #fff; outline: 0; text-decoration: underline; }
@@ -454,11 +443,6 @@
         .service-card { min-height: 170px; }
         .footer-grid { grid-template-columns: 1fr 1fr; }
         .footer-grid > :first-child { grid-column: 1 / -1; }
-        .info-sidebar {
-          position: static;
-          width: 100%;
-          margin: 24px 0 0;
-        }
       }
 
       @media (max-width: 640px) {
@@ -568,27 +552,6 @@
         </nav>
       </div>
     </header>
-
-    <aside class="info-sidebar" aria-label="Kalender dan jam">
-      <div class="info-sidebar__card">
-        <div class="info-sidebar__title"><i class="fa-solid fa-calendar-days"></i> Kalender & Jam</div>
-        <div class="info-sidebar__date" id="sidebar-date">Loading...</div>
-        <div class="info-sidebar__clock-group">
-          <div class="info-sidebar__clock">
-            <span class="info-sidebar__clock-label">WIB</span>
-            <strong id="sidebar-clock-wib">--:--:--</strong>
-          </div>
-          <div class="info-sidebar__clock">
-            <span class="info-sidebar__clock-label">WITA</span>
-            <strong id="sidebar-clock-wita">--:--:--</strong>
-          </div>
-          <div class="info-sidebar__clock">
-            <span class="info-sidebar__clock-label">WIT</span>
-            <strong id="sidebar-clock-wit">--:--:--</strong>
-          </div>
-        </div>
-      </div>
-    </aside>
 
     <main>
       <section id="beranda" class="page hero" aria-labelledby="beranda-title">
@@ -984,13 +947,13 @@
                   <td>9.</td>
                   <td>Ranperda tentang Perubahan Bentuk Hukum Perseroan Terbatas Bank Nusa Tenggara Timur Menjadi PT. Bank NTT (Perseroda)</td>
                   <td>DPRD</td>
-                  <td><button class="status-button" type="button" data-title="Ranperda tentang Perubahan Bentuk Hukum Perseroan Terbatas Bank Nusa Tenggara Timur Menjadi PT. Bank NTT (Perseroda)" data-initiator="DPRD"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 26|https://docs.google.com/document/d/example26/edit"data-progress="done,done,done,done">Lihat Progres</button></td>
+                  <td><button class="status-button" type="button" data-title="Ranperda tentang Perubahan Bentuk Hukum Perseroan Terbatas Bank Nusa Tenggara Timur Menjadi PT. Bank NTT (Perseroda)" data-initiator="Pemerintah Daerah"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 26|https://docs.google.com/document/d/example26/edit"data-progress="done,done,done,done">Lihat Progres</button></td>
                 </tr>
                 <tr>
                   <td>10.</td>
                   <td>Ranperda tentang Penyertaan Modal Pada Perseroan Terbatas Bank Pembangunan Daerah Nusa Tenggara Timur</td>
                   <td>DPRD</td>
-                  <td><button class="status-button" type="button" data-title="Ranperda tentang Penyertaan Modal Pada Perseroan Terbatas Bank Pembangunan Daerah Nusa Tenggara Timur" data-initiator="DPRD"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 27|https://docs.google.com/document/d/example27/edit" data-progress="done,done,done,done">Lihat Progres</button></td>
+                  <td><button class="status-button" type="button" data-title="Ranperda tentang Penyertaan Modal Pada Perseroan Terbatas Bank Pembangunan Daerah Nusa Tenggara Timur" data-initiator="Pemerintah Daerah"  data-penetapan="12 Januari 2026" data-updated="20 Juli 2026" data-perkembangan="5 April 2026|Dokumen Ranperda 27|https://docs.google.com/document/d/example27/edit" data-progress="done,done,done,done">Lihat Progres</button></td>
                 </tr>
                 <tr>
                   <td>11.</td>
@@ -1069,6 +1032,24 @@
         <section>
           <h2>SEKRETARIAT DEWAN PERWAKILAN RAKYAT DAERAH<br />PROVINSI NUSA TENGGARA TIMUR</h2>
           <p>SIPROPERDA — Sistem Informasi Progres Pembentukan Peraturan Daerah</p>
+          <div class="footer-clock-panel" aria-label="Kalender dan jam">
+            <div class="footer-clock-panel__title"><i class="fa-solid fa-calendar-days"></i> Kalender &amp; Jam</div>
+            <div class="footer-clock-panel__date" id="footer-date">Loading...</div>
+            <div class="footer-clock-group">
+              <div class="footer-clock">
+                <span class="footer-clock-label">WIB</span>
+                <strong id="footer-clock-wib">--:--:--</strong>
+              </div>
+              <div class="footer-clock">
+                <span class="footer-clock-label">WITA</span>
+                <strong id="footer-clock-wita">--:--:--</strong>
+              </div>
+              <div class="footer-clock">
+                <span class="footer-clock-label">WIT</span>
+                <strong id="footer-clock-wit">--:--:--</strong>
+              </div>
+            </div>
+          </div>
         </section>
         <section>
           <h2>Media Sosial</h2>
@@ -2647,7 +2628,7 @@
         if (visitorCountEl) visitorCountEl.textContent = newCount.toLocaleString('id-ID');
       };
 
-      const updateSidebarTime = () => {
+      const updateFooterTime = () => {
         const now = new Date();
         const dateFormatter = new Intl.DateTimeFormat('id-ID', {
           weekday: 'long',
@@ -2664,21 +2645,21 @@
           timeZone
         });
 
-        const sidebarDate = document.getElementById('sidebar-date');
-        const sidebarClockWib = document.getElementById('sidebar-clock-wib');
-        const sidebarClockWita = document.getElementById('sidebar-clock-wita');
-        const sidebarClockWit = document.getElementById('sidebar-clock-wit');
+        const footerDate = document.getElementById('footer-date');
+        const footerClockWib = document.getElementById('footer-clock-wib');
+        const footerClockWita = document.getElementById('footer-clock-wita');
+        const footerClockWit = document.getElementById('footer-clock-wit');
 
-        if (sidebarDate) sidebarDate.textContent = dateFormatter.format(now);
-        if (sidebarClockWib) sidebarClockWib.textContent = timeFormatter('Asia/Jakarta').format(now);
-        if (sidebarClockWita) sidebarClockWita.textContent = timeFormatter('Asia/Makassar').format(now);
-        if (sidebarClockWit) sidebarClockWit.textContent = timeFormatter('Asia/Jayapura').format(now);
+        if (footerDate) footerDate.textContent = dateFormatter.format(now);
+        if (footerClockWib) footerClockWib.textContent = timeFormatter('Asia/Jakarta').format(now);
+        if (footerClockWita) footerClockWita.textContent = timeFormatter('Asia/Makassar').format(now);
+        if (footerClockWit) footerClockWit.textContent = timeFormatter('Asia/Jayapura').format(now);
       };
 
       document.querySelector('#current-year').textContent = new Date().getFullYear();
       updateVisitorCount();
-      updateSidebarTime();
-      setInterval(updateSidebarTime, 1000);
+      updateFooterTime();
+      setInterval(updateFooterTime, 1000);
 
       // Grafik Status Ranperda
       let chartPengusul, chartStatus;
