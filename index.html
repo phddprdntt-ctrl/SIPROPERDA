@@ -93,9 +93,9 @@
         line-height: 1.45;
       }
       .info-sidebar__clock-group {
-        display: grid;
+        display: flex;
+        flex-direction: column;
         gap: 10px;
-        grid-template-columns: 1fr;
       }
       .info-sidebar__clock {
         padding: 12px 14px;
@@ -116,9 +116,6 @@
         color: var(--blue);
         font-size: 20px;
         letter-spacing: .02em;
-      }
-      @media (min-width: 520px) {
-        .info-sidebar__clock-group { grid-template-columns: repeat(3, 1fr); }
       }
       .header-top {
         display: flex;
@@ -314,8 +311,8 @@
       .stage-h.active[data-stage="Perencanaan"] .node { background: linear-gradient(135deg, #f59e0b 0%, #0f4c81 100%); }
       .stage-h.active[data-stage="Penyusunan"] .node { background: linear-gradient(135deg, #14b8a6 0%, #0f4c81 100%); }
       .stage-h.active[data-stage="Pembahasan"] .node { background: linear-gradient(135deg, #8b5cf6 0%, #0f4c81 100%); }
-      .stage-h.active[data-stage="Penetapan"] .node { background: linear-gradient(135deg, #ef4444 0%, #0f4c81 100%); }
-      .stage-h.active[data-stage="Pengundangan"] .node { background: linear-gradient(135deg, #3b82f6 0%, #0f4c81 100%); }
+      .stage-h.active[data-stage="Persetujuan Bersama"] .node { background: linear-gradient(135deg, #ef4444 0%, #0f4c81 100%); }
+      .stage-h.active[data-stage="Penetapan dan Pengundangan"] .node { background: linear-gradient(135deg, #3b82f6 0%, #0f4c81 100%); }
       .stage-label { display: block; margin-top: 2px; }
       @keyframes stagePulse {
         0%, 100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(245, 177, 61, 0.24); }
@@ -753,8 +750,8 @@
                       <button type="button" class="stage-selector-btn active" data-stage="Perencanaan">Perencanaan</button>
                       <button type="button" class="stage-selector-btn" data-stage="Penyusunan">Penyusunan</button>
                       <button type="button" class="stage-selector-btn" data-stage="Pembahasan">Pembahasan</button>
-                      <button type="button" class="stage-selector-btn" data-stage="Penetapan">Penetapan</button>
-                      <button type="button" class="stage-selector-btn" data-stage="Pengundangan">Pengundangan</button>
+                      <button type="button" class="stage-selector-btn" data-stage="Persetujuan Bersama">Persetujuan Bersama</button>
+                      <button type="button" class="stage-selector-btn" data-stage="Penetapan dan Pengundangan">Penetapan dan Pengundangan</button>
                   </div>
                 </div>
                 <div class="stage-documents-grid"></div>
@@ -916,8 +913,8 @@
                       <button type="button" class="stage-selector-btn active" data-stage="Perencanaan">Perencanaan</button>
                       <button type="button" class="stage-selector-btn" data-stage="Penyusunan">Penyusunan</button>
                       <button type="button" class="stage-selector-btn" data-stage="Pembahasan">Pembahasan</button>
-                      <button type="button" class="stage-selector-btn" data-stage="Penetapan">Penetapan</button>
-                      <button type="button" class="stage-selector-btn" data-stage="Pengundangan">Pengundangan</button>
+                      <button type="button" class="stage-selector-btn" data-stage="Persetujuan Bersama">Persetujuan Bersama</button>
+                      <button type="button" class="stage-selector-btn" data-stage="Penetapan dan Pengundangan">Penetapan dan Pengundangan</button>
                   </div>
                 </div>
                 <div class="stage-documents-grid"></div>
@@ -1278,7 +1275,7 @@
         }
       });
 
-      const stageLabels = ['Perencanaan', 'Penyusunan', 'Pembahasan', 'Penetapan', 'Pengundangan'];
+      const stageLabels = ['Perencanaan', 'Penyusunan', 'Pembahasan', 'Persetujuan Bersama', 'Penetapan dan Pengundangan'];
 
       const normalizeStages = (progressStr) => {
         const stages = (typeof progressStr === 'string' ? progressStr : progressStr?.join(',')) || 'pending,pending,pending,pending,pending';
@@ -1337,16 +1334,16 @@
               url: "https://docs.google.com/document/d/example01-pembahasan/edit"
             }
           ],
-          Penetapan: [
+          "Persetujuan Bersama": [
             {
-              label: "Dokumen Penetapan",
-              note: "Dokumen penetapan untuk Ranperda tentang Perubahan Atas Peraturan Daerah Provinsi Nusa Tenggara Timur Nomor 1 Tahun 2024 tentang Pajak Daerah dan Retribusi Daerah.",
+              label: "Dokumen Persetujuan Bersama",
+              note: "Dokumen persetujuan bersama untuk Ranperda tentang Perubahan Atas Peraturan Daerah Provinsi Nusa Tenggara Timur Nomor 1 Tahun 2024 tentang Pajak Daerah dan Retribusi Daerah.",
               url: "https://docs.google.com/document/d/example01-penetapan/edit"
             }
           ],
-          Pengundangan: [
+          "Penetapan dan Pengundangan": [
               {
-                label: "Dokumen Pengundangan",
+                label: "Dokumen Penetapan dan Pengundangan",
                 note: "Senin, 4 Mei 2026 - Pengundangan Perda tentang Perubahan Atas Peraturan Daerah Provinsi Nusa Tenggara Timur Nomor 1 Tahun 2024 tentang Pajak Daerah dan Retribusi Daerah.",
                 url: "https://drive.google.com/file/d/1sEeeENVWJ0tYYyMhzHxYnz5m4dAJ14Gr/view?usp=sharing"
               }
@@ -1374,16 +1371,16 @@
               url: "https://docs.google.com/document/d/example02-pembahasan/edit"
             }
           ],
-          Penetapan: [
+          "Persetujuan Bersama": [
             {
-              label: "Dokumen Penetapan Belum Tersedia",
-              note: "Dokumen penetapan untuk Ranperda tentang Pengalokasian Anggaran Penyelenggaraan Bantuan Hukum.",
+              label: "Dokumen Persetujuan Bersama Belum Tersedia",
+              note: "Dokumen persetujuan bersama untuk Ranperda tentang Pengalokasian Anggaran Penyelenggaraan Bantuan Hukum.",
               url: "https://docs.google.com/document/d/example02-penetapan/edit"
             }
           ],
-          Pengundangan: [
+          "Penetapan dan Pengundangan": [
               {
-                label: "Dokumen Pengundangan",
+                label: "Dokumen Penetapan dan Pengundangan",
                 note: "Senin, 3 Maret 2025, pengundangan Perda tentang Pengalokasian Anggaran Penyelenggaraan Bantuan Hukum.",
                 url: "https://drive.google.com/file/d/1G8i6i7RgFLxEptal66r1L_0zkKSoyJtZ/view?usp=sharing"
               }
@@ -1411,16 +1408,16 @@
               url: "https://docs.google.com/document/d/example03-pembahasan/edit"
             }
           ],
-          Penetapan: [
+          "Persetujuan Bersama": [
             {
-              label: "Dokumen Penetapan Belum Tersedia",
-              note: "Dokumen penetapan untuk Ranperda tentang Tugas Belajar, Ijin Belajar dan Bantuan Belajar.",
+              label: "Dokumen Persetujuan Bersama Belum Tersedia",
+              note: "Dokumen persetujuan bersama untuk Ranperda tentang Tugas Belajar, Ijin Belajar dan Bantuan Belajar.",
               url: "https://docs.google.com/document/d/example03-penetapan/edit"
             }
           ],
-          Pengundangan: [
+          "Penetapan dan Pengundangan": [
               {
-                label: "Dokumen Pengundangan",
+                label: "Dokumen Penetapan dan Pengundangan",
                 note: "Rabu, 26 Maret 2025 - Pengundangan Perda tentang Tugas Belajar, Ijin Belajar dan Bantuan Belajar.",
                 url: "https://drive.google.com/file/d/1e8aYAq6xIL9-9dd_O0bSG4A7ocNlWV30/view?usp=sharing"
               }
@@ -1448,16 +1445,16 @@
               url: "https://docs.google.com/document/d/example04-pembahasan/edit"
             }
           ],
-          Penetapan: [
+          "Persetujuan Bersama": [
             {
-              label: "Dokumen Penetapan Belum Tersedia",
-              note: "Dokumen penetapan untuk Ranperda tentang Penyelenggaraan Penanaman Modal.",
+              label: "Dokumen Persetujuan Bersama Belum Tersedia",
+              note: "Dokumen persetujuan bersama untuk Ranperda tentang Penyelenggaraan Penanaman Modal.",
               url: "https://docs.google.com/document/d/example04-penetapan/edit"
             }
           ],
-          Pengundangan: [
+          "Penetapan dan Pengundangan": [
               {
-                label: "Dokumen Pengundangan",
+                label: "Dokumen Penetapan dan Pengundangan",
                 note: "Kamis, 27 Maret 2025 - Pengundangan Perda tentang Penyelenggaraan Penanaman Modal.",
                 url: "https://drive.google.com/file/d/1KmKv5Rbt3d5ktiKGsBfFJdnCgZcnGE6V/view?usp=sharing"
               }
@@ -1485,16 +1482,16 @@
               url: "https://docs.google.com/document/d/example05-pembahasan/edit"
             }
           ],
-          Penetapan: [
+          "Persetujuan Bersama": [
             {
-              label: "Dokumen Penetapan Belum Tersedia",
-              note: "Dokumen penetapan untuk Ranperda tentang Penyelenggaraan Transportasi.",
+              label: "Dokumen Persetujuan Bersama Belum Tersedia",
+              note: "Dokumen persetujuan bersama untuk Ranperda tentang Penyelenggaraan Transportasi.",
               url: "https://docs.google.com/document/d/example05-penetapan/edit"
             }
           ],
-          Pengundangan: [
+          "Penetapan dan Pengundangan": [
               {
-                label: "Dokumen Pengundangan",
+                label: "Dokumen Penetapan dan Pengundangan",
                 note: "Kamis, 10 April 2025 - Pengundangan Perda tentang Penyelenggaraan Perhubungan.",
                 url: "https://drive.google.com/file/d/1jY5XFyPUAQqX_b1x_8YcJgIKV6r3oOSW/view?usp=sharing"
               }
@@ -1522,17 +1519,17 @@
               url: "https://docs.google.com/document/d/example06-pembahasan/edit"
             }
           ],
-          Penetapan: [
+          "Persetujuan Bersama": [
             {
-              label: "Dokumen Penetapan Belum Tersedia",
-              note: "Dokumen penetapan untuk Ranperda tentang Penyertaan Modal Daerah pada Perseroan Terbatas Bank Pembangunan Daerah Nusa Tenggara Timur.",
+              label: "Dokumen Persetujuan Bersama Belum Tersedia",
+              note: "Dokumen persetujuan bersama untuk Ranperda tentang Penyertaan Modal Daerah pada Perseroan Terbatas Bank Pembangunan Daerah Nusa Tenggara Timur.",
               url: "https://docs.google.com/document/d/example06-penetapan/edit"
             }
           ],
-          Pengundangan: [
+          "Penetapan dan Pengundangan": [
               {
-                label: "Dokumen Pengundangan Belum Tersedia",
-                note: "Dokumen pengundangan untuk tahap akhir pembentukan Perda.",
+                label: "Dokumen Penetapan dan Pengundangan Belum Tersedia",
+                note: "Dokumen penetapan dan pengundangan untuk tahap akhir pembentukan Perda.",
                 url: "https://docs.google.com/document/d/example-pengundangan/edit"
               }
             ]
@@ -1559,16 +1556,16 @@
               url: "https://docs.google.com/document/d/example07-pembahasan/edit"
             }
           ],
-          Penetapan: [
+          "Persetujuan Bersama": [
             {
-              label: "Dokumen Penetapan Belum Tersedia",
-              note: "Dokumen penetapan untuk Ranperda tentang Rencana Pembangunan Jangka Menengah Daerah Provinsi Nusa Tenggara Timur Tahun 2025-2029.",
+              label: "Dokumen Persetujuan Bersama Belum Tersedia",
+              note: "Dokumen persetujuan bersama untuk Ranperda tentang Rencana Pembangunan Jangka Menengah Daerah Provinsi Nusa Tenggara Timur Tahun 2025-2029.",
               url: "https://docs.google.com/document/d/example07-penetapan/edit"
             }
           ],
-          Pengundangan: [
+          "Penetapan dan Pengundangan": [
               {
-                label: "Dokumen Pengundangan",
+                label: "Dokumen Penetapan dan Pengundangan",
                 note: "Selasa, 22 Agustus 2025 - Pengundangan Perda tentang Rencana Pembangunan Jangka Menengah Daerah Provinsi Nusa Tenggara Timur Tahun 2025-2029.",
                 url: "https://drive.google.com/file/d/1iUFIhSUtajEQAirnkjMuWYbOVj9NCykU/view?usp=sharing"
               }
@@ -1596,16 +1593,16 @@
               url: "https://docs.google.com/document/d/example08-pembahasan/edit"
             }
           ],
-          Penetapan: [
+          "Persetujuan Bersama": [
             {
-              label: "Dokumen Penetapan",
+              label: "Dokumen Persetujuan Bersama",
               note: "Senin, 24 November 2025 - Dokumen penetapan untuk Ranperda tentang Pembentukan Dana Cadangan Pekan Olahraga Nasional XXII Tahun 2028.",
               url: "https://drive.google.com/file/d/1L5J3grW5ScuOLeY3Z5iTJXrE5gYd5flg/view?usp=sharing"
             }
           ],
-          Pengundangan: [
+          "Penetapan dan Pengundangan": [
               {
-                label: "Dokumen Pengundangan",
+                label: "Dokumen Penetapan dan Pengundangan",
                 note: "Senin, 29 Desember 2025 - Pengundangan Perda tentang Pembentukan Dana Cadangan Pekan Olahraga Nasional XXII Tahun 2028.",
                 url: "https://drive.google.com/file/d/1Vi1L8oT57bCJJSHES50-25aj8V68beCx/view?usp=sharing"
               }
@@ -1633,16 +1630,16 @@
               url: "https://docs.google.com/document/d/example09-pembahasan/edit"
             }
           ],
-          Penetapan: [
+          "Persetujuan Bersama": [
             {
-              label: "Dokumen Penetapan",
+              label: "Dokumen Persetujuan Bersama",
               note: "Senin, 24 November 2025 - Dokumen penetapan untuk Ranperda tentang Perubahan Keempat Atas Peraturan Daerah Provinsi Nusa Tenggara Timur Nomor 9 Tahun 2006 tentang Pembentukan dan Susunan Perangkat Daerah Provinsi Nusa Tenggara Timur.",
               url: "https://drive.google.com/file/d/1L5J3grW5ScuOLeY3Z5iTJXrE5gYd5flg/view?usp=sharing"
             }
           ],
-          Pengundangan: [
+          "Penetapan dan Pengundangan": [
               {
-                label: "Dokumen Pengundangan",
+                label: "Dokumen Penetapan dan Pengundangan",
                 note: "Senin, 29 Desember 2025 - Pengundangan Perda tentang Perubahan Keempat Atas Peraturan Daerah Provinsi Nusa Tenggara Timur Nomor 9 Tahun 2006 tentang Pembentukan dan Susunan Perangkat Daerah Provinsi Nusa Tenggara Timur.",
                 url: "https://drive.google.com/file/d/1xwRuPU-4w6QhnEUzQt0JwC2vQxBW5pSj/view?usp=sharing"
               }
@@ -1670,16 +1667,16 @@
               url: "https://docs.google.com/document/d/example10-pembahasan/edit"
             }
           ],
-          Penetapan: [
+          "Persetujuan Bersama": [
             {
-              label: "Dokumen Penetapan",
+              label: "Dokumen Persetujuan Bersama",
               note: "Senin, 24 November 2025 - Dokumen penetapan untuk Ranperda tentang Perubahan Bentuk Hukum Perseroan Terbatas Flobamor Menjadi PT. Flobamor (Perseroda).",
               url: "https://drive.google.com/file/d/1L5J3grW5ScuOLeY3Z5iTJXrE5gYd5flg/view?usp=sharing"
             }
           ],
-          Pengundangan: [
+          "Penetapan dan Pengundangan": [
               {
-                label: "Dokumen Pengundangan",
+                label: "Dokumen Penetapan dan Pengundangan",
                 note: "Selasa, 23 Desember 2025 - Pengundangan Perda tentang Perubahan Bentuk Hukum Perseroan Terbatas Flobamor Menjadi PT. Flobamor (Perseroda).",
                 url: "https://drive.google.com/file/d/18RAFSLyQ45k7rVfq0V289Xd8gbaaE6lV/view?usp=sharing"
               }
@@ -1707,16 +1704,16 @@
               url: "https://docs.google.com/document/d/example11-pembahasan/edit"
             }
           ],
-          Penetapan: [
+          "Persetujuan Bersama": [
             {
-              label: "Dokumen Penetapan",
+              label: "Dokumen Persetujuan Bersama",
               note: "Senin, 24 November 2025 - Dokumen penetapan untuk Ranperda tentang Perubahan Bentuk Hukum Perseroan Terbatas Penjaminan Kredit Daerah Nusa Tenggara Timur Menjadi PT. Jamkrida NTT (Perseroda).",
               url: "https://drive.google.com/file/d/1L5J3grW5ScuOLeY3Z5iTJXrE5gYd5flg/view?usp=sharing"
             }
           ],
-          Pengundangan: [
+          "Penetapan dan Pengundangan": [
               {
-                label: "Dokumen Pengundangan",
+                label: "Dokumen Penetapan dan Pengundangan",
                 note: "Senin, 29 Desember 2025 - Pengundangan Perda tentang Perubahan Bentuk Hukum Perseroan Terbatas Penjaminan Kredit Daerah Nusa Tenggara Timur Menjadi PT. Jamkrida NTT (Perseroda).",
                 url: "https://drive.google.com/file/d/1fGfdlTrem7nbyO5uAxHY64qiVHLtVoI5/view?usp=sharing"
               }
@@ -1744,16 +1741,16 @@
               url: "https://docs.google.com/document/d/example12-pembahasan/edit"
             }
           ],
-          Penetapan: [
+          "Persetujuan Bersama": [
             {
-              label: "Dokumen Penetapan",
+              label: "Dokumen Persetujuan Bersama",
               note: "Senin, 24 November 2025 - Dokumen penetapan untuk Ranperda tentang Penambahan Penyertaan Modal Daerah pada PT. Flobamor (Perseroda).",
               url: "https://drive.google.com/file/d/1L5J3grW5ScuOLeY3Z5iTJXrE5gYd5flg/view?usp=sharing"
             }
           ],
-          Pengundangan: [
+          "Penetapan dan Pengundangan": [
               {
-                label: "Dokumen Pengundangan",
+                label: "Dokumen Penetapan dan Pengundangan",
                 note: "Senin, 29 Desember 2025 - Pengundangan Perda tentang Penambahan Penyertaan Modal Daerah pada PT. Flobamor (Perseroda).",
                 url: "https://drive.google.com/file/d/1jvo5VaMNUbbJcKAemUErOSJCLCrfhuVU/view?usp=sharing"
               }
@@ -1781,16 +1778,16 @@
               url: "https://docs.google.com/document/d/example13-pembahasan/edit"
             }
           ],
-          Penetapan: [
+          "Persetujuan Bersama": [
             {
-              label: "Dokumen Penetapan",
+              label: "Dokumen Persetujuan Bersama",
               note: "Senin, 24 November 2025 - Dokumen penetapan untuk Ranperda tentang Penambahan Penyertaan Modal Daerah pada PT. Jamkrida NTT (Perseroda).",
               url: "https://drive.google.com/file/d/1L5J3grW5ScuOLeY3Z5iTJXrE5gYd5flg/view?usp=sharing"
             }
           ],
-          Pengundangan: [
+          "Penetapan dan Pengundangan": [
               {
-                label: "Dokumen Pengundangan",
+                label: "Dokumen Penetapan dan Pengundangan",
                 note: "Senin, 29 Desember 2025 - Pengundangan Perda tentang Penambahan Penyertaan Modal Daerah pada PT. Jamkrida NTT (Perseroda).",
                 url: "https://drive.google.com/file/d/1sKXTu_AQnQvzHAJgJ75q9KP5ZuaL7qPP/view?usp=sharing"
               }
@@ -1818,16 +1815,16 @@
               url: "https://docs.google.com/document/d/example14-pembahasan/edit"
             }
           ],
-          Penetapan: [
+          "Persetujuan Bersama": [
             {
-              label: "Dokumen Penetapan",
+              label: "Dokumen Persetujuan Bersama",
               note: "Senin, 24 November 2025 - Dokumen penetapan untuk Ranperda tentang Penambahan Penyertaan Modal Daerah pada PT. Kawasan Industri Bolok (Perseroda).",
               url: "https://drive.google.com/file/d/1L5J3grW5ScuOLeY3Z5iTJXrE5gYd5flg/view?usp=sharing"
             }
           ],
-          Pengundangan: [
+          "Penetapan dan Pengundangan": [
               {
-                label: "Dokumen Pengundangan",
+                label: "Dokumen Penetapan dan Pengundangan",
                 note: "Senin, 29 Desember 2025 - Pengundangan Perda tentang Penambahan Penyertaan Modal Daerah pada PT. Kawasan Industri Bolok (Perseroda).",
                 url: "https://drive.google.com/file/d/1K48gzI8oWHg6QJC1-Sg67bjMzFmg_vdE/view?usp=sharing"
               }
@@ -1855,17 +1852,17 @@
               url: "https://docs.google.com/document/d/example15-pembahasan/edit"
             }
           ],
-          Penetapan: [
+          "Persetujuan Bersama": [
             {
-              label: "Dokumen Penetapan",
-              note: "Dokumen penetapan untuk Ranperda tentang Pemajuan Kearifan Lokal Dalam Pengelolaan Sumber Daya Pesisir dan Laut.",
+              label: "Dokumen Persetujuan Bersama",
+              note: "Dokumen persetujuan bersama untuk Ranperda tentang Pemajuan Kearifan Lokal Dalam Pengelolaan Sumber Daya Pesisir dan Laut.",
               url: "https://docs.google.com/document/d/example15-penetapan/edit"
             }
           ],
-          Pengundangan: [
+          "Penetapan dan Pengundangan": [
               {
-                label: "Dokumen Pengundangan",
-                note: "Dokumen pengundangan untuk tahap akhir pembentukan Perda.",
+                label: "Dokumen Penetapan dan Pengundangan",
+                note: "Dokumen penetapan dan pengundangan untuk tahap akhir pembentukan Perda.",
                 url: "https://docs.google.com/document/d/example-pengundangan/edit"
               }
             ]
@@ -1892,17 +1889,17 @@
               url: "https://docs.google.com/document/d/example16-pembahasan/edit"
             }
           ],
-          Penetapan: [
+          "Persetujuan Bersama": [
             {
-              label: "Dokumen Penetapan",
-              note: "Dokumen penetapan untuk Ranperda tentang Perlindungan Tenaga Kerja Informal Bukan Penerima Upah.",
+              label: "Dokumen Persetujuan Bersama",
+              note: "Dokumen persetujuan bersama untuk Ranperda tentang Perlindungan Tenaga Kerja Informal Bukan Penerima Upah.",
               url: "https://docs.google.com/document/d/example16-penetapan/edit"
             }
           ],
-          Pengundangan: [
+          "Penetapan dan Pengundangan": [
               {
-                label: "Dokumen Pengundangan",
-                note: "Dokumen pengundangan untuk tahap akhir pembentukan Perda.",
+                label: "Dokumen Penetapan dan Pengundangan",
+                note: "Dokumen penetapan dan pengundangan untuk tahap akhir pembentukan Perda.",
                 url: "https://docs.google.com/document/d/example-pengundangan/edit"
               }
             ]
@@ -1929,17 +1926,17 @@
               url: "https://docs.google.com/document/d/example17-pembahasan/edit"
             }
           ],
-          Penetapan: [
+          "Persetujuan Bersama": [
             {
-              label: "Dokumen Penetapan",
-              note: "Dokumen penetapan untuk Ranperda tentang Tanggungjawab Sosial dan Lingkungan Perusahaan.",
+              label: "Dokumen Persetujuan Bersama",
+              note: "Dokumen persetujuan bersama untuk Ranperda tentang Tanggungjawab Sosial dan Lingkungan Perusahaan.",
               url: "https://docs.google.com/document/d/example17-penetapan/edit"
             }
           ],
-          Pengundangan: [
+          "Penetapan dan Pengundangan": [
               {
-                label: "Dokumen Pengundangan",
-                note: "Dokumen pengundangan untuk tahap akhir pembentukan Perda.",
+                label: "Dokumen Penetapan dan Pengundangan",
+                note: "Dokumen penetapan dan pengundangan untuk tahap akhir pembentukan Perda.",
                 url: "https://docs.google.com/document/d/example-pengundangan/edit"
               }
             ]
@@ -1966,17 +1963,17 @@
               url: "https://docs.google.com/document/d/example18-pembahasan/edit"
             }
           ],
-          Penetapan: [
+          "Persetujuan Bersama": [
             {
-              label: "Dokumen Penetapan 18",
-              note: "Dokumen penetapan untuk Ranperda tentang Tanggung Jawab Sosial dan Lingkungan Perusahaan.",
+              label: "Dokumen Persetujuan Bersama 18",
+              note: "Dokumen persetujuan bersama untuk Ranperda tentang Tanggung Jawab Sosial dan Lingkungan Perusahaan.",
               url: "https://docs.google.com/document/d/example18-penetapan/edit"
             }
           ],
-          Pengundangan: [
+          "Penetapan dan Pengundangan": [
               {
-                label: "Dokumen Pengundangan",
-                note: "Dokumen pengundangan untuk tahap akhir pembentukan Perda.",
+                label: "Dokumen Penetapan dan Pengundangan",
+                note: "Dokumen penetapan dan pengundangan untuk tahap akhir pembentukan Perda.",
                 url: "https://docs.google.com/document/d/example-pengundangan/edit"
               }
             ]
@@ -2003,17 +2000,17 @@
               url: "https://docs.google.com/document/d/example19-pembahasan/edit"
             }
           ],
-          Penetapan: [
+          "Persetujuan Bersama": [
             {
-              label: "Dokumen Penetapan Belum Tersedia",
-              note: "Dokumen penetapan untuk Ranperda tentang Penyelenggaraan Jasa Konstruksi.",
+              label: "Dokumen Persetujuan Bersama Belum Tersedia",
+              note: "Dokumen persetujuan bersama untuk Ranperda tentang Penyelenggaraan Jasa Konstruksi.",
               url: "https://docs.google.com/document/d/example19-penetapan/edit"
             }
           ],
-          Pengundangan: [
+          "Penetapan dan Pengundangan": [
               {
-                label: "Dokumen Pengundangan Belum Tersedia",
-                note: "Dokumen pengundangan untuk tahap akhir pembentukan Perda.",
+                label: "Dokumen Penetapan dan Pengundangan Belum Tersedia",
+                note: "Dokumen penetapan dan pengundangan untuk tahap akhir pembentukan Perda.",
                 url: "https://docs.google.com/document/d/example-pengundangan/edit"
               }
             ]
@@ -2040,17 +2037,17 @@
               url: "https://docs.google.com/document/d/example20-pembahasan/edit"
             }
           ],
-          Penetapan: [
+          "Persetujuan Bersama": [
             {
-              label: "Dokumen Penetapan Belum Tersedia",
-              note: "Dokumen penetapan untuk Ranperda tentang Rencana Pembangunan dan Pengembangan Perumahan dan Kawasan Pemukiman.",
+              label: "Dokumen Persetujuan Bersama Belum Tersedia",
+              note: "Dokumen persetujuan bersama untuk Ranperda tentang Rencana Pembangunan dan Pengembangan Perumahan dan Kawasan Pemukiman.",
               url: "https://docs.google.com/document/d/example20-penetapan/edit"
             }
           ],
-          Pengundangan: [
+          "Penetapan dan Pengundangan": [
               {
-                label: "Dokumen Pengundangan Belum Tersedia",
-                note: "Dokumen pengundangan untuk tahap akhir pembentukan Perda.",
+                label: "Dokumen Penetapan dan Pengundangan Belum Tersedia",
+                note: "Dokumen penetapan dan pengundangan untuk tahap akhir pembentukan Perda.",
                 url: "https://docs.google.com/document/d/example-pengundangan/edit"
               }
             ]
@@ -2079,15 +2076,15 @@
           ],
           Penetapan: [
             {
-              label: "Dokumen Penetapan Belum Tersedia",
-              note: "Dokumen penetapan untuk Ranperda tentang Pengelolaan Cendana.",
+              label: "Dokumen Persetujuan Bersama Belum Tersedia",
+              note: "Dokumen persetujuan bersama untuk Ranperda tentang Pengelolaan Cendana.",
               url: "https://docs.google.com/document/d/example21-penetapan/edit"
             }
           ],
           Pengundangan: [
               {
-                label: "Dokumen Pengundangan Belum Tersedia",
-                note: "Dokumen pengundangan untuk tahap akhir pembentukan Perda.",
+                label: "Dokumen Penetapan dan Pengundangan Belum Tersedia",
+                note: "Dokumen penetapan dan pengundangan untuk tahap akhir pembentukan Perda.",
                 url: "https://docs.google.com/document/d/example-pengundangan/edit"
               }
             ]
@@ -2114,17 +2111,17 @@
               url: "https://docs.google.com/document/d/example22-pembahasan/edit"
             }
           ],
-          Penetapan: [
+          "Persetujuan Bersama": [
             {
-              label: "Dokumen Penetapan Belum Tersedia",
-              note: "Dokumen penetapan untuk Ranperda tentang Pengelolaan Perhutanan Sosial.",
+              label: "Dokumen Persetujuan Bersama Belum Tersedia",
+              note: "Dokumen persetujuan bersama untuk Ranperda tentang Pengelolaan Perhutanan Sosial.",
               url: "https://docs.google.com/document/d/example22-penetapan/edit"
             }
           ],
-          Pengundangan: [
+          "Penetapan dan Pengundangan": [
               {
-                label: "Dokumen Pengundangan Belum Tersedia",
-                note: "Dokumen pengundangan untuk tahap akhir pembentukan Perda.",
+                label: "Dokumen Penetapan dan Pengundangan Belum Tersedia",
+                note: "Dokumen penetapan dan pengundangan untuk tahap akhir pembentukan Perda.",
                 url: "https://docs.google.com/document/d/example-pengundangan/edit"
               }
             ]
@@ -2181,17 +2178,17 @@
               url: "https://docs.google.com/document/d/example23-pembahasan/edit"
             }
           ],
-          Penetapan: [
+          "Persetujuan Bersama": [
             {
-              label: "Dokumen Penetapan Belum Tersedia",
-              note: "Dokumen penetapan untuk Ranperda tentang Pengelolaan Daerah Aliran Sungai di Provinsi Nusa Tenggara Timur.",
+              label: "Dokumen Persetujuan Bersama Belum Tersedia",
+              note: "Dokumen persetujuan bersama untuk Ranperda tentang Pengelolaan Daerah Aliran Sungai di Provinsi Nusa Tenggara Timur.",
               url: "https://docs.google.com/document/d/example23-penetapan/edit"
             }
           ],
-          Pengundangan: [
+          "Penetapan dan Pengundangan": [
               {
-                label: "Dokumen Pengundangan Belum Tersedia",
-                note: "Dokumen pengundangan untuk tahap akhir pembentukan Perda.",
+                label: "Dokumen Penetapan dan Pengundangan Belum Tersedia",
+                note: "Dokumen penetapan dan pengundangan untuk tahap akhir pembentukan Perda.",
                 url: "https://docs.google.com/document/d/example-pengundangan/edit"
               }
             ]
@@ -2218,17 +2215,17 @@
               url: "https://docs.google.com/document/d/example24-pembahasan/edit"
             }
           ],
-          Penetapan: [
+          "Persetujuan Bersama": [
             {
-              label: "Dokumen Penetapan",
-              note: "Dokumen penetapan untuk Ranperda tentang Perubahan Bentuk Hukum Perseroan Terbatas Bank Nusa Tenggara Timur Menjadi PT. Bank NTT (Perseroda).",
+              label: "Dokumen Persetujuan Bersama",
+              note: "Dokumen persetujuan bersama untuk Ranperda tentang Perubahan Bentuk Hukum Perseroan Terbatas Bank Nusa Tenggara Timur Menjadi PT. Bank NTT (Perseroda).",
               url: "https://docs.google.com/document/d/example24-penetapan/edit"
             }
           ],
-          Pengundangan: [
+          "Penetapan dan Pengundangan": [
               {
-                label: "Dokumen Pengundangan",
-                note: "Dokumen pengundangan untuk tahap akhir pembentukan Perda.",
+                label: "Dokumen Penetapan dan Pengundangan",
+                note: "Dokumen penetapan dan pengundangan untuk tahap akhir pembentukan Perda.",
                 url: "https://docs.google.com/document/d/example-pengundangan/edit"
               }
             ]
@@ -2255,17 +2252,17 @@
               url: "https://docs.google.com/document/d/example25-pembahasan/edit"
             }
           ],
-          Penetapan: [
+          "Persetujuan Bersama": [
             {
-              label: "Dokumen Penetapan",
-              note: "Dokumen penetapan untuk Ranperda tentang Penyertaan Modal Pada Perseroan Terbatas Bank Pembangunan Daerah Nusa Tenggara Timur.",
+              label: "Dokumen Persetujuan Bersama",
+              note: "Dokumen persetujuan bersama untuk Ranperda tentang Penyertaan Modal Pada Perseroan Terbatas Bank Pembangunan Daerah Nusa Tenggara Timur.",
               url: "https://docs.google.com/document/d/example25-penetapan/edit"
             }
           ],
-          Pengundangan: [
+          "Penetapan dan Pengundangan": [
               {
-                label: "Dokumen Pengundangan",
-                note: "Dokumen pengundangan untuk tahap akhir pembentukan Perda.",
+                label: "Dokumen Penetapan dan Pengundangan",
+                note: "Dokumen penetapan dan pengundangan untuk tahap akhir pembentukan Perda.",
                 url: "https://docs.google.com/document/d/example-pengundangan/edit"
               }
             ]
@@ -2297,17 +2294,17 @@
               url: "https://docs.google.com/document/d/example28-pembahasan/edit"
             }
           ],
-          Penetapan: [
+          "Persetujuan Bersama": [
             {
-              label: "Dokumen Penetapan Belum Tersedia",
-              note: "Dokumen penetapan untuk Ranperda tentang Penyelenggaraan Ketertiban Umum Dan Ketentraman Masyarakat Serta Pelindungan Masyarakat.",
+              label: "Dokumen Persetujuan Bersama Belum Tersedia",
+              note: "Dokumen persetujuan bersama untuk Ranperda tentang Penyelenggaraan Ketertiban Umum Dan Ketentraman Masyarakat Serta Pelindungan Masyarakat.",
               url: "https://docs.google.com/document/d/example28-penetapan/edit"
             }
           ],
-          Pengundangan: [
+          "Penetapan dan Pengundangan": [
               {
-                label: "Dokumen Pengundangan Belum Tersedia",
-                note: "Dokumen pengundangan untuk tahap akhir pembentukan Perda.",
+                label: "Dokumen Penetapan dan Pengundangan Belum Tersedia",
+                note: "Dokumen penetapan dan pengundangan untuk tahap akhir pembentukan Perda.",
                 url: "https://docs.google.com/document/d/example28-pengundangan/edit"
               }
             ]
@@ -2500,25 +2497,42 @@
             url: 'https://docs.google.com/document/d/exampleNA/edit'
           }
         ],
+        "Persetujuan Bersama": [
+          {
+            label: 'Dokumen Persetujuan Bersama',
+            note: 'Surat keputusan penetapan Perda.',
+            url: 'https://docs.google.com/document/d/example-sk/edit'
+          }
+        ],
         Penetapan: [
           {
-            label: 'SK Penetapan',
+            label: 'Dokumen Persetujuan Bersama',
             note: 'Surat keputusan penetapan Perda.',
             url: 'https://docs.google.com/document/d/example-sk/edit'
           }
         ],
         Pengundangan: [
           {
-            label: 'Dokumen Pengundangan',
+            label: 'Dokumen Penetapan dan Pengundangan',
             note: 'Berita acara dan dokumen pengundangan Perda.',
             url: 'https://docs.google.com/document/d/example-undang/edit'
           }
         ]
       };
 
-      const getStageDocumentsForRanperda = (title) => {
+      const getStageDocumentsForRanperda = (title, stage) => {
         const specificDocuments = stageDocumentsByRanperda[title];
-        return specificDocuments ? { ...genericStageDocuments, ...specificDocuments } : genericStageDocuments;
+        const documentsByStage = specificDocuments ? { ...genericStageDocuments, ...specificDocuments } : genericStageDocuments;
+
+        if (stage === 'Persetujuan Bersama') {
+          return documentsByStage['Persetujuan Bersama'] || documentsByStage['Penetapan'] || [];
+        }
+
+        if (stage === 'Penetapan dan Pengundangan') {
+          return documentsByStage['Penetapan dan Pengundangan'] || documentsByStage['Pengundangan'] || [];
+        }
+
+        return documentsByStage[stage] || [];
       };
 
       const getStageLabel = (progressStr) => {
@@ -2531,16 +2545,27 @@
 
       const renderStageDocuments = (container, stage, title) => {
         if (!container) return;
-        const documents = getStageDocumentsForRanperda(title)[stage] || [];
-        container.innerHTML = documents.length ? documents.map((doc) => `
-          <a href="${doc.url}" target="_blank" rel="noopener noreferrer" class="stage-document-card">
-            <div>
-              <span class="stage-document-label">${doc.label}</span>
-              <span class="stage-document-note">${doc.note}</span>
-            </div>
-            <span class="progress-document-icon"><i class="fa-solid fa-file-lines"></i></span>
-          </a>
-        `).join('') : '<p class="stage-document-note">Tidak ada dokumen tahap yang tersedia.</p>';
+        const documents = getStageDocumentsForRanperda(title, stage);
+        container.innerHTML = documents.length ? documents.map((doc) => {
+          const label = stage === 'Persetujuan Bersama'
+            ? doc.label
+                .replace(/Dokumen Penetapan Belum Tersedia/i, 'Dokumen Persetujuan Bersama Belum Tersedia')
+                .replace(/^Dokumen Penetapan$/i, 'Dokumen Persetujuan Bersama')
+                .replace(/^SK Penetapan$/i, 'Dokumen Persetujuan Bersama')
+            : doc.label;
+          const note = stage === 'Persetujuan Bersama'
+            ? doc.note.replace(/\bpenetapan\b/i, 'persetujuan bersama')
+            : doc.note;
+          return `
+            <a href="${doc.url}" target="_blank" rel="noopener noreferrer" class="stage-document-card">
+              <div>
+                <span class="stage-document-label">${label}</span>
+                <span class="stage-document-note">${note}</span>
+              </div>
+              <span class="progress-document-icon"><i class="fa-solid fa-file-lines"></i></span>
+            </a>
+          `;
+        }).join('') : '<p class="stage-document-note">Tidak ada dokumen tahap yang tersedia.</p>';
       };
 
       const updateStageSelection = (panel, selectedStage) => {
@@ -2762,15 +2787,15 @@
           Perencanaan: 17,
           Penyusunan: 17,
           Pembahasan: 17,
-          Penetapan: 17,
-          Pengundangan: 14
+          'Persetujuan Bersama': 17,
+          'Penetapan dan Pengundangan': 14
         },
         '2026': {
           Perencanaan: 11,
           Penyusunan: 6,
           Pembahasan: 5,
-          Penetapan: 5,
-          Pengundangan: 1
+          'Persetujuan Bersama': 5,
+          'Penetapan dan Pengundangan': 1
         }
       };
 
@@ -2781,7 +2806,7 @@
         const pengusul = { 'Pemerintah Daerah': 0, 'DPRD': 0 };
         const status = chartStatusDataByYear[year]
           ? { ...chartStatusDataByYear[year] }
-          : { Perencanaan: 0, Penyusunan: 0, Pembahasan: 0, Penetapan: 0, Pengundangan: 0 };
+          : { Perencanaan: 0, Penyusunan: 0, Pembahasan: 0, 'Persetujuan Bersama': 0, 'Penetapan dan Pengundangan': 0 };
 
         if (!page) return { pengusul, status, labels: stageLabels };
         
