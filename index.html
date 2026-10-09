@@ -684,11 +684,11 @@
           </div>
         </div>
       </section>
-      <section id="Informasi2025" class="page" aria-labelledby="informasi-title" hidden>
+      <section id="Informasi2025" class="page" aria-labelledby="informasi-2025-title" hidden>
         <div class="container section page-content">
           <div class="page-title">
             <p class="eyebrow eyebrow--blue">Pemantauan Progres Pembentukan Perda</p>
-            <h1 id="informasi-title">Informasi Pembentukan Peraturan Daerah Tahun 2025</h1>
+            <h1 id="informasi-2025-title">Informasi Pembentukan Peraturan Daerah Tahun 2025</h1>
           </div>
       
           <div class="chart-controls" style="justify-content:flex-start; margin-bottom:12px;">
@@ -1090,6 +1090,16 @@
 
       const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzS0RvXE4flV2xpzSdBY2vvuClQoND9kdNgcsXTh6C_6VUkEdMQ8aWxHnWLX-WWGxf9/exec';
 
+      const updateInformationPanel = (message) => {
+        const panel = document.querySelector('#information-panel');
+        if (!panel) return;
+
+        panel.innerHTML = `
+          <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
+          <p>${message}</p>
+        `;
+      };
+
       const showPage = (pageId) => {
         const page = document.getElementById(pageId);
         const visiblePageIds = pageId === 'beranda' ? ['beranda', 'beranda-content'] : [pageId];
@@ -1109,12 +1119,23 @@
 
         if (mainNav) mainNav.classList.remove('open');
         if (navToggle) navToggle.setAttribute('aria-expanded', 'false');
-        // Sinkronkan tombol pilihan tahun saat berpindah halaman Informasi
+
         document.querySelectorAll('[data-information-year]').forEach((btn) => {
-          if (pageId === 'Informasi2025') btn.classList.toggle('selected', btn.dataset.informationYear === '2025');
-          else if (pageId === 'Informasi2026') btn.classList.toggle('selected', btn.dataset.informationYear === '2026');
-          else btn.classList.remove('selected');
+          const isSelected = pageId === 'Informasi2025'
+            ? btn.dataset.informationYear === '2025'
+            : pageId === 'Informasi2026'
+              ? btn.dataset.informationYear === '2026'
+              : false;
+          btn.classList.toggle('selected', isSelected);
         });
+
+        if (pageId === 'informasi') {
+          updateInformationPanel('Pilih salah satu tahun untuk menampilkan informasi pembentukan Perda.');
+        } else if (pageId === 'Informasi2025') {
+          updateInformationPanel('Menampilkan informasi pembentukan Perda Tahun 2025.');
+        } else if (pageId === 'Informasi2026') {
+          updateInformationPanel('Menampilkan informasi pembentukan Perda Tahun 2026.');
+        }
 
         window.scrollTo({ top: 0, behavior: 'smooth' });
       };
@@ -1225,9 +1246,7 @@
           const targetPageId = year === '2026' ? 'Informasi2026' : 'Informasi2025';
           document.querySelectorAll('[data-information-year]').forEach((item) => item.classList.remove('selected'));
           button.classList.add('selected');
-          document.querySelector('#information-panel').innerHTML = `
-            <i class="fa-solid fa-circle-info" aria-hidden="true"></i>
-          `;
+          updateInformationPanel(`Menampilkan informasi pembentukan Perda Tahun ${year}.`);
           history.replaceState(null, '', `#${targetPageId}`);
           showPage(targetPageId);
         });
@@ -2700,6 +2719,12 @@
       };
       
       const initializeCharts = () => {
+        if (typeof Chart === 'undefined') {
+          const summaryEl = document.getElementById('pengusul-summary');
+          if (summaryEl) summaryEl.textContent = 'Grafik tidak tersedia karena library Chart.js gagal dimuat.';
+          return;
+        }
+
         const defaultYear = document.querySelector('[data-chart-year].active')?.dataset.chartYear || '2025';
         const currentData = getChartData(defaultYear);
         
@@ -2779,6 +2804,8 @@
       // Event listener untuk tombol tahun
       document.querySelectorAll('[data-chart-year]').forEach((btn) => {
         btn.addEventListener('click', () => {
+          if (typeof Chart === 'undefined' || !chartPengusul || !chartStatus) return;
+
           document.querySelectorAll('[data-chart-year]').forEach((b) => b.classList.remove('active'));
           btn.classList.add('active');
           
